@@ -3,20 +3,8 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, useInView } from "framer-motion";
 import Link from "next/link";
-import dynamic from "next/dynamic";
+import Image from "next/image";
 import { ChevronDown } from "lucide-react";
-
-const HeroCarScene = dynamic(() => import("@/components/three/HeroCarScene"), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full h-full flex items-center justify-center">
-      <div className="text-center">
-        <div className="w-12 h-12 border-4 border-electric-cyan/20 border-t-electric-cyan rounded-full animate-spin mx-auto mb-3" />
-        <p className="font-inter text-xs text-silver-chrome">Loading 3D...</p>
-      </div>
-    </div>
-  ),
-});
 
 /* ── animated counter ─────────────────────────────────────── */
 
@@ -193,14 +181,40 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Right - 3D Car Scene */}
+          {/* Right - Hero Car Image */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
-            className="h-[50vh] lg:h-[70vh] w-full"
+            initial={{ opacity: 0, x: 80, scale: 0.9 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            transition={{ duration: 1.2, delay: 0.3, ease: "easeOut" }}
+            className="relative h-[50vh] lg:h-[70vh] w-full flex items-center justify-center"
           >
-            <HeroCarScene className="w-full h-full" />
+            {/* Glow behind car */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="w-[80%] h-[60%] bg-electric-cyan/8 rounded-full blur-[80px]" />
+            </div>
+
+            {/* Car image */}
+            <motion.div
+              animate={{ y: [0, -12, 0] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              className="relative w-full h-full"
+            >
+              <Image
+                src="/Images/Homepage/Homepage-Image-Hero-Image.png"
+                alt="Premium luxury car - Apex Royale Drives"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-contain"
+                priority
+              />
+            </motion.div>
+
+            {/* Animated ring */}
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              className="absolute inset-[15%] border border-electric-cyan/10 rounded-full pointer-events-none"
+            />
           </motion.div>
         </div>
       </div>
