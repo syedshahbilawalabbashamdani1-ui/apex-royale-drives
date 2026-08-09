@@ -227,59 +227,6 @@ export const cars: Car[] = [
   },
 ];
 
-export const testimonials = [
-  {
-    id: "1",
-    name: "Ahmed Khan",
-    avatar: "/images/avatars/avatar-1.jpg",
-    rating: 5,
-    comment:
-      "Excellent service! Rented the Mercedes G63 AMG for my wedding. The car was immaculate and the service was professional. Highly recommended for special occasions.",
-    date: "2024-06-15",
-    carRented: "Mercedes G63 AMG",
-  },
-  {
-    id: "2",
-    name: "Fatima Ali",
-    avatar: "/images/avatars/avatar-2.jpg",
-    rating: 5,
-    comment:
-      "Took the Land Cruiser Prado for a trip to Hunza. The vehicle performed flawlessly on mountain roads. Will definitely rent again for my next adventure!",
-    date: "2024-05-22",
-    carRented: "Land Cruiser Prado",
-  },
-  {
-    id: "3",
-    name: "Usman Malik",
-    avatar: "/images/avatars/avatar-3.jpg",
-    rating: 5,
-    comment:
-      "Great experience renting the Audi A6 for a week. The car was clean, fuel-efficient, and perfect for city driving. The booking process was smooth.",
-    date: "2024-07-01",
-    carRented: "Audi A6",
-  },
-  {
-    id: "4",
-    name: "Sara Hussain",
-    avatar: "/images/avatars/avatar-4.jpg",
-    rating: 5,
-    comment:
-      "The Range Rover was perfect for our family trip to Murree. Spacious, comfortable, and the kids loved it. Apex Royale Drives made the whole process easy.",
-    date: "2024-04-10",
-    carRented: "Range Rover",
-  },
-  {
-    id: "5",
-    name: "Bilal Ahmed",
-    avatar: "/images/avatars/avatar-5.jpg",
-    rating: 5,
-    comment:
-      "Rented the Mercedes Maybach S-Class for a corporate event. My clients were impressed! The car is futuristic and the silent drive is amazing. Premium service.",
-    date: "2024-06-28",
-    carRented: "Mercedes Maybach S-Class",
-  },
-];
-
 export const locations = [
   "Islamabad International Airport",
   "Blue Area, Islamabad",

@@ -1,7 +1,7 @@
 import Hero from "@/components/sections/Hero";
 import FleetGrid from "@/components/sections/FleetGrid";
 import Features from "@/components/sections/Features";
-import Testimonials from "@/components/sections/Testimonials";
+import GoogleReviews from "@/components/sections/GoogleReviews";
 import CTA from "@/components/sections/CTA";
 
 export default function Home() {
@@ -10,7 +10,7 @@ export default function Home() {
       <Hero />
       <FleetGrid />
       <Features />
-      <Testimonials />
+      <GoogleReviews />
       <CTA />
     </>
   );

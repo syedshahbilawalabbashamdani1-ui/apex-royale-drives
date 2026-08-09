@@ -1,34 +1,75 @@
 "use client";
 
-import { useRef, useMemo, Suspense } from "react";
+import { useRef, useMemo, Suspense, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useGLTF, OrbitControls, Environment } from "@react-three/drei";
 import * as THREE from "three";
+import { useTheme } from "@/components/layout/ThemeProvider";
+
+/* ── shared theme state for R3F children ───────────────────── */
+let activeTheme: "dark" | "light" = "dark";
 
 /* ── car model ────────────────────────────────────────────── */
 
 function CarModel() {
   const groupRef = useRef<THREE.Group>(null);
   const { scene } = useGLTF("/models/audi_a6_c8_limousine.glb");
+  const prevTheme = useRef(activeTheme);
 
-  scene.traverse((child) => {
-    if (child instanceof THREE.Mesh) {
-      if (child.material) {
-        const mat = child.material as THREE.MeshPhysicalMaterial;
-        if (mat.metalness !== undefined) {
-          mat.metalness = Math.min(mat.metalness, 0.9);
-          mat.roughness = Math.max(mat.roughness, 0.1);
-          mat.clearcoat = 0.4;
-          mat.clearcoatRoughness = 0.2;
-          mat.envMapIntensity = 1.5;
+  const isTire = (child: THREE.Object3D) => {
+    const name = (child.name || "").toLowerCase();
+    return name.includes("wheel") && name.includes("tire")
+      || name.includes("wheel") && (name.includes("child") || name.includes("wheel"))
+      && (child as THREE.Mesh).geometry
+      && (child as THREE.Mesh).geometry.attributes.position
+      && (child as THREE.Mesh).geometry.attributes.position.count > 500;
+  };
+
+  const applyTheme = (isLight: boolean) => {
+    scene.traverse((child) => {
+      if (child instanceof THREE.Mesh) {
+        if (child.material) {
+          const mat = child.material as THREE.MeshPhysicalMaterial;
+          const name = (child.name || "").toLowerCase();
+          const matName = ((child.material as THREE.MeshPhysicalMaterial).name || "").toLowerCase();
+          const isWheel = name.includes("wheel") && (name.includes("child") || name.includes("wheel"))
+            || matName.includes("wheel");
+          const isBodyPaint = name.includes("paint") || name.includes("bodyshell_paint");
+
+          if (isWheel) {
+            mat.color.set("#1a1a1a");
+            mat.metalness = 0.1;
+            mat.roughness = 0.85;
+            mat.clearcoat = 0;
+            mat.envMapIntensity = 0.3;
+          } else if (mat.metalness !== undefined && !isBodyPaint) {
+            if (isLight) {
+              mat.color.set("#d4d4d8");
+              mat.metalness = 0.7;
+              mat.roughness = 0.25;
+              mat.clearcoat = 0.6;
+              mat.envMapIntensity = 2.0;
+            } else {
+              mat.metalness = Math.min(mat.metalness, 0.9);
+              mat.roughness = Math.max(mat.roughness, 0.1);
+              mat.clearcoat = 0.4;
+              mat.envMapIntensity = 1.5;
+            }
+          }
         }
       }
-    }
-  });
+    });
+  };
 
-  useFrame((state) => {
+  applyTheme(activeTheme === "light");
+
+  useFrame(() => {
     if (groupRef.current) {
-      groupRef.current.rotation.y = state.clock.elapsedTime * 0.15;
+      groupRef.current.rotation.y = performance.now() / 1000 * 0.15;
+    }
+    if (prevTheme.current !== activeTheme) {
+      prevTheme.current = activeTheme;
+      applyTheme(activeTheme === "light");
     }
   });
 
@@ -42,9 +83,29 @@ function CarModel() {
 /* ── showroom lights ──────────────────────────────────────── */
 
 function NeonLights() {
+  const ref1 = useRef<THREE.SpotLight>(null);
+  const ref2 = useRef<THREE.SpotLight>(null);
+  const refAmbient = useRef<THREE.AmbientLight>(null);
+
+  useFrame(() => {
+    const isLight = activeTheme === "light";
+    if (ref1.current) {
+      ref1.current.color.set(isLight ? "#14649B" : "#20E0FF");
+      ref1.current.intensity = isLight ? 2 : 3;
+    }
+    if (ref2.current) {
+      ref2.current.color.set(isLight ? "#94A3B8" : "#14649B");
+      ref2.current.intensity = isLight ? 1 : 1.5;
+    }
+    if (refAmbient.current) {
+      refAmbient.current.intensity = isLight ? 0.5 : 0.25;
+    }
+  });
+
   return (
     <>
       <spotLight
+        ref={ref1}
         position={[6, 10, 6]}
         angle={0.3}
         penumbra={1}
@@ -52,6 +113,7 @@ function NeonLights() {
         color="#20E0FF"
       />
       <spotLight
+        ref={ref2}
         position={[-6, 8, -6]}
         angle={0.3}
         penumbra={1}
@@ -68,7 +130,7 @@ function NeonLights() {
       <pointLight position={[4, 2, 4]} intensity={0.6} color="#20E0FF" />
       <pointLight position={[-4, 2, -4]} intensity={0.4} color="#00F0FF" />
       <pointLight position={[0, -0.5, 0]} intensity={0.3} color="#20E0FF" />
-      <ambientLight intensity={0.25} />
+      <ambientLight ref={refAmbient} intensity={0.25} />
     </>
   );
 }
@@ -78,9 +140,9 @@ function NeonLights() {
 function SweepingLight() {
   const ref = useRef<THREE.PointLight>(null);
 
-  useFrame((state) => {
+  useFrame(() => {
     if (ref.current) {
-      const t = state.clock.elapsedTime;
+      const t = performance.now() / 1000;
       // Sweep back and forth every 6 seconds
       ref.current.position.x = Math.sin(t * (Math.PI / 3)) * 3;
       ref.current.position.z = Math.cos(t * (Math.PI / 3)) * 2;
@@ -106,18 +168,27 @@ function SweepingLight() {
 function RingHalos() {
   const ring1Ref = useRef<THREE.Mesh>(null);
   const ring2Ref = useRef<THREE.Mesh>(null);
+  const mat1Ref = useRef<THREE.MeshBasicMaterial>(null);
+  const mat2Ref = useRef<THREE.MeshBasicMaterial>(null);
 
-  useFrame((state) => {
-    const t = state.clock.elapsedTime;
+  useFrame(() => {
+    const t = performance.now() / 1000;
+    const isLight = activeTheme === "light";
     if (ring1Ref.current) {
-      // 30 seconds per revolution
       ring1Ref.current.rotation.z = t * (Math.PI * 2) / 30;
       ring1Ref.current.rotation.x = Math.PI / 2.5;
     }
     if (ring2Ref.current) {
-      // 40 seconds per revolution, opposite direction
       ring2Ref.current.rotation.z = -(t * (Math.PI * 2) / 40);
       ring2Ref.current.rotation.x = Math.PI / 2.2;
+    }
+    if (mat1Ref.current) {
+      mat1Ref.current.opacity = isLight ? 0.15 : 0.08;
+      mat1Ref.current.color.set(isLight ? "#14649B" : "#20E0FF");
+    }
+    if (mat2Ref.current) {
+      mat2Ref.current.opacity = isLight ? 0.1 : 0.05;
+      mat2Ref.current.color.set(isLight ? "#14649B" : "#00F0FF");
     }
   });
 
@@ -127,6 +198,7 @@ function RingHalos() {
       <mesh ref={ring1Ref} position={[0, 0.3, 0]}>
         <torusGeometry args={[2.8, 0.015, 16, 100]} />
         <meshBasicMaterial
+          ref={mat1Ref}
           color="#20E0FF"
           transparent
           opacity={0.08}
@@ -137,6 +209,7 @@ function RingHalos() {
       <mesh ref={ring2Ref} position={[0, 0.1, 0]}>
         <torusGeometry args={[3.2, 0.01, 16, 100]} />
         <meshBasicMaterial
+          ref={mat2Ref}
           color="#00F0FF"
           transparent
           opacity={0.05}
@@ -151,6 +224,7 @@ function RingHalos() {
 
 function FloatingParticles() {
   const ref = useRef<THREE.Points>(null);
+  const matRef = useRef<THREE.PointsMaterial>(null);
   const count = 40;
 
   const positions = useMemo(() => {
@@ -163,9 +237,14 @@ function FloatingParticles() {
     return arr;
   }, []);
 
-  useFrame((state) => {
+  useFrame(() => {
     if (ref.current) {
-      ref.current.rotation.y = state.clock.elapsedTime * 0.008;
+      ref.current.rotation.y = performance.now() / 1000 * 0.008;
+    }
+    if (matRef.current) {
+      const isLight = activeTheme === "light";
+      matRef.current.color.set(isLight ? "#14649B" : "#20E0FF");
+      matRef.current.opacity = isLight ? 0.12 : 0.06;
     }
   });
 
@@ -178,6 +257,7 @@ function FloatingParticles() {
         />
       </bufferGeometry>
       <pointsMaterial
+        ref={matRef}
         size={0.025}
         color="#20E0FF"
         transparent
@@ -210,11 +290,17 @@ interface HeroCarSceneProps {
 }
 
 export default function HeroCarScene({ className = "" }: HeroCarSceneProps) {
+  const { theme } = useTheme();
+
+  useEffect(() => {
+    activeTheme = theme;
+  }, [theme]);
+
   return (
     <div className={`w-full h-full ${className}`}>
       <Suspense fallback={<LoadingFallback />}>
         <Canvas
-          camera={{ position: [5, 2, 5], fov: 40 }}
+          camera={{ position: [3, 2, 8], fov: 40 }}
           dpr={[1, 1.5]}
           gl={{ antialias: true, alpha: true }}
           style={{ background: "transparent" }}
@@ -225,7 +311,7 @@ export default function HeroCarScene({ className = "" }: HeroCarSceneProps) {
           <FloatingParticles />
           <CarModel />
 
-          <Environment preset="night" />
+          <Environment preset={theme === "light" ? "city" : "night"} />
 
           <OrbitControls
             autoRotate

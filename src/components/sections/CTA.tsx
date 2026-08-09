@@ -37,7 +37,7 @@ export default function CTA() {
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link href="/booking" className="btn-primary text-base px-8 py-4">
               <span>Book Your Ride</span>
-              <ArrowRight className="w-5 h-5 ml-2" />
+              <ArrowRight className="w-5 h-5 ml-2" aria-hidden="true" />
             </Link>
             <a
               href={`https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent("Hi, I want to rent a car in Islamabad")}`}
@@ -45,7 +45,7 @@ export default function CTA() {
               rel="noopener noreferrer"
               className="btn-secondary text-base px-8 py-4"
             >
-              <WhatsAppIcon className="w-5 h-5 mr-2" />
+              <WhatsAppIcon className="w-5 h-5 mr-2" aria-hidden="true" />
               <span>WhatsApp Us</span>
             </a>
           </div>

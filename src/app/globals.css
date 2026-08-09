@@ -16,20 +16,6 @@
 
   --shadow-cyan-glow: 0 0 20px rgba(32, 224, 255, 0.3);
   --shadow-cyan-glow-lg: 0 0 40px rgba(32, 224, 255, 0.4);
-  --shadow-cyan-glow-sm: 0 0 10px rgba(32, 224, 255, 0.2);
-
-  --animate-pulse-glow: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  --animate-float: float 6s ease-in-out infinite;
-}
-
-@keyframes pulse-glow {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
 }
 
 @keyframes heroOrb1 {
@@ -112,10 +98,6 @@
     background: linear-gradient(135deg, var(--accent), #14649B);
   }
 
-  .bg-gradient-glow {
-    background: linear-gradient(135deg, var(--accent), #00F0FF);
-  }
-
   .bg-gradient-dark {
     background: linear-gradient(135deg, #0D0D0D, #0A1A2E);
   }
@@ -186,33 +168,12 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   }
 
-  .glass-card {
-    background: rgba(30, 41, 59, 0.7);
-    border: 1px solid rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.15);
-    border-radius: 16px;
-    backdrop-filter: blur(12px);
-  }
-
-  html.light .glass-card {
-    background: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.12);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  }
-
   .text-theme-primary {
     color: var(--text-primary);
   }
 
   .text-theme-secondary {
     color: var(--text-secondary);
-  }
-
-  .bg-theme-secondary {
-    background-color: var(--bg-secondary);
-  }
-
-  .border-theme-primary {
-    border-color: var(--border-primary);
   }
 }
 

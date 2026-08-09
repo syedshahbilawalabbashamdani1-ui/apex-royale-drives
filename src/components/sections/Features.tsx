@@ -85,7 +85,7 @@ export default function Features() {
             >
               <div className="card-dark p-6 h-full hover:border-electric-cyan/30 transition-all duration-300 hover:shadow-cyan-glow">
                 <div className="w-14 h-14 rounded-xl bg-electric-cyan/10 flex items-center justify-center mb-5 group-hover:bg-electric-cyan/20 transition-colors">
-                  <feature.icon className="w-7 h-7 text-electric-cyan" />
+                  <feature.icon className="w-7 h-7 text-electric-cyan" aria-hidden="true" />
                 </div>
                 <h3 className="font-orbitron text-lg font-bold mb-3 group-hover:text-electric-cyan transition-colors" style={{ color: "var(--text-primary)" }}>
                   {feature.title}

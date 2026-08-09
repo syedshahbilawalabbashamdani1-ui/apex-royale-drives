@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, Suspense } from "react";
 import { motion } from "framer-motion";
+import { useSearchParams } from "next/navigation";
 import { cars } from "@/lib/cars";
 import CarCard from "@/components/sections/CarCard";
 import { CarCategory, FilterOptions } from "@/types";
@@ -28,8 +29,26 @@ const sortOptions: { value: FilterOptions["sortBy"]; label: string }[] = [
 ];
 
 export default function FleetPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "var(--bg-primary)" }}>
+        <div className="w-12 h-12 border-4 border-electric-cyan/20 border-t-electric-cyan rounded-full animate-spin" />
+      </div>
+    }>
+      <FleetContent />
+    </Suspense>
+  );
+}
+
+function FleetContent() {
+  const searchParams = useSearchParams();
+  const urlCategory = searchParams.get("category");
+  const validCategory = urlCategory && categories.includes(urlCategory as CarCategory | "All")
+    ? (urlCategory as CarCategory | "All")
+    : "All";
+
   const [filters, setFilters] = useState<FilterOptions>({
-    category: "All",
+    category: validCategory,
     priceRange: [0, 200000],
     transmission: "All",
     fuel: "All",
@@ -130,6 +149,7 @@ export default function FleetPage() {
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-theme-secondary" />
             <input
               type="text"
+              aria-label="Search cars"
               placeholder="Search cars by name, brand, or category..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -141,6 +161,7 @@ export default function FleetPage() {
           {/* Sort */}
           <div className="relative">
             <select
+              aria-label="Sort cars"
               value={filters.sortBy}
               onChange={(e) =>
                 setFilters({ ...filters, sortBy: e.target.value as FilterOptions["sortBy"] })
@@ -164,8 +185,9 @@ export default function FleetPage() {
               "flex items-center gap-2 px-4 py-3 rounded-lg font-inter text-sm font-medium transition-colors",
               showFilters || activeFilterCount > 0
                 ? "bg-electric-cyan/10 text-electric-cyan border border-electric-cyan/30"
-                : "bg-gunmetal text-theme-secondary border border-electric-cyan/10 hover:border-electric-cyan/20"
+                : "text-theme-secondary border hover:border-electric-cyan/20"
             )}
+            style={!(showFilters || activeFilterCount > 0) ? { background: "var(--bg-secondary)", borderColor: "var(--border-primary)" } : undefined}
           >
             <SlidersHorizontal className="w-4 h-4" />
             <span>Filters</span>
@@ -192,16 +214,17 @@ export default function FleetPage() {
               </h4>
               <div className="flex flex-wrap gap-2">
                 {categories.map((category) => (
-                  <button
-                    key={category}
-                    onClick={() => setFilters({ ...filters, category })}
-                    className={cn(
-                      "px-4 py-2 rounded-lg font-inter text-sm font-medium transition-colors",
-                      filters.category === category
-                        ? "bg-electric-cyan text-carbon-black"
-                        : "bg-gunmetal text-theme-secondary hover:bg-gunmetal/80"
-                    )}
-                  >
+                    <button
+                      key={category}
+                      onClick={() => setFilters({ ...filters, category })}
+                      className={cn(
+                        "px-4 py-2 rounded-lg font-inter text-sm font-medium transition-colors",
+                        filters.category === category
+                          ? "bg-electric-cyan text-carbon-black"
+                          : "text-theme-secondary hover:opacity-80 border"
+                      )}
+                      style={filters.category !== category ? { background: "var(--bg-secondary)", borderColor: "var(--border-primary)" } : undefined}
+                    >
                     {category}
                   </button>
                 ))}
@@ -228,8 +251,9 @@ export default function FleetPage() {
                         "px-4 py-2 rounded-lg font-inter text-sm font-medium transition-colors",
                         filters.transmission === option
                           ? "bg-electric-cyan text-carbon-black"
-                          : "bg-gunmetal text-theme-secondary hover:bg-gunmetal/80"
+                          : "text-theme-secondary hover:opacity-80 border"
                       )}
+                      style={filters.transmission !== option ? { background: "var(--bg-secondary)", borderColor: "var(--border-primary)" } : undefined}
                     >
                       {option}
                     </button>
@@ -256,8 +280,9 @@ export default function FleetPage() {
                           "px-4 py-2 rounded-lg font-inter text-sm font-medium transition-colors",
                           filters.fuel === option
                             ? "bg-electric-cyan text-carbon-black"
-                            : "bg-gunmetal text-theme-secondary hover:bg-gunmetal/80"
+                            : "text-theme-secondary hover:opacity-80 border"
                         )}
+                        style={filters.fuel !== option ? { background: "var(--bg-secondary)", borderColor: "var(--border-primary)" } : undefined}
                       >
                         {option}
                       </button>

@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Wrench } from "lucide-react";
+import { MapPin } from "lucide-react";
+import { CONTACT } from "@/lib/constants";
 
 export default function NotFound() {
   return (
@@ -7,7 +8,7 @@ export default function NotFound() {
       <div className="text-center space-y-8 px-4">
         {/* Icon */}
         <div className="w-24 h-24 rounded-full bg-electric-cyan/10 flex items-center justify-center mx-auto">
-          <Wrench className="w-12 h-12 text-electric-cyan" />
+          <MapPin className="w-12 h-12 text-electric-cyan" />
         </div>
 
         {/* Heading */}
@@ -23,7 +24,7 @@ export default function NotFound() {
         {/* Message */}
         <div className="max-w-md mx-auto space-y-4">
           <p className="font-inter text-lg" style={{ color: "var(--text-secondary)" }}>
-            The website is currently under maintenance. Please try again later.
+            The page you&apos;re looking for doesn&apos;t exist or has been moved.
           </p>
         </div>
 
@@ -33,7 +34,7 @@ export default function NotFound() {
             Go to Homepage
           </Link>
           <a
-            href="https://wa.me/923045255558?text=Hi, I tried visiting your website but it seems to be under maintenance."
+            href={`https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent("Hi, I need help finding something on your website.")}`}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-secondary"

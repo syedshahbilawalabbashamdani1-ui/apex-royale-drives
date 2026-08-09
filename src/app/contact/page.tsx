@@ -20,9 +20,23 @@ export default function ContactPage() {
     subject: "",
     message: "",
   });
+  const [errors, setErrors] = useState<{ email?: string; phone?: string }>({});
+
+  const validate = () => {
+    const next: typeof errors = {};
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      next.email = "Please enter a valid email address";
+    }
+    if (formData.phone && !/^[+\d\s-]{7,15}$/.test(formData.phone)) {
+      next.phone = "Please enter a valid phone number";
+    }
+    setErrors(next);
+    return Object.keys(next).length === 0;
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!validate()) return;
     const encodedMessage = encodeURIComponent(
       `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\nSubject: ${formData.subject}\nMessage: ${formData.message}`
     );
@@ -169,10 +183,11 @@ export default function ContactPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block font-inter text-sm text-theme-secondary mb-2">
+                  <label htmlFor="contact-name" className="block font-inter text-sm text-theme-secondary mb-2">
                     Full Name
                   </label>
                   <input
+                    id="contact-name"
                     type="text"
                     value={formData.name}
                     onChange={(e) =>
@@ -186,10 +201,11 @@ export default function ContactPage() {
                 </div>
 
                 <div>
-                  <label className="block font-inter text-sm text-theme-secondary mb-2">
+                  <label htmlFor="contact-email" className="block font-inter text-sm text-theme-secondary mb-2">
                     Email
                   </label>
                   <input
+                    id="contact-email"
                     type="email"
                     value={formData.email}
                     onChange={(e) =>
@@ -200,15 +216,19 @@ export default function ContactPage() {
                     className="w-full px-4 py-3 border border-electric-cyan/10 rounded-lg font-inter text-sm text-theme-primary placeholder:text-theme-secondary/50 focus:outline-none focus:border-electric-cyan/30 transition-colors"
                     style={{ background: "var(--bg-primary)" }}
                   />
+                  {errors.email && (
+                    <p className="font-inter text-xs text-red-400 mt-1">{errors.email}</p>
+                  )}
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block font-inter text-sm text-theme-secondary mb-2">
+                  <label htmlFor="contact-phone" className="block font-inter text-sm text-theme-secondary mb-2">
                     Phone
                   </label>
                   <input
+                    id="contact-phone"
                     type="tel"
                     value={formData.phone}
                     onChange={(e) =>
@@ -218,13 +238,17 @@ export default function ContactPage() {
                     className="w-full px-4 py-3 border border-electric-cyan/10 rounded-lg font-inter text-sm text-theme-primary placeholder:text-theme-secondary/50 focus:outline-none focus:border-electric-cyan/30 transition-colors"
                     style={{ background: "var(--bg-primary)" }}
                   />
+                  {errors.phone && (
+                    <p className="font-inter text-xs text-red-400 mt-1">{errors.phone}</p>
+                  )}
                 </div>
 
                 <div>
-                  <label className="block font-inter text-sm text-theme-secondary mb-2">
+                  <label htmlFor="contact-subject" className="block font-inter text-sm text-theme-secondary mb-2">
                     Subject
                   </label>
                   <select
+                    id="contact-subject"
                     value={formData.subject}
                     onChange={(e) =>
                       setFormData({ ...formData, subject: e.target.value })
@@ -244,10 +268,11 @@ export default function ContactPage() {
               </div>
 
               <div>
-                <label className="block font-inter text-sm text-theme-secondary mb-2">
+                <label htmlFor="contact-message" className="block font-inter text-sm text-theme-secondary mb-2">
                   Message
                 </label>
                 <textarea
+                  id="contact-message"
                   value={formData.message}
                   onChange={(e) =>
                     setFormData({ ...formData, message: e.target.value })

@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { motion, useInView } from "framer-motion";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { ChevronDown } from "lucide-react";
@@ -18,12 +18,83 @@ const HeroCarScene = dynamic(() => import("@/components/three/HeroCarScene"), {
   ),
 });
 
+/* ── animated counter ─────────────────────────────────────── */
+
+function useCountUp(target: number, decimals: number, inView: boolean) {
+  const [value, setValue] = useState(0);
+  const rafRef = useRef<number>(0);
+  const startRef = useRef<number | null>(null);
+  const duration = 1400;
+
+  const animate = useCallback(
+    (timestamp: number) => {
+      if (startRef.current === null) startRef.current = timestamp;
+      const elapsed = timestamp - startRef.current;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setValue(eased * target);
+      if (progress < 1) {
+        rafRef.current = requestAnimationFrame(animate);
+      }
+    },
+    [target],
+  );
+
+  useEffect(() => {
+    if (inView) {
+      startRef.current = null;
+      rafRef.current = requestAnimationFrame(animate);
+    }
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [inView, animate]);
+
+  return decimals > 0 ? value.toFixed(decimals) : Math.round(value);
+}
+
+function AnimatedStat({
+  value,
+  label,
+  inView,
+  delay,
+}: {
+  value: string;
+  label: string;
+  inView: boolean;
+  delay: number;
+}) {
+  const numMatch = value.match(/^([\d.]+)(.*)$/);
+  const target = numMatch ? parseFloat(numMatch[1]) : 0;
+  const suffix = numMatch ? numMatch[2] : "";
+  const decimals = numMatch && numMatch[1].includes(".") ? 1 : 0;
+  const count = useCountUp(target, decimals, inView);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+      transition={{ delay, duration: 0.5 }}
+    >
+      <div className="font-orbitron text-2xl font-bold text-gradient">
+        {count}
+        {suffix}
+      </div>
+      <div className="font-inter text-xs text-theme-secondary">{label}</div>
+    </motion.div>
+  );
+}
+
+/* ── hero ─────────────────────────────────────────────────── */
+
 export default function Hero() {
-  const [showScroll, setShowScroll] = useState(true);
+  const statsRef = useRef<HTMLDivElement>(null);
+  const statsInView = useInView(statsRef, { once: true, margin: "-80px" });
+
+  const [indicatorOpacity, setIndicatorOpacity] = useState(1);
 
   useEffect(() => {
     const onScroll = () => {
-      setShowScroll(window.scrollY < 100);
+      const y = window.scrollY;
+      setIndicatorOpacity(y < 80 ? 1 - y / 80 : 0);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -51,7 +122,7 @@ export default function Hero() {
       />
 
       {/* Content - Split Layout */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center min-h-[80vh]">
           {/* Left - Text Content */}
           <div className="max-w-xl">
@@ -98,27 +169,26 @@ export default function Hero() {
                 </Link>
               </div>
 
-              {/* Stats */}
-              <div className="flex gap-8 pt-4">
-                {[
-                  { value: "5.0", label: "Google Rating" },
-                  { value: "30+", label: "Happy Clients" },
-                  { value: "24/7", label: "Availability" },
-                ].map((stat, i) => (
-                  <motion.div
-                    key={stat.label}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6 + i * 0.1 }}
-                  >
-                    <div className="font-orbitron text-2xl font-bold text-gradient">
-                      {stat.value}
-                    </div>
-                    <div className="font-inter text-xs text-theme-secondary">
-                      {stat.label}
-                    </div>
-                  </motion.div>
-                ))}
+              {/* Stats (count-up) */}
+              <div ref={statsRef} className="flex gap-8 pt-4">
+                <AnimatedStat
+                  value="5.0"
+                  label="Google Rating"
+                  inView={statsInView}
+                  delay={0.6}
+                />
+                <AnimatedStat
+                  value="30+"
+                  label="Happy Clients"
+                  inView={statsInView}
+                  delay={0.7}
+                />
+                <AnimatedStat
+                  value="24/7"
+                  label="Availability"
+                  inView={statsInView}
+                  delay={0.8}
+                />
               </div>
             </motion.div>
           </div>
@@ -135,26 +205,21 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      {showScroll && (
+      {/* Scroll Indicator - fades out as you scroll */}
+      <div
+        style={{ opacity: indicatorOpacity }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none transition-opacity duration-150"
+      >
+        <span className="font-inter text-xs text-theme-secondary tracking-wider">
+          SCROLL TO EXPLORE
+        </span>
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ delay: 1 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
         >
-          <span className="font-inter text-xs text-theme-secondary tracking-wider">
-            SCROLL TO EXPLORE
-          </span>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          >
-            <ChevronDown className="w-5 h-5 text-electric-cyan" />
-          </motion.div>
+          <ChevronDown className="w-5 h-5 text-electric-cyan" aria-hidden="true" />
         </motion.div>
-      )}
+      </div>
     </section>
   );
 }

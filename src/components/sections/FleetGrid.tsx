@@ -51,7 +51,7 @@ export default function FleetGrid() {
             className="inline-flex items-center gap-2 text-electric-cyan font-inter font-medium hover:gap-3 transition-all group"
           >
             <span>View All Vehicles</span>
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
           </Link>
         </motion.div>
       </div>

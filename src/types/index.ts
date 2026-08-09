@@ -31,16 +31,6 @@ export type CarCategory =
   | "Economy"
   | "Electric";
 
-export interface Testimonial {
-  id: string;
-  name: string;
-  avatar: string;
-  rating: number;
-  comment: string;
-  date: string;
-  carRented?: string;
-}
-
 export interface BookingFormData {
   carId: string;
   pickupDate: string;

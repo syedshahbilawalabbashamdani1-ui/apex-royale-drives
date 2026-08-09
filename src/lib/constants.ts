@@ -8,11 +8,11 @@ export const CONTACT = {
   phone2: "+923435501246",
   email: "apexroyaledrives@gmail.com",
   address: "Markaz, F-10 Markaz F 10/4, F-10, Islamabad, 44000",
-  whatsapp: "+923045255558",
+  whatsapp: "923045255558",
 };
 
 export const SOCIAL_LINKS = {
-  whatsapp: "https://wa.me/+923045255558",
+  whatsapp: "https://wa.me/923045255558",
   instagram: "https://instagram.com/apex_royale_drives",
   tiktok: "https://tiktok.com/@apex.royale.drives",
 };

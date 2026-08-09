@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { cars, locations } from "@/lib/cars";
 import { CONTACT } from "@/lib/constants";
 import { BookingFormData } from "@/types";
@@ -18,6 +19,7 @@ import {
   MapPin,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import SuccessModal from "@/components/ui/SuccessModal";
 
 const steps = [
   { id: 1, label: "Select Car", icon: Car },
@@ -27,9 +29,25 @@ const steps = [
 ];
 
 export default function BookingPage() {
-  const [currentStep, setCurrentStep] = useState(1);
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "var(--bg-primary)" }}>
+        <div className="w-12 h-12 border-4 border-electric-cyan/20 border-t-electric-cyan rounded-full animate-spin" />
+      </div>
+    }>
+      <BookingContent />
+    </Suspense>
+  );
+}
+
+function BookingContent() {
+  const searchParams = useSearchParams();
+  const preselectedCar = searchParams.get("car") || "";
+  const isValidPreselection = preselectedCar && cars.some((c) => c.id === preselectedCar);
+
+  const [currentStep, setCurrentStep] = useState(isValidPreselection ? 2 : 1);
   const [formData, setFormData] = useState<BookingFormData>({
-    carId: "",
+    carId: isValidPreselection ? preselectedCar : "",
     pickupDate: "",
     returnDate: "",
     pickupLocation: "",
@@ -40,19 +58,55 @@ export default function BookingPage() {
     message: "",
   });
 
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [bookingSummary, setBookingSummary] = useState<{
+    carName: string;
+    pickupDate: string;
+    returnDate: string;
+    total: number;
+  } | null>(null);
+  const [stepErrors, setStepErrors] = useState<{ email?: string; phone?: string }>({});
+
   const selectedCar = cars.find((c) => c.id === formData.carId);
 
-  const calculateTotal = () => {
-    if (!selectedCar || !formData.pickupDate || !formData.returnDate) return 0;
+  const calculateDuration = () => {
+    if (!formData.pickupDate || !formData.returnDate) return 0;
     const start = new Date(formData.pickupDate);
     const end = new Date(formData.returnDate);
     const days = Math.ceil(
       (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)
     );
-    return days * selectedCar.pricePerDay;
+    return Math.max(0, days);
   };
 
+  const isDateRangeValid = calculateDuration() > 0;
+
+  const calculateTotal = () => {
+    if (!selectedCar) return 0;
+    return calculateDuration() * selectedCar.pricePerDay;
+  };
+
+  const minReturnDate = formData.pickupDate
+    ? (() => {
+        const d = new Date(formData.pickupDate);
+        d.setDate(d.getDate() + 1);
+        return d.toISOString().split("T")[0];
+      })()
+    : new Date().toISOString().split("T")[0];
+
   const nextStep = () => {
+    if (currentStep === 3) {
+      const errs: typeof stepErrors = {};
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+        errs.email = "Please enter a valid email address";
+      }
+      if (!/^[+\d\s-]{7,15}$/.test(formData.phone)) {
+        errs.phone = "Please enter a valid phone number";
+      }
+      setStepErrors(errs);
+      if (Object.keys(errs).length > 0) return;
+    }
+    setStepErrors({});
     if (currentStep < 4) setCurrentStep(currentStep + 1);
   };
 
@@ -61,16 +115,25 @@ export default function BookingPage() {
   };
 
   const handleSubmit = () => {
-    // In production, this would submit to an API
-    alert(
-      "Booking submitted successfully! We will contact you shortly via WhatsApp."
-    );
-    window.open(
-      `https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(
-        `Hi, I want to book a ${selectedCar?.name} from ${formData.pickupDate} to ${formData.returnDate} at ${formData.pickupLocation}. Name: ${formData.firstName} ${formData.lastName}, Phone: ${formData.phone}`
-      )}`,
-      "_blank"
-    );
+    setBookingSummary({
+      carName: selectedCar?.name ?? "",
+      pickupDate: formData.pickupDate,
+      returnDate: formData.returnDate,
+      total: calculateTotal(),
+    });
+    setShowSuccess(true);
+  };
+
+  const handleSuccessClose = () => {
+    setShowSuccess(false);
+    if (bookingSummary) {
+      window.open(
+        `https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(
+          `Hi, I want to book a ${bookingSummary.carName} from ${bookingSummary.pickupDate} to ${bookingSummary.returnDate} at ${formData.pickupLocation}. Name: ${formData.firstName} ${formData.lastName}, Phone: ${formData.phone}`
+        )}`,
+        "_blank"
+      );
+    }
   };
 
   return (
@@ -217,28 +280,36 @@ export default function BookingPage() {
                 <div className="card-dark p-6 space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block font-inter text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
+                      <label htmlFor="booking-pickup-date" className="block font-inter text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
                         Pickup Date
                       </label>
                       <input
+                        id="booking-pickup-date"
                         type="date"
                         value={formData.pickupDate}
-                        onChange={(e) =>
+                        onChange={(e) => {
+                          const newPickup = e.target.value;
+                          const newReturn =
+                            formData.returnDate && formData.returnDate <= newPickup
+                              ? ""
+                              : formData.returnDate;
                           setFormData({
                             ...formData,
-                            pickupDate: e.target.value,
-                          })
-                        }
+                            pickupDate: newPickup,
+                            returnDate: newReturn,
+                          });
+                        }}
                         min={new Date().toISOString().split("T")[0]}
                         className="w-full px-4 py-3 rounded-lg font-inter text-sm focus:outline-none transition-colors"
                         style={{ background: "var(--bg-primary)", color: "var(--text-primary)", borderColor: "var(--border-primary)" }}
                       />
                     </div>
                     <div>
-                      <label className="block font-inter text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
+                      <label htmlFor="booking-return-date" className="block font-inter text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
                         Return Date
                       </label>
                       <input
+                        id="booking-return-date"
                         type="date"
                         value={formData.returnDate}
                         onChange={(e) =>
@@ -247,7 +318,7 @@ export default function BookingPage() {
                             returnDate: e.target.value,
                           })
                         }
-                        min={formData.pickupDate || new Date().toISOString().split("T")[0]}
+                        min={minReturnDate}
                         className="w-full px-4 py-3 rounded-lg font-inter text-sm focus:outline-none transition-colors"
                         style={{ background: "var(--bg-primary)", color: "var(--text-primary)", borderColor: "var(--border-primary)" }}
                       />
@@ -255,10 +326,11 @@ export default function BookingPage() {
                   </div>
 
                   <div>
-                    <label className="block font-inter text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
+                    <label htmlFor="booking-pickup-location" className="block font-inter text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
                       Pickup Location
                     </label>
                     <select
+                      id="booking-pickup-location"
                       value={formData.pickupLocation}
                       onChange={(e) =>
                         setFormData({
@@ -291,20 +363,19 @@ export default function BookingPage() {
                       </div>
                       <div className="flex justify-between font-inter text-sm">
                         <span style={{ color: "var(--text-secondary)" }}>Duration</span>
-                        <span style={{ color: "var(--text-primary)" }}>
-                          {Math.ceil(
-                            (new Date(formData.returnDate).getTime() -
-                              new Date(formData.pickupDate).getTime()) /
-                              (1000 * 60 * 60 * 24)
-                          )}{" "}
-                          days
+                        <span style={{ color: isDateRangeValid ? "var(--text-primary)" : "var(--text-secondary)" }}>
+                          {isDateRangeValid ? (
+                            <>{calculateDuration()} days</>
+                          ) : (
+                            <span className="text-red-400">Return date must be after pickup date</span>
+                          )}
                         </span>
                       </div>
                       <div className="h-px my-2" style={{ background: "var(--border-primary)" }} />
                       <div className="flex justify-between font-orbitron">
                         <span className="font-semibold" style={{ color: "var(--text-primary)" }}>Total</span>
                         <span className="text-xl font-bold text-gradient">
-                          Rs. {calculateTotal().toLocaleString()}
+                          {isDateRangeValid ? `Rs. ${calculateTotal().toLocaleString()}` : "—"}
                         </span>
                       </div>
                     </div>
@@ -322,10 +393,11 @@ export default function BookingPage() {
                 <div className="card-dark p-6 space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block font-inter text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
+                      <label htmlFor="booking-first-name" className="block font-inter text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
                         First Name
                       </label>
                       <input
+                        id="booking-first-name"
                         type="text"
                         value={formData.firstName}
                         onChange={(e) =>
@@ -340,10 +412,11 @@ export default function BookingPage() {
                       />
                     </div>
                     <div>
-                      <label className="block font-inter text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
+                      <label htmlFor="booking-last-name" className="block font-inter text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
                         Last Name
                       </label>
                       <input
+                        id="booking-last-name"
                         type="text"
                         value={formData.lastName}
                         onChange={(e) =>
@@ -357,10 +430,11 @@ export default function BookingPage() {
                   </div>
 
                   <div>
-                    <label className="block font-inter text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
+                    <label htmlFor="booking-email" className="block font-inter text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
                       Email Address
                     </label>
                     <input
+                      id="booking-email"
                       type="email"
                       value={formData.email}
                       onChange={(e) =>
@@ -370,13 +444,17 @@ export default function BookingPage() {
                       className="w-full px-4 py-3 rounded-lg font-inter text-sm placeholder:opacity-50 focus:outline-none transition-colors"
                       style={{ background: "var(--bg-primary)", color: "var(--text-primary)", borderColor: "var(--border-primary)" }}
                     />
+                    {stepErrors.email && (
+                      <p className="font-inter text-xs text-red-400 mt-1">{stepErrors.email}</p>
+                    )}
                   </div>
 
                   <div>
-                    <label className="block font-inter text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
+                    <label htmlFor="booking-phone" className="block font-inter text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
                       Phone Number
                     </label>
                     <input
+                      id="booking-phone"
                       type="tel"
                       value={formData.phone}
                       onChange={(e) =>
@@ -386,13 +464,17 @@ export default function BookingPage() {
                       className="w-full px-4 py-3 rounded-lg font-inter text-sm placeholder:opacity-50 focus:outline-none transition-colors"
                       style={{ background: "var(--bg-primary)", color: "var(--text-primary)", borderColor: "var(--border-primary)" }}
                     />
+                    {stepErrors.phone && (
+                      <p className="font-inter text-xs text-red-400 mt-1">{stepErrors.phone}</p>
+                    )}
                   </div>
 
                   <div>
-                    <label className="block font-inter text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
+                    <label htmlFor="booking-message" className="block font-inter text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
                       Additional Message (Optional)
                     </label>
                     <textarea
+                      id="booking-message"
                       value={formData.message}
                       onChange={(e) =>
                         setFormData({ ...formData, message: e.target.value })
@@ -537,7 +619,7 @@ export default function BookingPage() {
               disabled={
                 (currentStep === 1 && !formData.carId) ||
                 (currentStep === 2 &&
-                  (!formData.pickupDate || !formData.returnDate || !formData.pickupLocation)) ||
+                  (!formData.pickupDate || !formData.returnDate || !formData.pickupLocation || !isDateRangeValid)) ||
                 (currentStep === 3 &&
                   (!formData.firstName || !formData.lastName || !formData.email || !formData.phone))
               }
@@ -554,6 +636,12 @@ export default function BookingPage() {
           )}
         </div>
       </div>
+
+      <SuccessModal
+        open={showSuccess}
+        onClose={handleSuccessClose}
+        bookingSummary={bookingSummary ?? undefined}
+      />
     </div>
   );
 }
