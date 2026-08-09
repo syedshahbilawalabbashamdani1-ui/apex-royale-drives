@@ -143,14 +143,14 @@ function FleetContent() {
 
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Search and Filter Bar */}
-        <div className="flex flex-col md:flex-row gap-4 mb-8">
+        <div className="flex flex-col gap-4 mb-8">
           {/* Search */}
           <div className="relative flex-1">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-theme-secondary" />
             <input
               type="text"
               aria-label="Search cars"
-              placeholder="Search cars by name, brand, or category..."
+              placeholder="Search cars..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-12 pr-4 py-3 rounded-lg font-inter text-sm placeholder:opacity-50 focus:outline-none transition-colors"
@@ -158,45 +158,48 @@ function FleetContent() {
             />
           </div>
 
-          {/* Sort */}
-          <div className="relative">
-            <select
-              aria-label="Sort cars"
-              value={filters.sortBy}
-              onChange={(e) =>
-                setFilters({ ...filters, sortBy: e.target.value as FilterOptions["sortBy"] })
-              }
-              className="appearance-none pl-4 pr-10 py-3 rounded-lg font-inter text-sm focus:outline-none transition-colors cursor-pointer"
-              style={{ background: "var(--bg-secondary)", color: "var(--text-primary)", borderColor: "var(--border-primary)" }}
-            >
-              {sortOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-theme-secondary pointer-events-none" />
-          </div>
+          {/* Sort and Filter Row */}
+          <div className="flex gap-3">
+            {/* Sort */}
+            <div className="relative flex-1">
+              <select
+                aria-label="Sort cars"
+                value={filters.sortBy}
+                onChange={(e) =>
+                  setFilters({ ...filters, sortBy: e.target.value as FilterOptions["sortBy"] })
+                }
+                className="appearance-none w-full pl-4 pr-10 py-3 rounded-lg font-inter text-sm focus:outline-none transition-colors cursor-pointer"
+                style={{ background: "var(--bg-secondary)", color: "var(--text-primary)", borderColor: "var(--border-primary)" }}
+              >
+                {sortOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-theme-secondary pointer-events-none" />
+            </div>
 
-          {/* Filter Toggle */}
-          <button
-            onClick={() => setShowFilters(!showFilters)}
-            className={cn(
-              "flex items-center gap-2 px-4 py-3 rounded-lg font-inter text-sm font-medium transition-colors",
-              showFilters || activeFilterCount > 0
-                ? "bg-electric-cyan/10 text-electric-cyan border border-electric-cyan/30"
-                : "text-theme-secondary border hover:border-electric-cyan/20"
-            )}
-            style={!(showFilters || activeFilterCount > 0) ? { background: "var(--bg-secondary)", borderColor: "var(--border-primary)" } : undefined}
-          >
-            <SlidersHorizontal className="w-4 h-4" />
-            <span>Filters</span>
-            {activeFilterCount > 0 && (
-              <span className="w-5 h-5 rounded-full bg-electric-cyan text-carbon-black text-xs font-bold flex items-center justify-center">
-                {activeFilterCount}
-              </span>
-            )}
-          </button>
+            {/* Filter Toggle */}
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className={cn(
+                "flex items-center gap-2 px-4 py-3 rounded-lg font-inter text-sm font-medium transition-colors whitespace-nowrap",
+                showFilters || activeFilterCount > 0
+                  ? "bg-electric-cyan/10 text-electric-cyan border border-electric-cyan/30"
+                  : "text-theme-secondary border hover:border-electric-cyan/20"
+              )}
+              style={!(showFilters || activeFilterCount > 0) ? { background: "var(--bg-secondary)", borderColor: "var(--border-primary)" } : undefined}
+            >
+              <SlidersHorizontal className="w-4 h-4" />
+              <span>Filters</span>
+              {activeFilterCount > 0 && (
+                <span className="w-5 h-5 rounded-full bg-electric-cyan text-carbon-black text-xs font-bold flex items-center justify-center">
+                  {activeFilterCount}
+                </span>
+              )}
+            </button>
+          </div>
         </div>
 
         {/* Filter Panel */}

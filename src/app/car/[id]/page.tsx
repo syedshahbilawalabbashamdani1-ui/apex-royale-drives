@@ -221,7 +221,7 @@ export default function CarDetailPage({
             </p>
 
             {/* Quick Specs */}
-            <div className="grid grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
               {[
                 { icon: Users, value: `${car.seats}`, label: "Seats" },
                 { icon: Luggage, value: `${car.luggage}`, label: "Bags" },
@@ -252,9 +252,9 @@ export default function CarDetailPage({
               <h3 className="font-orbitron text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
                 PRICING
               </h3>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="text-center p-4 rounded-lg" style={{ background: "var(--bg-primary)" }}>
-                  <div className="font-orbitron text-xl font-bold text-gradient">
+                  <div className="font-orbitron text-lg sm:text-xl font-bold text-gradient">
                     Rs. {car.pricePerDay.toLocaleString()}
                   </div>
                   <div className="font-inter text-xs mt-1" style={{ color: "var(--text-secondary)" }}>
@@ -263,7 +263,7 @@ export default function CarDetailPage({
                 </div>
                 {car.pricePerWeek && (
                   <div className="text-center p-4 rounded-lg" style={{ background: "var(--bg-primary)" }}>
-                    <div className="font-orbitron text-xl font-bold text-gradient">
+                    <div className="font-orbitron text-lg sm:text-xl font-bold text-gradient">
                       Rs. {car.pricePerWeek.toLocaleString()}
                     </div>
                     <div className="font-inter text-xs mt-1" style={{ color: "var(--text-secondary)" }}>
@@ -273,7 +273,7 @@ export default function CarDetailPage({
                 )}
                 {car.pricePerMonth && (
                   <div className="text-center p-4 rounded-lg" style={{ background: "var(--bg-primary)" }}>
-                    <div className="font-orbitron text-xl font-bold text-gradient">
+                    <div className="font-orbitron text-lg sm:text-xl font-bold text-gradient">
                       Rs. {car.pricePerMonth.toLocaleString()}
                     </div>
                     <div className="font-inter text-xs mt-1" style={{ color: "var(--text-secondary)" }}>
