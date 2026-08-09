@@ -327,4 +327,4 @@ export default function HeroCarScene({ className = "" }: HeroCarSceneProps) {
   );
 }
 
-useGLTF.preload("/models/audi_a6_c8_limousine.glb");
+

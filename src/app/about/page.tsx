@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Car,
   Award,
@@ -146,11 +147,14 @@ export default function AboutPage() {
               viewport={{ once: true }}
               className="card-dark p-8"
             >
-              <div className="aspect-square rounded-xl overflow-hidden">
-                <img
+              <div className="aspect-square rounded-xl overflow-hidden relative">
+                <Image
                   src="/Images/About/g63.jpg"
                   alt="Mercedes G63 AMG - Apex Royale Drives"
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover"
+                  loading="lazy"
                 />
               </div>
             </motion.div>

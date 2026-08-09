@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { Car } from "@/types";
 import {
   Users,
@@ -32,10 +33,13 @@ export default function CarCard({ car, index = 0 }: CarCardProps) {
           <div className="relative h-48 overflow-hidden" style={{ background: "var(--bg-secondary)" }}>
             {/* Real Image */}
             {car.images && car.images.length > 0 ? (
-              <img
+              <Image
                 src={car.images[0]}
                 alt={car.name}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                loading="lazy"
               />
             ) : (
               <div

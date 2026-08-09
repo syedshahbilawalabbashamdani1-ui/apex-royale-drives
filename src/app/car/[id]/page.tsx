@@ -3,6 +3,7 @@
 import { use, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { cars } from "@/lib/cars";
 import {
   Users,
@@ -99,10 +100,13 @@ export default function CarDetailPage({
               {activeTab === "preview" && (
                 <div className="h-[400px] lg:h-[500px] flex items-center justify-center overflow-hidden">
                   {car.images && car.images.length > 0 ? (
-                    <img
+                    <Image
                       src={car.images[0]}
                       alt={car.name}
-                      className="w-full h-full object-contain"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 800px"
+                      className="object-contain"
+                      loading="lazy"
                     />
                   ) : (
                     <div className="text-center">
@@ -319,10 +323,13 @@ export default function CarDetailPage({
                 >
                   <div className="h-32 rounded-lg mb-4 overflow-hidden flex items-center justify-center" style={{ background: "var(--bg-secondary)" }}>
                     {relatedCar.images && relatedCar.images.length > 0 ? (
-                      <img
+                      <Image
                         src={relatedCar.images[0]}
                         alt={relatedCar.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        fill
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
                       />
                     ) : (
                       <span className="font-orbitron text-3xl font-bold text-electric-cyan/30">
