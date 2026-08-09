@@ -1,8 +1,10 @@
 "use client";
 
 import { useRef, useMemo, Suspense, useEffect } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { useGLTF, OrbitControls, Environment } from "@react-three/drei";
+import { Canvas, useFrame, useLoader } from "@react-three/fiber";
+import { OrbitControls, Environment } from "@react-three/drei";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
 import * as THREE from "three";
 import { useTheme } from "@/components/layout/ThemeProvider";
 
@@ -13,8 +15,15 @@ let activeTheme: "dark" | "light" = "dark";
 
 function CarModel() {
   const groupRef = useRef<THREE.Group>(null);
-  const { scene } = useGLTF("/models/audi_a6_c8_limousine.glb");
   const prevTheme = useRef(activeTheme);
+
+  const { scene } = useLoader(
+    GLTFLoader,
+    "/models/audi_a6_c8_limousine.glb",
+    (loader) => {
+      loader.setMeshoptDecoder(MeshoptDecoder);
+    },
+  );
 
   const isTire = (child: THREE.Object3D) => {
     const name = (child.name || "").toLowerCase();
