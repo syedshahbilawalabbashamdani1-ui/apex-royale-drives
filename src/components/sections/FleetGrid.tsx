@@ -19,13 +19,13 @@ export default function FleetGrid() {
           viewport={{ once: true }}
           className="text-center mb-16 space-y-4"
         >
-          <span className="font-inter text-sm text-electric-cyan font-medium tracking-wider uppercase">
+          <span className="font-sans text-sm text-electric-cyan font-medium tracking-wider uppercase">
             Our Fleet
           </span>
-          <h2 className="font-orbitron text-3xl sm:text-4xl font-bold" style={{ color: "var(--text-primary)" }}>
+          <h2 className="font-playfair text-3xl sm:text-4xl font-bold" style={{ color: "var(--text-primary)" }}>
             FEATURED <span className="text-gradient">VEHICLES</span>
           </h2>
-          <p className="font-inter max-w-2xl mx-auto" style={{ color: "var(--text-secondary)" }}>
+          <p className="font-sans max-w-2xl mx-auto" style={{ color: "var(--text-secondary)" }}>
             Choose from our collection of luxury SUVs, premium sedans, and
             family cars. Each vehicle is clean, well-maintained, and ready for
             your next journey.
@@ -48,7 +48,7 @@ export default function FleetGrid() {
         >
           <Link
             href="/fleet"
-            className="inline-flex items-center gap-2 text-electric-cyan font-inter font-medium hover:gap-3 transition-all group"
+            className="inline-flex items-center gap-2 text-electric-cyan font-sans font-medium hover:gap-3 transition-all group"
           >
             <span>View All Vehicles</span>
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />

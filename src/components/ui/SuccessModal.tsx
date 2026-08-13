@@ -32,10 +32,9 @@ export default function SuccessModal({
   );
 
   useEffect(() => {
-    if (open) {
-      document.addEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "hidden";
-    }
+    if (!open) return;
+    document.addEventListener("keydown", handleKeyDown);
+    document.body.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "";
@@ -46,6 +45,7 @@ export default function SuccessModal({
     <AnimatePresence>
       {open && (
         <motion.div
+          key="success-modal"
           className="fixed inset-0 z-[100] flex items-center justify-center p-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -53,12 +53,9 @@ export default function SuccessModal({
           transition={{ duration: 0.2 }}
         >
           {/* Backdrop */}
-          <motion.div
+          <div
             className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             onClick={onClose}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
           />
 
           {/* Modal */}
@@ -70,7 +67,6 @@ export default function SuccessModal({
             }}
             initial={{ opacity: 0, scale: 0.95, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 10 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
           >
             {/* Content */}
@@ -86,7 +82,7 @@ export default function SuccessModal({
 
               {/* Title */}
               <h3
-                className="font-orbitron text-xl font-bold"
+                className="font-playfair text-xl font-bold"
                 style={{ color: "var(--text-primary, #F8FAFC)" }}
               >
                 {title}
@@ -94,7 +90,7 @@ export default function SuccessModal({
 
               {/* Message */}
               <p
-                className="font-inter text-sm leading-relaxed"
+                className="font-sans text-sm leading-relaxed"
                 style={{ color: "var(--text-secondary, #94A3B8)" }}
               >
                 {message}
@@ -106,26 +102,26 @@ export default function SuccessModal({
                   className="rounded-xl p-4 space-y-3 text-left"
                   style={{ background: "var(--bg-primary, #0F172A)" }}
                 >
-                  <div className="flex justify-between font-inter text-sm">
+                  <div className="flex justify-between font-sans text-sm">
                     <span style={{ color: "var(--text-secondary, #94A3B8)" }}>Vehicle</span>
                     <span className="font-medium" style={{ color: "var(--text-primary, #F8FAFC)" }}>
                       {bookingSummary.carName}
                     </span>
                   </div>
-                  <div className="flex justify-between font-inter text-sm">
+                  <div className="flex justify-between font-sans text-sm">
                     <span style={{ color: "var(--text-secondary, #94A3B8)" }}>Pickup</span>
                     <span style={{ color: "var(--text-primary, #F8FAFC)" }}>
                       {bookingSummary.pickupDate}
                     </span>
                   </div>
-                  <div className="flex justify-between font-inter text-sm">
+                  <div className="flex justify-between font-sans text-sm">
                     <span style={{ color: "var(--text-secondary, #94A3B8)" }}>Return</span>
                     <span style={{ color: "var(--text-primary, #F8FAFC)" }}>
                       {bookingSummary.returnDate}
                     </span>
                   </div>
                   <div className="h-px" style={{ background: "var(--border-primary, #334155)" }} />
-                  <div className="flex justify-between font-orbitron text-sm">
+                  <div className="flex justify-between font-playfair text-sm">
                     <span className="font-semibold" style={{ color: "var(--text-primary, #F8FAFC)" }}>
                       Total
                     </span>

@@ -36,7 +36,7 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="font-inter text-sm font-medium text-silver-chrome hover:text-electric-cyan transition-colors relative group"
+                className="font-sans text-sm font-medium text-silver-chrome hover:text-electric-cyan transition-colors relative group"
               >
                 {link.label}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-brand group-hover:w-full transition-all duration-300" />
@@ -53,7 +53,7 @@ export default function Navbar() {
               className="flex items-center gap-2 text-sm text-silver-chrome hover:text-electric-cyan transition-colors"
             >
               <Phone className="w-4 h-4" />
-              <span className="font-inter">Call Us</span>
+              <span className="font-sans">Call Us</span>
             </a>
             <ThemeToggle />
             <Link href="/booking" className="btn-primary text-sm">
@@ -88,7 +88,7 @@ export default function Navbar() {
               key={link.href}
               href={link.href}
               onClick={() => setIsOpen(false)}
-              className="block font-inter text-base text-silver-chrome hover:text-electric-cyan transition-colors py-2"
+              className="block font-sans text-base text-silver-chrome hover:text-electric-cyan transition-colors py-2"
             >
               {link.label}
             </Link>
@@ -101,7 +101,7 @@ export default function Navbar() {
               className="flex items-center gap-2 text-silver-chrome hover:text-electric-cyan transition-colors py-2"
             >
               <Phone className="w-4 h-4" />
-              <span className="font-inter">{CONTACT.phone}</span>
+              <span className="font-sans">{CONTACT.phone}</span>
             </a>
             <Link
               href="/booking"

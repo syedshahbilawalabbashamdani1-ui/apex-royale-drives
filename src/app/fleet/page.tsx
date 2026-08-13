@@ -130,10 +130,10 @@ function FleetContent() {
             animate={{ opacity: 1, y: 0 }}
             className="text-center space-y-4"
           >
-            <h1 className="font-orbitron text-4xl sm:text-5xl font-bold" style={{ color: "var(--text-primary)" }}>
+            <h1 className="font-playfair text-4xl sm:text-5xl font-bold" style={{ color: "var(--text-primary)" }}>
               OUR <span className="text-gradient">FLEET</span>
             </h1>
-            <p className="font-inter max-w-2xl mx-auto" style={{ color: "var(--text-secondary)" }}>
+            <p className="font-sans max-w-2xl mx-auto" style={{ color: "var(--text-secondary)" }}>
               Browse our extensive collection of premium vehicles. From economy
               sedans to luxury SUVs, find the perfect car for your journey.
             </p>
@@ -153,7 +153,7 @@ function FleetContent() {
               placeholder="Search cars..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 rounded-lg font-inter text-sm placeholder:opacity-50 focus:outline-none transition-colors"
+              className="w-full pl-12 pr-4 py-3 rounded-lg font-sans text-sm placeholder:opacity-50 focus:outline-none transition-colors"
               style={{ background: "var(--bg-secondary)", color: "var(--text-primary)", borderColor: "var(--border-primary)" }}
             />
           </div>
@@ -168,7 +168,7 @@ function FleetContent() {
                 onChange={(e) =>
                   setFilters({ ...filters, sortBy: e.target.value as FilterOptions["sortBy"] })
                 }
-                className="appearance-none w-full pl-4 pr-10 py-3 rounded-lg font-inter text-sm focus:outline-none transition-colors cursor-pointer"
+                className="appearance-none w-full pl-4 pr-10 py-3 rounded-lg font-sans text-sm focus:outline-none transition-colors cursor-pointer"
                 style={{ background: "var(--bg-secondary)", color: "var(--text-primary)", borderColor: "var(--border-primary)" }}
               >
                 {sortOptions.map((option) => (
@@ -184,7 +184,7 @@ function FleetContent() {
             <button
               onClick={() => setShowFilters(!showFilters)}
               className={cn(
-                "flex items-center gap-2 px-4 py-3 rounded-lg font-inter text-sm font-medium transition-colors whitespace-nowrap",
+                "flex items-center gap-2 px-4 py-3 rounded-lg font-sans text-sm font-medium transition-colors whitespace-nowrap",
                 showFilters || activeFilterCount > 0
                   ? "bg-electric-cyan/10 text-electric-cyan border border-electric-cyan/30"
                   : "text-theme-secondary border hover:border-electric-cyan/20"
@@ -212,7 +212,7 @@ function FleetContent() {
           <div className="card-dark p-6 space-y-6">
             {/* Categories */}
             <div>
-              <h4 className="font-orbitron text-sm font-semibold mb-3" style={{ color: "var(--text-primary)" }}>
+              <h4 className="font-playfair text-sm font-semibold mb-3" style={{ color: "var(--text-primary)" }}>
                 CATEGORY
               </h4>
               <div className="flex flex-wrap gap-2">
@@ -221,7 +221,7 @@ function FleetContent() {
                       key={category}
                       onClick={() => setFilters({ ...filters, category })}
                       className={cn(
-                        "px-4 py-2 rounded-lg font-inter text-sm font-medium transition-colors",
+                        "px-4 py-2 rounded-lg font-sans text-sm font-medium transition-colors",
                         filters.category === category
                           ? "bg-electric-cyan text-carbon-black"
                           : "text-theme-secondary hover:opacity-80 border"
@@ -237,7 +237,7 @@ function FleetContent() {
             {/* Transmission & Fuel */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <h4 className="font-orbitron text-sm font-semibold mb-3" style={{ color: "var(--text-primary)" }}>
+                <h4 className="font-playfair text-sm font-semibold mb-3" style={{ color: "var(--text-primary)" }}>
                   TRANSMISSION
                 </h4>
                 <div className="flex gap-2">
@@ -251,7 +251,7 @@ function FleetContent() {
                         })
                       }
                       className={cn(
-                        "px-4 py-2 rounded-lg font-inter text-sm font-medium transition-colors",
+                        "px-4 py-2 rounded-lg font-sans text-sm font-medium transition-colors",
                         filters.transmission === option
                           ? "bg-electric-cyan text-carbon-black"
                           : "text-theme-secondary hover:opacity-80 border"
@@ -265,7 +265,7 @@ function FleetContent() {
               </div>
 
               <div>
-                <h4 className="font-orbitron text-sm font-semibold mb-3" style={{ color: "var(--text-primary)" }}>
+                <h4 className="font-playfair text-sm font-semibold mb-3" style={{ color: "var(--text-primary)" }}>
                   FUEL TYPE
                 </h4>
                 <div className="flex flex-wrap gap-2">
@@ -280,7 +280,7 @@ function FleetContent() {
                           })
                         }
                         className={cn(
-                          "px-4 py-2 rounded-lg font-inter text-sm font-medium transition-colors",
+                          "px-4 py-2 rounded-lg font-sans text-sm font-medium transition-colors",
                           filters.fuel === option
                             ? "bg-electric-cyan text-carbon-black"
                             : "text-theme-secondary hover:opacity-80 border"
@@ -307,7 +307,7 @@ function FleetContent() {
                     sortBy: "newest",
                   })
                 }
-                className="flex items-center gap-2 text-sm text-electric-cyan font-inter hover:underline"
+                className="flex items-center gap-2 text-sm text-electric-cyan font-sans hover:underline"
               >
                 <X className="w-4 h-4" />
                 Clear all filters
@@ -318,7 +318,7 @@ function FleetContent() {
 
         {/* Results Count */}
         <div className="mb-6">
-          <p className="font-inter text-sm" style={{ color: "var(--text-secondary)" }}>
+          <p className="font-sans text-sm" style={{ color: "var(--text-secondary)" }}>
             Showing{" "}
             <span className="font-medium" style={{ color: "var(--text-primary)" }}>
               {filteredCars.length}
@@ -339,10 +339,10 @@ function FleetContent() {
             <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6" style={{ background: "var(--bg-secondary)" }}>
               <Search className="w-10 h-10 opacity-50" style={{ color: "var(--text-secondary)" }} />
             </div>
-            <h3 className="font-orbitron text-xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>
+            <h3 className="font-playfair text-xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>
               No vehicles found
             </h3>
-            <p className="font-inter" style={{ color: "var(--text-secondary)" }}>
+            <p className="font-sans" style={{ color: "var(--text-secondary)" }}>
               Try adjusting your filters or search query.
             </p>
           </div>

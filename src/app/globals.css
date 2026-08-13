@@ -1,38 +1,22 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-electric-cyan: #20E0FF;
-  --color-deep-ocean: #14649B;
-  --color-midnight-navy: #0A1A2E;
-  --color-carbon-black: #0D0D0D;
+  --color-champagne: #C9A96E;
+  --color-champagne-light: #D4B87A;
+  --color-deep-black: #0C0A09;
+  --color-warm-charcoal: #1C1917;
+  --color-warm-gray: #44403C;
+  --color-silver-chrome: #A89B8C;
+  --color-off-white: #FAFAF9;
+  --color-light-gray: #D6D3D1;
   --color-gunmetal: #1E293B;
-  --color-silver-chrome: #94A3B8;
-  --color-accent-glow: #00F0FF;
-  --color-off-white: #F8FAFC;
-  --color-light-gray: #E2E8F0;
+  --color-carbon-black: #0D0D0D;
 
-  --font-orbitron: "Orbitron", sans-serif;
+  --font-playfair: "Playfair Display", serif;
   --font-inter: "Inter", sans-serif;
 
-  --shadow-cyan-glow: 0 0 20px rgba(32, 224, 255, 0.3);
-  --shadow-cyan-glow-lg: 0 0 40px rgba(32, 224, 255, 0.4);
-}
-
-@keyframes heroOrb1 {
-  0%, 100% { transform: translate(0, 0); }
-  25% { transform: translate(30px, -20px); }
-  50% { transform: translate(-20px, 30px); }
-  75% { transform: translate(10px, 15px); }
-}
-
-@keyframes heroOrb2 {
-  0%, 100% { transform: translate(0, 0); }
-  33% { transform: translate(-25px, 20px); }
-  66% { transform: translate(15px, -25px); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-orb { animation: none !important; }
+  --shadow-gold-glow: 0 4px 24px rgba(201, 169, 110, 0.12);
+  --shadow-gold-glow-lg: 0 8px 40px rgba(201, 169, 110, 0.18);
 }
 
 @layer base {
@@ -42,31 +26,31 @@
 
   html {
     scroll-behavior: smooth;
-    --bg-primary: #0D0D0D;
-    --bg-secondary: #1E293B;
-    --bg-tertiary: #0A1A2E;
-    --text-primary: #FFFFFF;
-    --text-secondary: #94A3B8;
-    --border-primary: rgba(32, 224, 255, 0.1);
-    --border-secondary: rgba(32, 224, 255, 0.15);
-    --accent: #20E0FF;
-    --accent-r: 32;
-    --accent-g: 224;
-    --accent-b: 255;
+    --bg-primary: #0C0A09;
+    --bg-secondary: #1C1917;
+    --bg-tertiary: #161210;
+    --text-primary: #FAFAF9;
+    --text-secondary: #A89B8C;
+    --border-primary: rgba(201, 169, 110, 0.1);
+    --border-secondary: rgba(201, 169, 110, 0.15);
+    --accent: #C9A96E;
+    --accent-r: 201;
+    --accent-g: 169;
+    --accent-b: 110;
   }
 
   html.light {
-    --bg-primary: #F8FAFC;
+    --bg-primary: #FAFAF9;
     --bg-secondary: #FFFFFF;
-    --bg-tertiary: #E2E8F0;
-    --text-primary: #0D0D0D;
-    --text-secondary: #475569;
-    --border-primary: rgba(32, 224, 255, 0.2);
-    --border-secondary: rgba(32, 224, 255, 0.3);
-    --accent: #0891B2;
-    --accent-r: 8;
-    --accent-g: 145;
-    --accent-b: 178;
+    --bg-tertiary: #F5F0E8;
+    --text-primary: #1C1917;
+    --text-secondary: #57534E;
+    --border-primary: rgba(201, 169, 110, 0.2);
+    --border-secondary: rgba(201, 169, 110, 0.3);
+    --accent: #92702A;
+    --accent-r: 146;
+    --accent-g: 112;
+    --accent-b: 42;
   }
 
   body {
@@ -81,40 +65,40 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-orbitron), "Orbitron", sans-serif;
+    font-family: var(--font-playfair), "Playfair Display", serif;
     color: var(--text-primary);
   }
 }
 
 @layer components {
   .text-gradient {
-    background: linear-gradient(135deg, var(--accent), #00F0FF);
+    background: linear-gradient(135deg, #C9A96E, #D4B87A);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   .bg-gradient-brand {
-    background: linear-gradient(135deg, var(--accent), #14649B);
+    background: linear-gradient(135deg, #C9A96E, #92702A);
   }
 
   .bg-gradient-dark {
-    background: linear-gradient(135deg, #0D0D0D, #0A1A2E);
+    background: linear-gradient(135deg, #0C0A09, #161210);
   }
 
   html.light .bg-gradient-dark {
-    background: linear-gradient(135deg, #E2E8F0, #CBD5E1);
+    background: linear-gradient(135deg, #F5F0E8, #E8E0D4);
   }
 
   .btn-primary {
     padding: 12px 28px;
     border-radius: 8px;
-    font-family: var(--font-orbitron), "Orbitron", sans-serif;
+    font-family: var(--font-inter), "Inter", sans-serif;
     font-weight: 600;
     font-size: 0.875rem;
-    background: linear-gradient(135deg, var(--accent), #14649B);
-    color: white;
-    box-shadow: 0 0 20px rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.3);
+    background: linear-gradient(135deg, #C9A96E, #92702A);
+    color: #0C0A09;
+    box-shadow: 0 4px 24px rgba(201, 169, 110, 0.2);
     transition: all 0.3s ease;
     border: none;
     cursor: pointer;
@@ -125,7 +109,7 @@
   }
 
   .btn-primary:hover {
-    box-shadow: 0 0 40px rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.4);
+    box-shadow: 0 8px 40px rgba(201, 169, 110, 0.3);
     transform: translateY(-2px);
   }
 
@@ -136,12 +120,12 @@
   .btn-secondary {
     padding: 12px 28px;
     border-radius: 8px;
-    font-family: var(--font-orbitron), "Orbitron", sans-serif;
+    font-family: var(--font-inter), "Inter", sans-serif;
     font-weight: 600;
     font-size: 0.875rem;
     background: transparent;
     color: var(--accent);
-    border: 2px solid var(--accent);
+    border: 1.5px solid rgba(201, 169, 110, 0.4);
     transition: all 0.3s ease;
     cursor: pointer;
     text-decoration: none;
@@ -151,21 +135,21 @@
   }
 
   .btn-secondary:hover {
-    background: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.1);
-    box-shadow: 0 0 20px rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.2);
+    background: rgba(201, 169, 110, 0.08);
+    border-color: rgba(201, 169, 110, 0.6);
+    box-shadow: 0 4px 24px rgba(201, 169, 110, 0.1);
   }
 
   .card-dark {
-    background: #1E293B;
-    border: 1px solid rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.1);
+    background: #1C1917;
+    border: 1px solid rgba(201, 169, 110, 0.08);
     border-radius: 12px;
-    backdrop-filter: blur(8px);
   }
 
   html.light .card-dark {
     background: #FFFFFF;
-    border: 1px solid rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.15);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(201, 169, 110, 0.12);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   }
 
   .text-theme-primary {
@@ -182,20 +166,20 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #0D0D0D;
+  background: #0C0A09;
 }
 
 html.light ::-webkit-scrollbar-track {
-  background: #E2E8F0;
+  background: #F5F0E8;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1E293B;
+  background: #292524;
   border-radius: 4px;
 }
 
 html.light ::-webkit-scrollbar-thumb {
-  background: #94A3B8;
+  background: #A89B8C;
 }
 
 ::-webkit-scrollbar-thumb:hover {

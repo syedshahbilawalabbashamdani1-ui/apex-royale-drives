@@ -13,17 +13,17 @@ export default function NotFound() {
 
         {/* Heading */}
         <div className="space-y-3">
-          <h1 className="font-orbitron text-6xl font-black text-gradient">
+          <h1 className="font-playfair text-6xl font-black text-gradient">
             404
           </h1>
-          <h2 className="font-orbitron text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
+          <h2 className="font-playfair text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
             Page Not Found
           </h2>
         </div>
 
         {/* Message */}
         <div className="max-w-md mx-auto space-y-4">
-          <p className="font-inter text-lg" style={{ color: "var(--text-secondary)" }}>
+          <p className="font-sans text-lg" style={{ color: "var(--text-secondary)" }}>
             The page you&apos;re looking for doesn&apos;t exist or has been moved.
           </p>
         </div>

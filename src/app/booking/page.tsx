@@ -127,12 +127,14 @@ function BookingContent() {
   const handleSuccessClose = () => {
     setShowSuccess(false);
     if (bookingSummary) {
-      window.open(
-        `https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(
-          `Hi, I want to book a ${bookingSummary.carName} from ${bookingSummary.pickupDate} to ${bookingSummary.returnDate} at ${formData.pickupLocation}. Name: ${formData.firstName} ${formData.lastName}, Phone: ${formData.phone}`
-        )}`,
-        "_blank"
-      );
+      setTimeout(() => {
+        window.open(
+          `https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(
+            `Hi, I want to book a ${bookingSummary.carName} from ${bookingSummary.pickupDate} to ${bookingSummary.returnDate} at ${formData.pickupLocation}. Name: ${formData.firstName} ${formData.lastName}, Phone: ${formData.phone}`
+          )}`,
+          "_blank"
+        );
+      }, 250);
     }
   };
 
@@ -146,10 +148,10 @@ function BookingContent() {
             animate={{ opacity: 1, y: 0 }}
             className="text-center space-y-4"
           >
-            <h1 className="font-orbitron text-4xl sm:text-5xl font-bold" style={{ color: "var(--text-primary)" }}>
+            <h1 className="font-playfair text-4xl sm:text-5xl font-bold" style={{ color: "var(--text-primary)" }}>
               BOOK YOUR <span className="text-gradient">RIDE</span>
             </h1>
-            <p className="font-inter max-w-2xl mx-auto" style={{ color: "var(--text-secondary)" }}>
+            <p className="font-sans max-w-2xl mx-auto" style={{ color: "var(--text-secondary)" }}>
               Complete the booking form below and we&apos;ll confirm your
               reservation within minutes.
             </p>
@@ -171,7 +173,7 @@ function BookingContent() {
                 >
                   <div
                     className={cn(
-                      "w-10 h-10 rounded-full flex items-center justify-center font-orbitron text-sm font-bold transition-colors",
+                      "w-10 h-10 rounded-full flex items-center justify-center font-playfair text-sm font-bold transition-colors",
                       currentStep >= step.id
                         ? "bg-electric-cyan text-carbon-black"
                         : "bg-gunmetal text-theme-secondary"
@@ -183,7 +185,7 @@ function BookingContent() {
                       step.id
                     )}
                   </div>
-                  <span className="hidden sm:block font-inter text-sm font-medium">
+                  <span className="hidden sm:block font-sans text-sm font-medium">
                     {step.label}
                   </span>
                 </div>
@@ -212,7 +214,7 @@ function BookingContent() {
             {/* Step 1: Select Car */}
             {currentStep === 1 && (
               <div className="space-y-6">
-                <h2 className="font-orbitron text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
+                <h2 className="font-playfair text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
                   Select Your Vehicle
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -238,23 +240,23 @@ function BookingContent() {
                               className="w-full h-full object-cover"
                             />
                           ) : (
-                            <span className="font-orbitron text-xl font-bold text-electric-cyan/50">
+                            <span className="font-playfair text-xl font-bold text-electric-cyan/50">
                               {car.brand.charAt(0)}
                             </span>
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="font-orbitron text-sm font-bold truncate" style={{ color: "var(--text-primary)" }}>
+                          <h3 className="font-playfair text-sm font-bold truncate" style={{ color: "var(--text-primary)" }}>
                             {car.name}
                           </h3>
-                          <p className="font-inter text-xs" style={{ color: "var(--text-secondary)" }}>
+                          <p className="font-sans text-xs" style={{ color: "var(--text-secondary)" }}>
                             {car.brand} &bull; {car.category}
                           </p>
                           <div className="mt-2 flex items-center gap-2">
-                            <span className="font-orbitron text-sm font-bold text-gradient">
+                            <span className="font-playfair text-sm font-bold text-gradient">
                               Rs. {car.pricePerDay.toLocaleString()}
                             </span>
-                            <span className="font-inter text-xs" style={{ color: "var(--text-secondary)" }}>
+                            <span className="font-sans text-xs" style={{ color: "var(--text-secondary)" }}>
                               / day
                             </span>
                           </div>
@@ -274,13 +276,13 @@ function BookingContent() {
             {/* Step 2: Dates & Location */}
             {currentStep === 2 && (
               <div className="space-y-6">
-                <h2 className="font-orbitron text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
+                <h2 className="font-playfair text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
                   Dates & Pickup Location
                 </h2>
                 <div className="card-dark p-6 space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label htmlFor="booking-pickup-date" className="block font-inter text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
+                      <label htmlFor="booking-pickup-date" className="block font-sans text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
                         Pickup Date
                       </label>
                       <input
@@ -300,12 +302,12 @@ function BookingContent() {
                           });
                         }}
                         min={new Date().toISOString().split("T")[0]}
-                        className="w-full px-4 py-3 rounded-lg font-inter text-sm focus:outline-none transition-colors"
+                        className="w-full px-4 py-3 rounded-lg font-sans text-sm focus:outline-none transition-colors"
                         style={{ background: "var(--bg-primary)", color: "var(--text-primary)", borderColor: "var(--border-primary)" }}
                       />
                     </div>
                     <div>
-                      <label htmlFor="booking-return-date" className="block font-inter text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
+                      <label htmlFor="booking-return-date" className="block font-sans text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
                         Return Date
                       </label>
                       <input
@@ -319,14 +321,14 @@ function BookingContent() {
                           })
                         }
                         min={minReturnDate}
-                        className="w-full px-4 py-3 rounded-lg font-inter text-sm focus:outline-none transition-colors"
+                        className="w-full px-4 py-3 rounded-lg font-sans text-sm focus:outline-none transition-colors"
                         style={{ background: "var(--bg-primary)", color: "var(--text-primary)", borderColor: "var(--border-primary)" }}
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="booking-pickup-location" className="block font-inter text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
+                    <label htmlFor="booking-pickup-location" className="block font-sans text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
                       Pickup Location
                     </label>
                     <select
@@ -338,7 +340,7 @@ function BookingContent() {
                           pickupLocation: e.target.value,
                         })
                       }
-                      className="w-full px-4 py-3 rounded-lg font-inter text-sm focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 rounded-lg font-sans text-sm focus:outline-none transition-colors"
                       style={{ background: "var(--bg-primary)", color: "var(--text-primary)", borderColor: "var(--border-primary)" }}
                     >
                       <option value="">Select a location</option>
@@ -353,7 +355,7 @@ function BookingContent() {
                   {/* Price Summary */}
                   {selectedCar && formData.pickupDate && formData.returnDate && (
                     <div className="p-4 rounded-lg space-y-2" style={{ background: "var(--bg-primary)" }}>
-                      <div className="flex justify-between font-inter text-sm">
+                      <div className="flex justify-between font-sans text-sm">
                         <span style={{ color: "var(--text-secondary)" }}>
                           {selectedCar.name}
                         </span>
@@ -361,7 +363,7 @@ function BookingContent() {
                           Rs. {selectedCar.pricePerDay.toLocaleString()} / day
                         </span>
                       </div>
-                      <div className="flex justify-between font-inter text-sm">
+                      <div className="flex justify-between font-sans text-sm">
                         <span style={{ color: "var(--text-secondary)" }}>Duration</span>
                         <span style={{ color: isDateRangeValid ? "var(--text-primary)" : "var(--text-secondary)" }}>
                           {isDateRangeValid ? (
@@ -372,7 +374,7 @@ function BookingContent() {
                         </span>
                       </div>
                       <div className="h-px my-2" style={{ background: "var(--border-primary)" }} />
-                      <div className="flex justify-between font-orbitron">
+                      <div className="flex justify-between font-playfair">
                         <span className="font-semibold" style={{ color: "var(--text-primary)" }}>Total</span>
                         <span className="text-xl font-bold text-gradient">
                           {isDateRangeValid ? `Rs. ${calculateTotal().toLocaleString()}` : "—"}
@@ -387,13 +389,13 @@ function BookingContent() {
             {/* Step 3: Personal Info */}
             {currentStep === 3 && (
               <div className="space-y-6">
-                <h2 className="font-orbitron text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
+                <h2 className="font-playfair text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
                   Personal Information
                 </h2>
                 <div className="card-dark p-6 space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label htmlFor="booking-first-name" className="block font-inter text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
+                      <label htmlFor="booking-first-name" className="block font-sans text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
                         First Name
                       </label>
                       <input
@@ -407,12 +409,12 @@ function BookingContent() {
                           })
                         }
                         placeholder="Enter first name"
-                        className="w-full px-4 py-3 rounded-lg font-inter text-sm placeholder:opacity-50 focus:outline-none transition-colors"
+                        className="w-full px-4 py-3 rounded-lg font-sans text-sm placeholder:opacity-50 focus:outline-none transition-colors"
                         style={{ background: "var(--bg-primary)", color: "var(--text-primary)", borderColor: "var(--border-primary)" }}
                       />
                     </div>
                     <div>
-                      <label htmlFor="booking-last-name" className="block font-inter text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
+                      <label htmlFor="booking-last-name" className="block font-sans text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
                         Last Name
                       </label>
                       <input
@@ -423,14 +425,14 @@ function BookingContent() {
                           setFormData({ ...formData, lastName: e.target.value })
                         }
                         placeholder="Enter last name"
-                        className="w-full px-4 py-3 rounded-lg font-inter text-sm placeholder:opacity-50 focus:outline-none transition-colors"
+                        className="w-full px-4 py-3 rounded-lg font-sans text-sm placeholder:opacity-50 focus:outline-none transition-colors"
                         style={{ background: "var(--bg-primary)", color: "var(--text-primary)", borderColor: "var(--border-primary)" }}
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="booking-email" className="block font-inter text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
+                    <label htmlFor="booking-email" className="block font-sans text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
                       Email Address
                     </label>
                     <input
@@ -441,16 +443,16 @@ function BookingContent() {
                         setFormData({ ...formData, email: e.target.value })
                       }
                       placeholder="Enter email address"
-                      className="w-full px-4 py-3 rounded-lg font-inter text-sm placeholder:opacity-50 focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 rounded-lg font-sans text-sm placeholder:opacity-50 focus:outline-none transition-colors"
                       style={{ background: "var(--bg-primary)", color: "var(--text-primary)", borderColor: "var(--border-primary)" }}
                     />
                     {stepErrors.email && (
-                      <p className="font-inter text-xs text-red-400 mt-1">{stepErrors.email}</p>
+                      <p className="font-sans text-xs text-red-400 mt-1">{stepErrors.email}</p>
                     )}
                   </div>
 
                   <div>
-                    <label htmlFor="booking-phone" className="block font-inter text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
+                    <label htmlFor="booking-phone" className="block font-sans text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
                       Phone Number
                     </label>
                     <input
@@ -461,16 +463,16 @@ function BookingContent() {
                         setFormData({ ...formData, phone: e.target.value })
                       }
                       placeholder="+92 300 123 4567"
-                      className="w-full px-4 py-3 rounded-lg font-inter text-sm placeholder:opacity-50 focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 rounded-lg font-sans text-sm placeholder:opacity-50 focus:outline-none transition-colors"
                       style={{ background: "var(--bg-primary)", color: "var(--text-primary)", borderColor: "var(--border-primary)" }}
                     />
                     {stepErrors.phone && (
-                      <p className="font-inter text-xs text-red-400 mt-1">{stepErrors.phone}</p>
+                      <p className="font-sans text-xs text-red-400 mt-1">{stepErrors.phone}</p>
                     )}
                   </div>
 
                   <div>
-                    <label htmlFor="booking-message" className="block font-inter text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
+                    <label htmlFor="booking-message" className="block font-sans text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
                       Additional Message (Optional)
                     </label>
                     <textarea
@@ -481,7 +483,7 @@ function BookingContent() {
                       }
                       placeholder="Any special requests or requirements..."
                       rows={3}
-                      className="w-full px-4 py-3 rounded-lg font-inter text-sm placeholder:opacity-50 focus:outline-none transition-colors resize-none"
+                      className="w-full px-4 py-3 rounded-lg font-sans text-sm placeholder:opacity-50 focus:outline-none transition-colors resize-none"
                       style={{ background: "var(--bg-primary)", color: "var(--text-primary)", borderColor: "var(--border-primary)" }}
                     />
                   </div>
@@ -492,14 +494,14 @@ function BookingContent() {
             {/* Step 4: Confirmation */}
             {currentStep === 4 && (
               <div className="space-y-6">
-                <h2 className="font-orbitron text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
+                <h2 className="font-playfair text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
                   Confirm Your Booking
                 </h2>
                 <div className="card-dark p-6 space-y-6">
                   {/* Summary */}
                   <div className="space-y-4">
                     <div className="p-4 rounded-lg">
-                      <h4 className="font-orbitron text-sm font-semibold text-electric-cyan mb-3">
+                      <h4 className="font-playfair text-sm font-semibold text-electric-cyan mb-3">
                         VEHICLE
                       </h4>
                       <div className="flex items-center gap-4">
@@ -511,16 +513,16 @@ function BookingContent() {
                               className="w-full h-full object-cover"
                             />
                           ) : (
-                            <span className="font-orbitron text-lg font-bold text-electric-cyan/50">
+                            <span className="font-playfair text-lg font-bold text-electric-cyan/50">
                               {selectedCar?.brand.charAt(0)}
                             </span>
                           )}
                         </div>
                         <div>
-                          <h3 className="font-orbitron text-lg font-bold" style={{ color: "var(--text-primary)" }}>
+                          <h3 className="font-playfair text-lg font-bold" style={{ color: "var(--text-primary)" }}>
                             {selectedCar?.name}
                           </h3>
-                          <p className="font-inter text-sm" style={{ color: "var(--text-secondary)" }}>
+                          <p className="font-sans text-sm" style={{ color: "var(--text-secondary)" }}>
                             {selectedCar?.brand} &bull; {selectedCar?.category}
                           </p>
                         </div>
@@ -529,47 +531,47 @@ function BookingContent() {
 
                     <div className="grid grid-cols-2 gap-4">
                       <div className="p-4 rounded-lg" style={{ background: "var(--bg-primary)" }}>
-                        <h4 className="font-orbitron text-xs font-semibold text-electric-cyan mb-2">
+                        <h4 className="font-playfair text-xs font-semibold text-electric-cyan mb-2">
                           PICKUP
                         </h4>
-                        <p className="font-inter text-sm" style={{ color: "var(--text-primary)" }}>
+                        <p className="font-sans text-sm" style={{ color: "var(--text-primary)" }}>
                           {formData.pickupDate}
                         </p>
-                        <p className="font-inter text-xs mt-1" style={{ color: "var(--text-secondary)" }}>
+                        <p className="font-sans text-xs mt-1" style={{ color: "var(--text-secondary)" }}>
                           {formData.pickupLocation}
                         </p>
                       </div>
                       <div className="p-4 rounded-lg" style={{ background: "var(--bg-primary)" }}>
-                        <h4 className="font-orbitron text-xs font-semibold text-electric-cyan mb-2">
+                        <h4 className="font-playfair text-xs font-semibold text-electric-cyan mb-2">
                           RETURN
                         </h4>
-                        <p className="font-inter text-sm" style={{ color: "var(--text-primary)" }}>
+                        <p className="font-sans text-sm" style={{ color: "var(--text-primary)" }}>
                           {formData.returnDate}
                         </p>
-                        <p className="font-inter text-xs mt-1" style={{ color: "var(--text-secondary)" }}>
+                        <p className="font-sans text-xs mt-1" style={{ color: "var(--text-secondary)" }}>
                           {formData.pickupLocation}
                         </p>
                       </div>
                     </div>
 
                     <div className="p-4 rounded-lg" style={{ background: "var(--bg-primary)" }}>
-                      <h4 className="font-orbitron text-xs font-semibold text-electric-cyan mb-2">
+                      <h4 className="font-playfair text-xs font-semibold text-electric-cyan mb-2">
                         CONTACT
                       </h4>
-                      <p className="font-inter text-sm" style={{ color: "var(--text-primary)" }}>
+                      <p className="font-sans text-sm" style={{ color: "var(--text-primary)" }}>
                         {formData.firstName} {formData.lastName}
                       </p>
-                      <p className="font-inter text-xs" style={{ color: "var(--text-secondary)" }}>
+                      <p className="font-sans text-xs" style={{ color: "var(--text-secondary)" }}>
                         {formData.email} &bull; {formData.phone}
                       </p>
                     </div>
 
                     <div className="p-4 bg-gradient-brand rounded-lg">
                       <div className="flex justify-between items-center">
-                        <span className="font-inter text-theme-primary font-medium">
+                        <span className="font-sans text-theme-primary font-medium">
                           Total Amount
                         </span>
-                        <span className="font-orbitron text-2xl font-bold text-theme-primary">
+                        <span className="font-playfair text-2xl font-bold text-theme-primary">
                           Rs. {calculateTotal().toLocaleString()}
                         </span>
                       </div>
@@ -581,10 +583,10 @@ function BookingContent() {
                     <div className="flex items-start gap-3">
                       <Phone className="w-5 h-5 text-electric-cyan mt-0.5" />
                       <div>
-                        <h4 className="font-inter text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
+                        <h4 className="font-sans text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
                           WhatsApp Confirmation
                         </h4>
-                        <p className="font-inter text-xs mt-1" style={{ color: "var(--text-secondary)" }}>
+                        <p className="font-sans text-xs mt-1" style={{ color: "var(--text-secondary)" }}>
                           After submitting, you&apos;ll be redirected to WhatsApp
                           to confirm your booking with our team.
                         </p>
@@ -603,7 +605,7 @@ function BookingContent() {
             onClick={prevStep}
             disabled={currentStep === 1}
             className={cn(
-              "flex items-center gap-2 px-6 py-3 rounded-lg font-inter text-sm font-medium transition-colors",
+              "flex items-center gap-2 px-6 py-3 rounded-lg font-sans text-sm font-medium transition-colors",
               currentStep === 1
                 ? "opacity-50 cursor-not-allowed text-theme-secondary"
                 : "text-theme-primary hover:bg-gunmetal"

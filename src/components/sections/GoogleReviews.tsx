@@ -100,14 +100,14 @@ function ReviewCard({ review, index }: { review: Review; index: number }) {
       {/* Stars + time */}
       <div className="flex items-center gap-3 mb-3">
         <StarRating count={review.rating} />
-        <span className="font-inter text-xs" style={{ color: "var(--text-secondary)" }}>
+        <span className="font-sans text-xs" style={{ color: "var(--text-secondary)" }}>
           {review.time}
         </span>
       </div>
 
       {/* Review text */}
       <p
-        className="font-inter text-sm leading-relaxed mb-5 flex-1"
+        className="font-sans text-sm leading-relaxed mb-5 flex-1"
         style={{ color: "var(--text-secondary)" }}
       >
         &ldquo;{review.text}&rdquo;
@@ -123,18 +123,18 @@ function ReviewCard({ review, index }: { review: Review; index: number }) {
             AVATAR_COLORS[index % AVATAR_COLORS.length]
           } flex items-center justify-center flex-shrink-0`}
         >
-          <span className="font-orbitron text-xs font-bold text-white">
+          <span className="font-playfair text-xs font-bold text-white">
             {getInitials(review.name)}
           </span>
         </div>
         <div className="min-w-0">
           <h4
-            className="font-inter text-sm font-semibold truncate"
+            className="font-sans text-sm font-semibold truncate"
             style={{ color: "var(--text-primary)" }}
           >
             {review.name}
           </h4>
-          <p className="font-inter text-xs" style={{ color: "var(--text-secondary)" }}>
+          <p className="font-sans text-xs" style={{ color: "var(--text-secondary)" }}>
             {review.reviewCount}
           </p>
         </div>
@@ -188,17 +188,17 @@ export default function GoogleReviews() {
           viewport={{ once: true }}
           className="text-center space-y-4"
         >
-          <span className="font-inter text-sm text-electric-cyan font-medium tracking-wider uppercase">
+          <span className="font-sans text-sm text-electric-cyan font-medium tracking-wider uppercase">
             Reviews
           </span>
           <h2
-            className="font-orbitron text-3xl sm:text-4xl font-bold"
+            className="font-playfair text-3xl sm:text-4xl font-bold"
             style={{ color: "var(--text-primary)" }}
           >
             WHAT OUR <span className="text-gradient">CLIENTS</span> SAY
           </h2>
           <p
-            className="font-inter max-w-2xl mx-auto"
+            className="font-sans max-w-2xl mx-auto"
             style={{ color: "var(--text-secondary)" }}
           >
             Real feedback from real customers on Google. Rated 5.0 out of 5.

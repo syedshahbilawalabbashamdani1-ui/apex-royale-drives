@@ -62,11 +62,11 @@ function AnimatedStat({
       animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       transition={{ delay, duration: 0.5 }}
     >
-      <div className="font-orbitron text-2xl font-bold text-gradient">
+      <div className="font-playfair text-2xl font-bold text-gradient">
         {count}
         {suffix}
       </div>
-      <div className="font-inter text-xs text-theme-secondary">{label}</div>
+      <div className="font-sans text-xs text-theme-secondary">{label}</div>
     </motion.div>
   );
 }
@@ -93,19 +93,17 @@ export default function Hero() {
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-dark" />
 
-      {/* Soft animated gradient orbs */}
+      {/* Subtle warm glow */}
       <div
-        className="hero-orb absolute top-1/4 right-1/4 w-[600px] h-[600px] rounded-full opacity-[0.04] blur-[120px] pointer-events-none"
+        className="absolute top-1/4 right-1/4 w-[600px] h-[600px] rounded-full opacity-[0.04] blur-[120px] pointer-events-none"
         style={{
-          background: "radial-gradient(circle, #20E0FF 0%, transparent 70%)",
-          animation: "heroOrb1 20s ease-in-out infinite",
+          background: "radial-gradient(circle, #C9A96E 0%, transparent 70%)",
         }}
       />
       <div
-        className="hero-orb absolute bottom-1/4 left-1/3 w-[500px] h-[500px] rounded-full opacity-[0.03] blur-[100px] pointer-events-none"
+        className="absolute bottom-1/4 left-1/3 w-[500px] h-[500px] rounded-full opacity-[0.03] blur-[100px] pointer-events-none"
         style={{
-          background: "radial-gradient(circle, #14649B 0%, transparent 70%)",
-          animation: "heroOrb2 25s ease-in-out infinite",
+          background: "radial-gradient(circle, #92702A 0%, transparent 70%)",
         }}
       />
 
@@ -128,19 +126,19 @@ export default function Hero() {
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-electric-cyan/10 border border-electric-cyan/20"
               >
                 <span className="w-2 h-2 rounded-full bg-electric-cyan animate-pulse" />
-                <span className="font-inter text-xs text-electric-cyan font-medium tracking-wider uppercase">
+                <span className="font-sans text-xs text-electric-cyan font-medium tracking-wider uppercase">
                   Rent a Car in Islamabad & Rawalpindi
                 </span>
               </motion.div>
 
               {/* Heading */}
               <div className="space-y-4">
-                <h1 className="font-orbitron text-4xl sm:text-5xl lg:text-6xl font-black leading-tight">
+                <h1 className="font-playfair text-4xl sm:text-5xl lg:text-6xl font-black leading-tight">
                   <span style={{ color: "var(--text-primary)" }}>DRIVE</span>
                   <br />
                   <span className="text-gradient">YOUR DREAMS</span>
                 </h1>
-                <p className="font-inter text-lg text-theme-secondary max-w-lg leading-relaxed">
+                <p className="font-sans text-lg text-theme-secondary max-w-lg leading-relaxed">
                   Trusted rent-a-car service in Islamabad and Rawalpindi.
                   Luxury and affordable vehicles with professional drivers,
                   24/7 support, and airport transfers.
@@ -224,7 +222,7 @@ export default function Hero() {
         style={{ opacity: indicatorOpacity }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none transition-opacity duration-150"
       >
-        <span className="font-inter text-xs text-theme-secondary tracking-wider">
+        <span className="font-sans text-xs text-theme-secondary tracking-wider">
           SCROLL TO EXPLORE
         </span>
         <motion.div

@@ -52,7 +52,7 @@ export default function CarCard({ car, index = 0 }: CarCardProps) {
 
             {/* Category Badge */}
             <div className="absolute top-3 left-3">
-              <span className="px-3 py-1 rounded-full bg-carbon-black/80 backdrop-blur-sm text-xs font-inter font-medium text-electric-cyan border border-electric-cyan/20">
+              <span className="px-3 py-1 rounded-full bg-carbon-black/80 backdrop-blur-sm text-xs font-sans font-medium text-electric-cyan border border-electric-cyan/20">
                 {car.category}
               </span>
             </div>
@@ -60,7 +60,7 @@ export default function CarCard({ car, index = 0 }: CarCardProps) {
             {/* Popular Badge */}
             {car.popular && (
               <div className="absolute top-3 right-3">
-                <span className="px-3 py-1 rounded-full bg-gradient-brand text-xs font-inter font-medium text-theme-primary">
+                <span className="px-3 py-1 rounded-full bg-gradient-brand text-xs font-sans font-medium text-theme-primary">
                   Popular
                 </span>
               </div>
@@ -74,10 +74,10 @@ export default function CarCard({ car, index = 0 }: CarCardProps) {
           <div className="p-5 space-y-4">
             {/* Title */}
             <div>
-              <h3 className="font-orbitron text-lg font-bold group-hover:text-electric-cyan transition-colors" style={{ color: "var(--text-primary)" }}>
+              <h3 className="font-playfair text-lg font-bold group-hover:text-electric-cyan transition-colors" style={{ color: "var(--text-primary)" }}>
                 {car.name}
               </h3>
-              <p className="font-inter text-sm" style={{ color: "var(--text-secondary)" }}>
+              <p className="font-sans text-sm" style={{ color: "var(--text-secondary)" }}>
                 {car.brand} &bull; {car.year}
               </p>
             </div>
@@ -86,15 +86,15 @@ export default function CarCard({ car, index = 0 }: CarCardProps) {
             <div className="grid grid-cols-3 gap-3">
               <div className="flex items-center gap-2 text-theme-secondary">
                 <Users className="w-4 h-4 text-electric-cyan/60" />
-                <span className="font-inter text-xs">{car.seats}</span>
+                <span className="font-sans text-xs">{car.seats}</span>
               </div>
               <div className="flex items-center gap-2 text-theme-secondary">
                 <Luggage className="w-4 h-4 text-electric-cyan/60" />
-                <span className="font-inter text-xs">{car.luggage}</span>
+                <span className="font-sans text-xs">{car.luggage}</span>
               </div>
               <div className="flex items-center gap-2 text-theme-secondary">
                 <Gauge className="w-4 h-4 text-electric-cyan/60" />
-                <span className="font-inter text-xs">
+                <span className="font-sans text-xs">
                   {car.transmission === "Automatic" ? "Auto" : "Manual"}
                 </span>
               </div>
@@ -106,14 +106,14 @@ export default function CarCard({ car, index = 0 }: CarCardProps) {
             {/* Price & CTA */}
             <div className="flex items-end justify-between">
               <div>
-                <span className="font-orbitron text-xl font-bold text-gradient">
+                <span className="font-playfair text-xl font-bold text-gradient">
                   Rs. {car.pricePerDay.toLocaleString()}
                 </span>
-                <span className="font-inter text-xs text-theme-secondary ml-1">
+                <span className="font-sans text-xs text-theme-secondary ml-1">
                   / day
                 </span>
               </div>
-              <div className="flex items-center gap-1 text-electric-cyan font-inter text-sm font-medium group-hover:gap-2 transition-all">
+              <div className="flex items-center gap-1 text-electric-cyan font-sans text-sm font-medium group-hover:gap-2 transition-all">
                 <span>Details</span>
                 <ArrowRight className="w-4 h-4" />
               </div>

@@ -31,7 +31,7 @@ export default function Footer() {
   };
 
   return (
-    <footer style={{ background: "#0A1A2E", borderColor: "rgba(32, 224, 255, 0.1)" }} className="border-t">
+    <footer style={{ background: "#161210", borderColor: "rgba(201, 169, 110, 0.1)" }} className="border-t">
       {/* Main Footer */}
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
@@ -44,7 +44,7 @@ export default function Footer() {
                 className="h-28 w-auto"
               />
             </Link>
-            <p className="font-inter text-silver-chrome text-sm leading-relaxed">
+            <p className="font-sans text-silver-chrome text-sm leading-relaxed">
               Trusted rent-a-car service in Islamabad and Rawalpindi. Luxury
               and affordable vehicles with professional drivers and 24/7 support.
             </p>
@@ -70,7 +70,7 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-orbitron text-sm font-semibold mb-6 tracking-wider text-white">
+            <h4 className="font-playfair text-sm font-semibold mb-6 tracking-wider text-white">
               COMPANY
             </h4>
             <ul className="space-y-3">
@@ -78,7 +78,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="font-inter text-sm text-silver-chrome hover:text-electric-cyan transition-colors"
+                    className="font-sans text-sm text-silver-chrome hover:text-electric-cyan transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -89,7 +89,7 @@ export default function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="font-orbitron text-sm font-semibold mb-6 tracking-wider text-white">
+            <h4 className="font-playfair text-sm font-semibold mb-6 tracking-wider text-white">
               SERVICES
             </h4>
             <ul className="space-y-3">
@@ -97,7 +97,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="font-inter text-sm text-silver-chrome hover:text-electric-cyan transition-colors"
+                    className="font-sans text-sm text-silver-chrome hover:text-electric-cyan transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -108,13 +108,13 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h4 className="font-orbitron text-sm font-semibold mb-6 tracking-wider text-white">
+            <h4 className="font-playfair text-sm font-semibold mb-6 tracking-wider text-white">
               CONTACT US
             </h4>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-electric-cyan mt-0.5 flex-shrink-0" />
-                <span className="font-inter text-sm text-silver-chrome">
+                <span className="font-sans text-sm text-silver-chrome">
                   {CONTACT.address}
                 </span>
               </li>
@@ -124,7 +124,7 @@ export default function Footer() {
                   className="flex items-center gap-3 text-silver-chrome hover:text-electric-cyan transition-colors"
                 >
                   <Phone className="w-5 h-5 text-electric-cyan flex-shrink-0" />
-                  <span className="font-inter text-sm">{CONTACT.phone}</span>
+                  <span className="font-sans text-sm">{CONTACT.phone}</span>
                 </a>
               </li>
               <li>
@@ -133,12 +133,12 @@ export default function Footer() {
                   className="flex items-center gap-3 text-silver-chrome hover:text-electric-cyan transition-colors"
                 >
                   <Mail className="w-5 h-5 text-electric-cyan flex-shrink-0" />
-                  <span className="font-inter text-sm">{CONTACT.email}</span>
+                  <span className="font-sans text-sm">{CONTACT.email}</span>
                 </a>
               </li>
               <li className="flex items-start gap-3">
                 <Clock className="w-5 h-5 text-electric-cyan mt-0.5 flex-shrink-0" />
-                <span className="font-inter text-sm text-silver-chrome">
+                <span className="font-sans text-sm text-silver-chrome">
                   Available 24/7 for bookings
                 </span>
               </li>
@@ -148,10 +148,10 @@ export default function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t" style={{ borderColor: "rgba(32, 224, 255, 0.1)" }}>
+      <div className="border-t" style={{ borderColor: "rgba(201, 169, 110, 0.1)" }}>
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="font-inter text-sm text-silver-chrome">
+            <p className="font-sans text-sm text-silver-chrome">
               &copy; {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
             </p>
             <button

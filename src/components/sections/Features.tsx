@@ -60,13 +60,13 @@ export default function Features() {
           viewport={{ once: true }}
           className="text-center mb-16 space-y-4"
         >
-          <span className="font-inter text-sm text-electric-cyan font-medium tracking-wider uppercase">
+          <span className="font-sans text-sm text-electric-cyan font-medium tracking-wider uppercase">
             Why Choose Us
           </span>
-          <h2 className="font-orbitron text-3xl sm:text-4xl font-bold" style={{ color: "var(--text-primary)" }}>
+          <h2 className="font-playfair text-3xl sm:text-4xl font-bold" style={{ color: "var(--text-primary)" }}>
             THE <span className="text-gradient">APEX</span> ADVANTAGE
           </h2>
-          <p className="font-inter max-w-2xl mx-auto" style={{ color: "var(--text-secondary)" }}>
+          <p className="font-sans max-w-2xl mx-auto" style={{ color: "var(--text-secondary)" }}>
             We don&apos;t just rent cars. We deliver experiences. Discover why
             clients trust Apex Royale Drives in Islamabad and Rawalpindi.
           </p>
@@ -87,10 +87,10 @@ export default function Features() {
                 <div className="w-14 h-14 rounded-xl bg-electric-cyan/10 flex items-center justify-center mb-5 group-hover:bg-electric-cyan/20 transition-colors">
                   <feature.icon className="w-7 h-7 text-electric-cyan" aria-hidden="true" />
                 </div>
-                <h3 className="font-orbitron text-lg font-bold mb-3 group-hover:text-electric-cyan transition-colors" style={{ color: "var(--text-primary)" }}>
+                <h3 className="font-playfair text-lg font-bold mb-3 group-hover:text-electric-cyan transition-colors" style={{ color: "var(--text-primary)" }}>
                   {feature.title}
                 </h3>
-                <p className="font-inter text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                <p className="font-sans text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
                   {feature.description}
                 </p>
               </div>

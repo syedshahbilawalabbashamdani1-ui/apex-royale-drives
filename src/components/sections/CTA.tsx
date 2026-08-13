@@ -14,7 +14,7 @@ export default function CTA() {
 
       {/* Glow effects */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-electric-cyan/10 rounded-full blur-[120px]" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-deep-ocean/20 rounded-full blur-[120px]" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-electric-cyan/3 rounded-full blur-[120px]" />
 
       <div className="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <motion.div
@@ -23,13 +23,13 @@ export default function CTA() {
           viewport={{ once: true }}
           className="space-y-8"
         >
-          <h2 className="font-orbitron text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight" style={{ color: "var(--text-primary)" }}>
+          <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight" style={{ color: "var(--text-primary)" }}>
             READY TO HIT
             <br />
             <span className="text-gradient">THE ROAD?</span>
           </h2>
 
-          <p className="font-inter text-lg max-w-2xl mx-auto" style={{ color: "var(--text-secondary)" }}>
+          <p className="font-sans text-lg max-w-2xl mx-auto" style={{ color: "var(--text-secondary)" }}>
             Book your car today and experience comfortable, reliable travel in
             Islamabad and Rawalpindi. Special rates for weekly and monthly rentals.
           </p>
@@ -64,7 +64,7 @@ export default function CTA() {
                 style={{ color: "var(--text-secondary)" }}
               >
                 <div className="w-2 h-2 rounded-full bg-electric-cyan" />
-                <span className="font-inter text-sm">{badge}</span>
+                <span className="font-sans text-sm">{badge}</span>
               </div>
             ))}
           </div>

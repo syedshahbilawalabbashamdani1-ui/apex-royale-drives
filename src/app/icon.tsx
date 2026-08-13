@@ -16,7 +16,7 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#0A1A2E",
+          background: "#161210",
           borderRadius: "6px",
           position: "relative",
         }}
@@ -32,8 +32,8 @@ export default function Icon() {
         >
           <defs>
             <linearGradient id="gearGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#20E0FF" />
-              <stop offset="100%" stopColor="#14649B" />
+              <stop offset="0%" stopColor="#C9A96E" />
+              <stop offset="100%" stopColor="#92702A" />
             </linearGradient>
           </defs>
           {/* Gear teeth */}

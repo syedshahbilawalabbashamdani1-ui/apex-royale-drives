@@ -56,10 +56,10 @@ export default function ContactPage() {
             animate={{ opacity: 1, y: 0 }}
             className="text-center space-y-4"
           >
-            <h1 className="font-orbitron text-4xl sm:text-5xl font-bold text-theme-primary">
+            <h1 className="font-playfair text-4xl sm:text-5xl font-bold text-theme-primary">
               CONTACT <span className="text-gradient">US</span>
             </h1>
-            <p className="font-inter text-theme-secondary max-w-2xl mx-auto">
+            <p className="font-sans text-theme-secondary max-w-2xl mx-auto">
               Have questions? We&apos;re here to help. Reach out to us via any of
               the following channels.
             </p>
@@ -76,10 +76,10 @@ export default function ContactPage() {
             className="space-y-8"
           >
             <div>
-              <h2 className="font-orbitron text-2xl font-bold text-theme-primary mb-4">
+              <h2 className="font-playfair text-2xl font-bold text-theme-primary mb-4">
                 GET IN <span className="text-gradient">TOUCH</span>
               </h2>
-              <p className="font-inter text-theme-secondary leading-relaxed">
+              <p className="font-sans text-theme-secondary leading-relaxed">
                 Whether you need a car for a day or a month, have questions about
                 our fleet, or want to discuss corporate partnerships, we&apos;re
                 ready to assist.
@@ -95,13 +95,13 @@ export default function ContactPage() {
                   <Phone className="w-6 h-6 text-electric-cyan" />
                 </div>
                 <div>
-                  <h3 className="font-orbitron text-sm font-bold text-theme-primary group-hover:text-electric-cyan transition-colors">
+                  <h3 className="font-playfair text-sm font-bold text-theme-primary group-hover:text-electric-cyan transition-colors">
                     Phone
                   </h3>
-                  <p className="font-inter text-sm text-theme-secondary mt-1">
+                  <p className="font-sans text-sm text-theme-secondary mt-1">
                     {CONTACT.phone}
                   </p>
-                  <p className="font-inter text-xs text-theme-secondary/60 mt-1">
+                  <p className="font-sans text-xs text-theme-secondary/60 mt-1">
                     Available 24/7
                   </p>
                 </div>
@@ -115,13 +115,13 @@ export default function ContactPage() {
                   <Mail className="w-6 h-6 text-electric-cyan" />
                 </div>
                 <div>
-                  <h3 className="font-orbitron text-sm font-bold text-theme-primary group-hover:text-electric-cyan transition-colors">
+                  <h3 className="font-playfair text-sm font-bold text-theme-primary group-hover:text-electric-cyan transition-colors">
                     Email
                   </h3>
-                  <p className="font-inter text-sm text-theme-secondary mt-1">
+                  <p className="font-sans text-sm text-theme-secondary mt-1">
                     {CONTACT.email}
                   </p>
-                  <p className="font-inter text-xs text-theme-secondary/60 mt-1">
+                  <p className="font-sans text-xs text-theme-secondary/60 mt-1">
                     Response within 2 hours
                   </p>
                 </div>
@@ -132,10 +132,10 @@ export default function ContactPage() {
                   <MapPin className="w-6 h-6 text-electric-cyan" />
                 </div>
                 <div>
-                  <h3 className="font-orbitron text-sm font-bold text-theme-primary">
+                  <h3 className="font-playfair text-sm font-bold text-theme-primary">
                     Location
                   </h3>
-                  <p className="font-inter text-sm text-theme-secondary mt-1">
+                  <p className="font-sans text-sm text-theme-secondary mt-1">
                     {CONTACT.address}
                   </p>
                 </div>
@@ -146,13 +146,13 @@ export default function ContactPage() {
                   <Clock className="w-6 h-6 text-electric-cyan" />
                 </div>
                 <div>
-                  <h3 className="font-orbitron text-sm font-bold text-theme-primary">
+                  <h3 className="font-playfair text-sm font-bold text-theme-primary">
                     Working Hours
                   </h3>
-                  <p className="font-inter text-sm text-theme-secondary mt-1">
+                  <p className="font-sans text-sm text-theme-secondary mt-1">
                     24/7 - Always Available
                   </p>
-                  <p className="font-inter text-xs text-theme-secondary/60 mt-1">
+                  <p className="font-sans text-xs text-theme-secondary/60 mt-1">
                     Office: 9 AM - 9 PM
                   </p>
                 </div>
@@ -164,7 +164,7 @@ export default function ContactPage() {
               href={`https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent("Hi, I have a question about car rental")}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-3 w-full py-4 bg-green-600 hover:bg-green-700 rounded-lg font-inter text-theme-primary font-medium transition-colors"
+              className="flex items-center justify-center gap-3 w-full py-4 bg-green-600 hover:bg-green-700 rounded-lg font-sans text-theme-primary font-medium transition-colors"
             >
               <WhatsAppIcon className="w-5 h-5" />
               Chat on WhatsApp
@@ -177,13 +177,13 @@ export default function ContactPage() {
             animate={{ opacity: 1, x: 0 }}
           >
             <form onSubmit={handleSubmit} className="card-dark p-8 space-y-6">
-              <h3 className="font-orbitron text-xl font-bold text-theme-primary">
+              <h3 className="font-playfair text-xl font-bold text-theme-primary">
                 SEND A MESSAGE
               </h3>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="contact-name" className="block font-inter text-sm text-theme-secondary mb-2">
+                  <label htmlFor="contact-name" className="block font-sans text-sm text-theme-secondary mb-2">
                     Full Name
                   </label>
                   <input
@@ -195,13 +195,13 @@ export default function ContactPage() {
                     }
                     required
                     placeholder="Enter your name"
-                    className="w-full px-4 py-3 border border-electric-cyan/10 rounded-lg font-inter text-sm text-theme-primary placeholder:text-theme-secondary/50 focus:outline-none focus:border-electric-cyan/30 transition-colors"
+                    className="w-full px-4 py-3 border border-electric-cyan/10 rounded-lg font-sans text-sm text-theme-primary placeholder:text-theme-secondary/50 focus:outline-none focus:border-electric-cyan/30 transition-colors"
                     style={{ background: "var(--bg-primary)" }}
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="contact-email" className="block font-inter text-sm text-theme-secondary mb-2">
+                  <label htmlFor="contact-email" className="block font-sans text-sm text-theme-secondary mb-2">
                     Email
                   </label>
                   <input
@@ -213,18 +213,18 @@ export default function ContactPage() {
                     }
                     required
                     placeholder="Enter your email"
-                    className="w-full px-4 py-3 border border-electric-cyan/10 rounded-lg font-inter text-sm text-theme-primary placeholder:text-theme-secondary/50 focus:outline-none focus:border-electric-cyan/30 transition-colors"
+                    className="w-full px-4 py-3 border border-electric-cyan/10 rounded-lg font-sans text-sm text-theme-primary placeholder:text-theme-secondary/50 focus:outline-none focus:border-electric-cyan/30 transition-colors"
                     style={{ background: "var(--bg-primary)" }}
                   />
                   {errors.email && (
-                    <p className="font-inter text-xs text-red-400 mt-1">{errors.email}</p>
+                    <p className="font-sans text-xs text-red-400 mt-1">{errors.email}</p>
                   )}
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="contact-phone" className="block font-inter text-sm text-theme-secondary mb-2">
+                  <label htmlFor="contact-phone" className="block font-sans text-sm text-theme-secondary mb-2">
                     Phone
                   </label>
                   <input
@@ -235,16 +235,16 @@ export default function ContactPage() {
                       setFormData({ ...formData, phone: e.target.value })
                     }
                     placeholder="+92 300 123 4567"
-                    className="w-full px-4 py-3 border border-electric-cyan/10 rounded-lg font-inter text-sm text-theme-primary placeholder:text-theme-secondary/50 focus:outline-none focus:border-electric-cyan/30 transition-colors"
+                    className="w-full px-4 py-3 border border-electric-cyan/10 rounded-lg font-sans text-sm text-theme-primary placeholder:text-theme-secondary/50 focus:outline-none focus:border-electric-cyan/30 transition-colors"
                     style={{ background: "var(--bg-primary)" }}
                   />
                   {errors.phone && (
-                    <p className="font-inter text-xs text-red-400 mt-1">{errors.phone}</p>
+                    <p className="font-sans text-xs text-red-400 mt-1">{errors.phone}</p>
                   )}
                 </div>
 
                 <div>
-                  <label htmlFor="contact-subject" className="block font-inter text-sm text-theme-secondary mb-2">
+                  <label htmlFor="contact-subject" className="block font-sans text-sm text-theme-secondary mb-2">
                     Subject
                   </label>
                   <select
@@ -254,7 +254,7 @@ export default function ContactPage() {
                       setFormData({ ...formData, subject: e.target.value })
                     }
                     required
-                    className="w-full px-4 py-3 border border-electric-cyan/10 rounded-lg font-inter text-sm text-theme-primary focus:outline-none focus:border-electric-cyan/30 transition-colors"
+                    className="w-full px-4 py-3 border border-electric-cyan/10 rounded-lg font-sans text-sm text-theme-primary focus:outline-none focus:border-electric-cyan/30 transition-colors"
                     style={{ background: "var(--bg-primary)" }}
                   >
                     <option value="">Select a subject</option>
@@ -268,7 +268,7 @@ export default function ContactPage() {
               </div>
 
               <div>
-                <label htmlFor="contact-message" className="block font-inter text-sm text-theme-secondary mb-2">
+                <label htmlFor="contact-message" className="block font-sans text-sm text-theme-secondary mb-2">
                   Message
                 </label>
                 <textarea
@@ -280,7 +280,7 @@ export default function ContactPage() {
                   required
                   rows={5}
                   placeholder="Tell us how we can help..."
-                  className="w-full px-4 py-3 border border-electric-cyan/10 rounded-lg font-inter text-sm text-theme-primary placeholder:text-theme-secondary/50 focus:outline-none focus:border-electric-cyan/30 transition-colors resize-none"
+                  className="w-full px-4 py-3 border border-electric-cyan/10 rounded-lg font-sans text-sm text-theme-primary placeholder:text-theme-secondary/50 focus:outline-none focus:border-electric-cyan/30 transition-colors resize-none"
                   style={{ background: "var(--bg-primary)" }}
                 />
               </div>
