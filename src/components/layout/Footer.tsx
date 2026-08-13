@@ -70,7 +70,7 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-playfair text-sm font-semibold mb-6 tracking-wider text-white">
+            <h4 className="font-general-sans text-sm font-semibold mb-6 tracking-wider text-white">
               COMPANY
             </h4>
             <ul className="space-y-3">
@@ -89,7 +89,7 @@ export default function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="font-playfair text-sm font-semibold mb-6 tracking-wider text-white">
+            <h4 className="font-general-sans text-sm font-semibold mb-6 tracking-wider text-white">
               SERVICES
             </h4>
             <ul className="space-y-3">
@@ -108,7 +108,7 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h4 className="font-playfair text-sm font-semibold mb-6 tracking-wider text-white">
+            <h4 className="font-general-sans text-sm font-semibold mb-6 tracking-wider text-white">
               CONTACT US
             </h4>
             <ul className="space-y-4">

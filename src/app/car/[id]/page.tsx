@@ -1,7 +1,7 @@
 "use client";
 
-import { use, useState } from "react";
-import { motion } from "framer-motion";
+import { use, useEffect, useState, useSyncExternalStore } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { cars } from "@/lib/cars";
@@ -18,6 +18,31 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+const SAVED_STORAGE_KEY = "apex-saved-cars";
+const SAVED_CHANGED_EVENT = "apex-saved-changed";
+
+function readSavedIds(): string[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = window.localStorage.getItem(SAVED_STORAGE_KEY);
+    const ids: unknown = raw ? JSON.parse(raw) : [];
+    return Array.isArray(ids)
+      ? ids.filter((id): id is string => typeof id === "string")
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+function subscribeSaved(onStoreChange: () => void) {
+  window.addEventListener(SAVED_CHANGED_EVENT, onStoreChange);
+  window.addEventListener("storage", onStoreChange);
+  return () => {
+    window.removeEventListener(SAVED_CHANGED_EVENT, onStoreChange);
+    window.removeEventListener("storage", onStoreChange);
+  };
+}
+
 export default function CarDetailPage({
   params,
 }: {
@@ -26,12 +51,62 @@ export default function CarDetailPage({
   const { id } = use(params);
   const car = cars.find((c) => c.id === id);
   const [activeTab, setActiveTab] = useState<"preview" | "specs" | "features">("preview");
+  const [toast, setToast] = useState<{ id: number; message: string } | null>(null);
+
+  const isSaved = useSyncExternalStore(
+    subscribeSaved,
+    () => readSavedIds().includes(car?.id ?? ""),
+    () => false
+  );
+
+  useEffect(() => {
+    if (!toast) return;
+    const timer = setTimeout(() => setToast(null), 2500);
+    return () => clearTimeout(timer);
+  }, [toast]);
+
+  const showToast = (message: string) => setToast({ id: Date.now(), message });
+
+  const toggleSave = () => {
+    if (!car) return;
+    const next = !isSaved;
+    const updated = next
+      ? [...readSavedIds(), car.id]
+      : readSavedIds().filter((id) => id !== car.id);
+    try {
+      window.localStorage.setItem(SAVED_STORAGE_KEY, JSON.stringify(updated));
+    } catch {}
+    window.dispatchEvent(new Event(SAVED_CHANGED_EVENT));
+    showToast(next ? "Saved to wishlist" : "Removed from wishlist");
+  };
+
+  const handleShare = async () => {
+    if (!car) return;
+    const url = `${window.location.origin}/car/${car.id}`;
+    const shareData = {
+      title: `${car.name} — Apex Royale Drives`,
+      text: `Check out the ${car.name} at Apex Royale Drives.`,
+      url,
+    };
+    if (typeof navigator !== "undefined" && typeof navigator.share === "function") {
+      try {
+        await navigator.share(shareData);
+        return;
+      } catch {}
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+      showToast("Link copied");
+    } catch {
+      showToast("Couldn't copy link");
+    }
+  };
 
   if (!car) {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: "var(--bg-primary)" }}>
         <div className="text-center">
-          <h1 className="font-playfair text-2xl font-bold mb-4" style={{ color: "var(--text-primary)" }}>
+          <h1 className="font-general-sans text-2xl font-bold mb-4" style={{ color: "var(--text-primary)" }}>
             Car Not Found
           </h1>
           <Link href="/fleet" className="btn-primary">
@@ -114,7 +189,7 @@ export default function CarDetailPage({
                         className="w-24 h-24 rounded-2xl flex items-center justify-center mx-auto mb-4"
                         style={{ background: "var(--bg-secondary)" }}
                       >
-                        <span className="font-playfair text-4xl font-bold text-electric-cyan/40">
+                        <span className="font-general-sans text-4xl font-bold text-electric-cyan/40">
                           {car.brand.charAt(0)}
                         </span>
                       </div>
@@ -128,7 +203,7 @@ export default function CarDetailPage({
 
               {activeTab === "specs" && (
                 <div className="p-6 space-y-4">
-                  <h3 className="font-playfair text-lg font-bold mb-4" style={{ color: "var(--text-primary)" }}>
+                  <h3 className="font-general-sans text-lg font-bold mb-4" style={{ color: "var(--text-primary)" }}>
                     Specifications
                   </h3>
                   <div className="space-y-3">
@@ -161,7 +236,7 @@ export default function CarDetailPage({
 
               {activeTab === "features" && (
                 <div className="p-6">
-                  <h3 className="font-playfair text-lg font-bold mb-4" style={{ color: "var(--text-primary)" }}>
+                  <h3 className="font-general-sans text-lg font-bold mb-4" style={{ color: "var(--text-primary)" }}>
                     Features & Amenities
                   </h3>
                   <div className="grid grid-cols-2 gap-3">
@@ -183,11 +258,33 @@ export default function CarDetailPage({
 
             {/* Action Buttons */}
             <div className="flex gap-3">
-              <button className="flex-1 flex items-center justify-center gap-2 py-3 rounded-lg transition-colors" style={{ background: "var(--bg-secondary)", color: "var(--text-secondary)" }}>
-                <Heart className="w-5 h-5" />
-                <span className="font-sans text-sm">Save</span>
+              <button
+                onClick={toggleSave}
+                type="button"
+                className="flex-1 flex items-center justify-center gap-2 py-3 rounded-lg transition-colors cursor-pointer"
+                style={{
+                  background: isSaved
+                    ? "rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.12)"
+                    : "var(--bg-secondary)",
+                  color: isSaved ? "var(--accent)" : "var(--text-secondary)",
+                  border: isSaved
+                    ? "1px solid rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.4)"
+                    : "1px solid transparent",
+                }}
+              >
+                <Heart className={cn("w-5 h-5", isSaved && "fill-current")} />
+                <span className="font-sans text-sm">{isSaved ? "Saved" : "Save"}</span>
               </button>
-              <button className="flex-1 flex items-center justify-center gap-2 py-3 rounded-lg transition-colors" style={{ background: "var(--bg-secondary)", color: "var(--text-secondary)" }}>
+              <button
+                onClick={handleShare}
+                type="button"
+                className="flex-1 flex items-center justify-center gap-2 py-3 rounded-lg transition-colors cursor-pointer"
+                style={{
+                  background: "var(--bg-secondary)",
+                  color: "var(--text-secondary)",
+                  border: "1px solid transparent",
+                }}
+              >
                 <Share2 className="w-5 h-5" />
                 <span className="font-sans text-sm">Share</span>
               </button>
@@ -207,7 +304,7 @@ export default function CarDetailPage({
 
             {/* Title */}
             <div>
-              <h1 className="font-playfair text-3xl sm:text-4xl font-bold" style={{ color: "var(--text-primary)" }}>
+              <h1 className="font-general-sans text-3xl sm:text-4xl font-bold" style={{ color: "var(--text-primary)" }}>
                 {car.name}
               </h1>
               <p className="font-sans text-lg mt-1" style={{ color: "var(--text-secondary)" }}>
@@ -249,12 +346,12 @@ export default function CarDetailPage({
 
             {/* Pricing */}
             <div className="card-dark p-6 space-y-4">
-              <h3 className="font-playfair text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
+              <h3 className="font-general-sans text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
                 PRICING
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="text-center p-4 rounded-lg" style={{ background: "var(--bg-primary)" }}>
-                  <div className="font-playfair text-lg sm:text-xl font-bold text-gradient">
+                  <div className="font-general-sans text-lg sm:text-xl font-bold text-gradient">
                     Rs. {car.pricePerDay.toLocaleString()}
                   </div>
                   <div className="font-sans text-xs mt-1" style={{ color: "var(--text-secondary)" }}>
@@ -263,7 +360,7 @@ export default function CarDetailPage({
                 </div>
                 {car.pricePerWeek && (
                   <div className="text-center p-4 rounded-lg" style={{ background: "var(--bg-primary)" }}>
-                    <div className="font-playfair text-lg sm:text-xl font-bold text-gradient">
+                    <div className="font-general-sans text-lg sm:text-xl font-bold text-gradient">
                       Rs. {car.pricePerWeek.toLocaleString()}
                     </div>
                     <div className="font-sans text-xs mt-1" style={{ color: "var(--text-secondary)" }}>
@@ -273,7 +370,7 @@ export default function CarDetailPage({
                 )}
                 {car.pricePerMonth && (
                   <div className="text-center p-4 rounded-lg" style={{ background: "var(--bg-primary)" }}>
-                    <div className="font-playfair text-lg sm:text-xl font-bold text-gradient">
+                    <div className="font-general-sans text-lg sm:text-xl font-bold text-gradient">
                       Rs. {car.pricePerMonth.toLocaleString()}
                     </div>
                     <div className="font-sans text-xs mt-1" style={{ color: "var(--text-secondary)" }}>
@@ -311,7 +408,7 @@ export default function CarDetailPage({
         {/* Related Cars */}
         {relatedCars.length > 0 && (
           <div className="mt-24">
-            <h2 className="font-playfair text-2xl font-bold mb-8" style={{ color: "var(--text-primary)" }}>
+            <h2 className="font-general-sans text-2xl font-bold mb-8" style={{ color: "var(--text-primary)" }}>
               SIMILAR <span className="text-gradient">VEHICLES</span>
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -332,19 +429,19 @@ export default function CarDetailPage({
                         loading="lazy"
                       />
                     ) : (
-                      <span className="font-playfair text-3xl font-bold text-electric-cyan/30">
+                      <span className="font-general-sans text-3xl font-bold text-electric-cyan/30">
                         {relatedCar.brand.charAt(0)}
                       </span>
                     )}
                   </div>
-                  <h3 className="font-playfair text-lg font-bold group-hover:text-electric-cyan transition-colors" style={{ color: "var(--text-primary)" }}>
+                  <h3 className="font-general-sans text-lg font-bold group-hover:text-electric-cyan transition-colors" style={{ color: "var(--text-primary)" }}>
                     {relatedCar.name}
                   </h3>
                   <p className="font-sans text-sm" style={{ color: "var(--text-secondary)" }}>
                     {relatedCar.brand}
                   </p>
                   <div className="mt-3 flex items-center justify-between">
-                    <span className="font-playfair text-lg font-bold text-gradient">
+                    <span className="font-general-sans text-lg font-bold text-gradient">
                       Rs. {relatedCar.pricePerDay.toLocaleString()}/day
                     </span>
                   </div>
@@ -353,6 +450,31 @@ export default function CarDetailPage({
             </div>
           </div>
         )}
+
+        <AnimatePresence>
+          {toast && (
+            <motion.div
+              key={toast.id}
+              className="fixed bottom-6 left-0 right-0 z-[100] flex justify-center px-4 pointer-events-none"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 16 }}
+              transition={{ duration: 0.2 }}
+            >
+              <div
+                className="px-5 py-2.5 rounded-lg font-sans text-sm"
+                style={{
+                  background: "var(--bg-secondary)",
+                  color: "var(--text-primary)",
+                  border: "1px solid rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.35)",
+                  boxShadow: "0 10px 30px rgba(0, 0, 0, 0.4)",
+                }}
+              >
+                {toast.message}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

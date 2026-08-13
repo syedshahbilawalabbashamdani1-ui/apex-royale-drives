@@ -62,7 +62,7 @@ export default function AboutPage() {
             <span className="font-sans text-sm text-electric-cyan font-medium tracking-wider uppercase">
               About Us
             </span>
-            <h1 className="font-playfair text-4xl sm:text-5xl lg:text-6xl font-bold text-theme-primary mt-4 mb-6">
+            <h1 className="font-general-sans text-4xl sm:text-5xl lg:text-6xl font-bold text-theme-primary mt-4 mb-6">
               DRIVING <span className="text-gradient">EXCELLENCE</span>
             </h1>
             <p className="font-sans text-lg text-theme-secondary leading-relaxed">
@@ -90,7 +90,7 @@ export default function AboutPage() {
                 <div className="w-14 h-14 rounded-xl bg-electric-cyan/10 flex items-center justify-center mx-auto mb-4">
                   <stat.icon className="w-7 h-7 text-electric-cyan" />
                 </div>
-                <div className="font-playfair text-3xl font-bold text-gradient">
+                <div className="font-general-sans text-3xl font-bold text-gradient">
                   {stat.value}
                 </div>
                 <div className="font-sans text-sm text-theme-secondary mt-1">
@@ -115,7 +115,7 @@ export default function AboutPage() {
               <span className="font-sans text-sm text-electric-cyan font-medium tracking-wider uppercase">
                 Our Story
               </span>
-              <h2 className="font-playfair text-3xl font-bold text-theme-primary">
+              <h2 className="font-general-sans text-3xl font-bold text-theme-primary">
                 FROM A VISION TO <span className="text-gradient">REALITY</span>
               </h2>
               <div className="space-y-4 font-sans text-theme-secondary leading-relaxed">
@@ -174,7 +174,7 @@ export default function AboutPage() {
             <span className="font-sans text-sm text-electric-cyan font-medium tracking-wider uppercase">
               Our Values
             </span>
-            <h2 className="font-playfair text-3xl font-bold text-theme-primary">
+            <h2 className="font-general-sans text-3xl font-bold text-theme-primary">
               WHAT <span className="text-gradient">DRIVES</span> US
             </h2>
           </motion.div>
@@ -192,7 +192,7 @@ export default function AboutPage() {
                 <div className="w-16 h-16 rounded-xl bg-electric-cyan/10 flex items-center justify-center mx-auto mb-6">
                   <value.icon className="w-8 h-8 text-electric-cyan" />
                 </div>
-                <h3 className="font-playfair text-xl font-bold text-theme-primary mb-3">
+                <h3 className="font-general-sans text-xl font-bold text-theme-primary mb-3">
                   {value.title}
                 </h3>
                 <p className="font-sans text-sm text-theme-secondary leading-relaxed">
@@ -216,7 +216,7 @@ export default function AboutPage() {
             <span className="font-sans text-sm text-electric-cyan font-medium tracking-wider uppercase">
               Our Fleet
             </span>
-            <h2 className="font-playfair text-3xl font-bold text-theme-primary">
+            <h2 className="font-general-sans text-3xl font-bold text-theme-primary">
               VEHICLES WE <span className="text-gradient">OFFER</span>
             </h2>
           </motion.div>
@@ -238,7 +238,7 @@ export default function AboutPage() {
                 transition={{ delay: index * 0.1 }}
                 className="card-dark p-6 hover:border-electric-cyan/30 transition-all"
               >
-                <h3 className="font-playfair text-lg font-bold text-gradient mb-2">
+                <h3 className="font-general-sans text-lg font-bold text-gradient mb-2">
                   {item.category}
                 </h3>
                 <p className="font-sans text-sm text-theme-secondary">
@@ -259,7 +259,7 @@ export default function AboutPage() {
             viewport={{ once: true }}
             className="space-y-8"
           >
-            <h2 className="font-playfair text-3xl font-bold text-theme-primary">
+            <h2 className="font-general-sans text-3xl font-bold text-theme-primary">
               GET IN <span className="text-gradient">TOUCH</span>
             </h2>
             <p className="font-sans text-lg text-theme-secondary">
@@ -272,7 +272,7 @@ export default function AboutPage() {
                 className="card-dark p-6 hover:border-electric-cyan/30 transition-all group"
               >
                 <Phone className="w-8 h-8 text-electric-cyan mx-auto mb-3" />
-                <h4 className="font-playfair text-sm font-bold text-theme-primary group-hover:text-electric-cyan transition-colors">
+                <h4 className="font-general-sans text-sm font-bold text-theme-primary group-hover:text-electric-cyan transition-colors">
                   Call Us
                 </h4>
                 <p className="font-sans text-sm text-theme-secondary mt-1">
@@ -285,7 +285,7 @@ export default function AboutPage() {
                 className="card-dark p-6 hover:border-electric-cyan/30 transition-all group"
               >
                 <Mail className="w-8 h-8 text-electric-cyan mx-auto mb-3" />
-                <h4 className="font-playfair text-sm font-bold text-theme-primary group-hover:text-electric-cyan transition-colors">
+                <h4 className="font-general-sans text-sm font-bold text-theme-primary group-hover:text-electric-cyan transition-colors">
                   Email Us
                 </h4>
                 <p className="font-sans text-sm text-theme-secondary mt-1">
@@ -295,7 +295,7 @@ export default function AboutPage() {
 
               <div className="card-dark p-6">
                 <Clock className="w-8 h-8 text-electric-cyan mx-auto mb-3" />
-                <h4 className="font-playfair text-sm font-bold text-theme-primary">
+                <h4 className="font-general-sans text-sm font-bold text-theme-primary">
                   Working Hours
                 </h4>
                 <p className="font-sans text-sm text-theme-secondary mt-1">

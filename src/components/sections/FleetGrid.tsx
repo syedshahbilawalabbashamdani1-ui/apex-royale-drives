@@ -22,7 +22,7 @@ export default function FleetGrid() {
           <span className="font-sans text-sm text-electric-cyan font-medium tracking-wider uppercase">
             Our Fleet
           </span>
-          <h2 className="font-playfair text-3xl sm:text-4xl font-bold" style={{ color: "var(--text-primary)" }}>
+          <h2 className="font-general-sans text-3xl sm:text-4xl font-bold" style={{ color: "var(--text-primary)" }}>
             FEATURED <span className="text-gradient">VEHICLES</span>
           </h2>
           <p className="font-sans max-w-2xl mx-auto" style={{ color: "var(--text-secondary)" }}>

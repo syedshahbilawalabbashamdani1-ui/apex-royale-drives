@@ -13,10 +13,10 @@ export default function NotFound() {
 
         {/* Heading */}
         <div className="space-y-3">
-          <h1 className="font-playfair text-6xl font-black text-gradient">
+          <h1 className="font-general-sans text-6xl font-black text-gradient">
             404
           </h1>
-          <h2 className="font-playfair text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
+          <h2 className="font-general-sans text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
             Page Not Found
           </h2>
         </div>

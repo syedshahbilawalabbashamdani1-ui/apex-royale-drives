@@ -55,11 +55,11 @@ const REVIEWS: Review[] = [
 /* ── helpers ──────────────────────────────────────────────── */
 
 const AVATAR_COLORS = [
-  "from-electric-cyan to-deep-ocean",
-  "from-deep-ocean to-midnight-navy",
-  "from-electric-cyan to-accent-glow",
-  "from-midnight-navy to-deep-ocean",
-  "from-accent-glow to-electric-cyan",
+  "from-champagne to-deep-black",
+  "from-warm-charcoal to-deep-black",
+  "from-champagne-light to-warm-charcoal",
+  "from-warm-gray to-deep-black",
+  "from-silver-chrome to-warm-charcoal",
 ];
 
 function getInitials(name: string): string {
@@ -123,7 +123,7 @@ function ReviewCard({ review, index }: { review: Review; index: number }) {
             AVATAR_COLORS[index % AVATAR_COLORS.length]
           } flex items-center justify-center flex-shrink-0`}
         >
-          <span className="font-playfair text-xs font-bold text-white">
+          <span className="font-general-sans text-xs font-bold text-white">
             {getInitials(review.name)}
           </span>
         </div>
@@ -192,7 +192,7 @@ export default function GoogleReviews() {
             Reviews
           </span>
           <h2
-            className="font-playfair text-3xl sm:text-4xl font-bold"
+            className="font-general-sans text-3xl sm:text-4xl font-bold"
             style={{ color: "var(--text-primary)" }}
           >
             WHAT OUR <span className="text-gradient">CLIENTS</span> SAY

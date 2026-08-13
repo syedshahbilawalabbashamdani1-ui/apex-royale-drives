@@ -148,7 +148,7 @@ function BookingContent() {
             animate={{ opacity: 1, y: 0 }}
             className="text-center space-y-4"
           >
-            <h1 className="font-playfair text-4xl sm:text-5xl font-bold" style={{ color: "var(--text-primary)" }}>
+            <h1 className="font-general-sans text-4xl sm:text-5xl font-bold" style={{ color: "var(--text-primary)" }}>
               BOOK YOUR <span className="text-gradient">RIDE</span>
             </h1>
             <p className="font-sans max-w-2xl mx-auto" style={{ color: "var(--text-secondary)" }}>
@@ -173,7 +173,7 @@ function BookingContent() {
                 >
                   <div
                     className={cn(
-                      "w-10 h-10 rounded-full flex items-center justify-center font-playfair text-sm font-bold transition-colors",
+                      "w-10 h-10 rounded-full flex items-center justify-center font-general-sans text-sm font-bold transition-colors",
                       currentStep >= step.id
                         ? "bg-electric-cyan text-carbon-black"
                         : "bg-gunmetal text-theme-secondary"
@@ -214,7 +214,7 @@ function BookingContent() {
             {/* Step 1: Select Car */}
             {currentStep === 1 && (
               <div className="space-y-6">
-                <h2 className="font-playfair text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
+                <h2 className="font-general-sans text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
                   Select Your Vehicle
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -240,20 +240,20 @@ function BookingContent() {
                               className="w-full h-full object-cover"
                             />
                           ) : (
-                            <span className="font-playfair text-xl font-bold text-electric-cyan/50">
+                            <span className="font-general-sans text-xl font-bold text-electric-cyan/50">
                               {car.brand.charAt(0)}
                             </span>
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="font-playfair text-sm font-bold truncate" style={{ color: "var(--text-primary)" }}>
+                          <h3 className="font-general-sans text-sm font-bold truncate" style={{ color: "var(--text-primary)" }}>
                             {car.name}
                           </h3>
                           <p className="font-sans text-xs" style={{ color: "var(--text-secondary)" }}>
                             {car.brand} &bull; {car.category}
                           </p>
                           <div className="mt-2 flex items-center gap-2">
-                            <span className="font-playfair text-sm font-bold text-gradient">
+                            <span className="font-general-sans text-sm font-bold text-gradient">
                               Rs. {car.pricePerDay.toLocaleString()}
                             </span>
                             <span className="font-sans text-xs" style={{ color: "var(--text-secondary)" }}>
@@ -276,7 +276,7 @@ function BookingContent() {
             {/* Step 2: Dates & Location */}
             {currentStep === 2 && (
               <div className="space-y-6">
-                <h2 className="font-playfair text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
+                <h2 className="font-general-sans text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
                   Dates & Pickup Location
                 </h2>
                 <div className="card-dark p-6 space-y-6">
@@ -374,7 +374,7 @@ function BookingContent() {
                         </span>
                       </div>
                       <div className="h-px my-2" style={{ background: "var(--border-primary)" }} />
-                      <div className="flex justify-between font-playfair">
+                      <div className="flex justify-between font-general-sans">
                         <span className="font-semibold" style={{ color: "var(--text-primary)" }}>Total</span>
                         <span className="text-xl font-bold text-gradient">
                           {isDateRangeValid ? `Rs. ${calculateTotal().toLocaleString()}` : "—"}
@@ -389,7 +389,7 @@ function BookingContent() {
             {/* Step 3: Personal Info */}
             {currentStep === 3 && (
               <div className="space-y-6">
-                <h2 className="font-playfair text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
+                <h2 className="font-general-sans text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
                   Personal Information
                 </h2>
                 <div className="card-dark p-6 space-y-6">
@@ -494,14 +494,14 @@ function BookingContent() {
             {/* Step 4: Confirmation */}
             {currentStep === 4 && (
               <div className="space-y-6">
-                <h2 className="font-playfair text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
+                <h2 className="font-general-sans text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
                   Confirm Your Booking
                 </h2>
                 <div className="card-dark p-6 space-y-6">
                   {/* Summary */}
                   <div className="space-y-4">
                     <div className="p-4 rounded-lg">
-                      <h4 className="font-playfair text-sm font-semibold text-electric-cyan mb-3">
+                      <h4 className="font-general-sans text-sm font-semibold text-electric-cyan mb-3">
                         VEHICLE
                       </h4>
                       <div className="flex items-center gap-4">
@@ -513,13 +513,13 @@ function BookingContent() {
                               className="w-full h-full object-cover"
                             />
                           ) : (
-                            <span className="font-playfair text-lg font-bold text-electric-cyan/50">
+                            <span className="font-general-sans text-lg font-bold text-electric-cyan/50">
                               {selectedCar?.brand.charAt(0)}
                             </span>
                           )}
                         </div>
                         <div>
-                          <h3 className="font-playfair text-lg font-bold" style={{ color: "var(--text-primary)" }}>
+                          <h3 className="font-general-sans text-lg font-bold" style={{ color: "var(--text-primary)" }}>
                             {selectedCar?.name}
                           </h3>
                           <p className="font-sans text-sm" style={{ color: "var(--text-secondary)" }}>
@@ -531,7 +531,7 @@ function BookingContent() {
 
                     <div className="grid grid-cols-2 gap-4">
                       <div className="p-4 rounded-lg" style={{ background: "var(--bg-primary)" }}>
-                        <h4 className="font-playfair text-xs font-semibold text-electric-cyan mb-2">
+                        <h4 className="font-general-sans text-xs font-semibold text-electric-cyan mb-2">
                           PICKUP
                         </h4>
                         <p className="font-sans text-sm" style={{ color: "var(--text-primary)" }}>
@@ -542,7 +542,7 @@ function BookingContent() {
                         </p>
                       </div>
                       <div className="p-4 rounded-lg" style={{ background: "var(--bg-primary)" }}>
-                        <h4 className="font-playfair text-xs font-semibold text-electric-cyan mb-2">
+                        <h4 className="font-general-sans text-xs font-semibold text-electric-cyan mb-2">
                           RETURN
                         </h4>
                         <p className="font-sans text-sm" style={{ color: "var(--text-primary)" }}>
@@ -555,7 +555,7 @@ function BookingContent() {
                     </div>
 
                     <div className="p-4 rounded-lg" style={{ background: "var(--bg-primary)" }}>
-                      <h4 className="font-playfair text-xs font-semibold text-electric-cyan mb-2">
+                      <h4 className="font-general-sans text-xs font-semibold text-electric-cyan mb-2">
                         CONTACT
                       </h4>
                       <p className="font-sans text-sm" style={{ color: "var(--text-primary)" }}>
@@ -571,7 +571,7 @@ function BookingContent() {
                         <span className="font-sans text-theme-primary font-medium">
                           Total Amount
                         </span>
-                        <span className="font-playfair text-2xl font-bold text-theme-primary">
+                        <span className="font-general-sans text-2xl font-bold text-theme-primary">
                           Rs. {calculateTotal().toLocaleString()}
                         </span>
                       </div>

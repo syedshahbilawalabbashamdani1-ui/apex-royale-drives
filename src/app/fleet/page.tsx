@@ -130,7 +130,7 @@ function FleetContent() {
             animate={{ opacity: 1, y: 0 }}
             className="text-center space-y-4"
           >
-            <h1 className="font-playfair text-4xl sm:text-5xl font-bold" style={{ color: "var(--text-primary)" }}>
+            <h1 className="font-general-sans text-4xl sm:text-5xl font-bold" style={{ color: "var(--text-primary)" }}>
               OUR <span className="text-gradient">FLEET</span>
             </h1>
             <p className="font-sans max-w-2xl mx-auto" style={{ color: "var(--text-secondary)" }}>
@@ -212,7 +212,7 @@ function FleetContent() {
           <div className="card-dark p-6 space-y-6">
             {/* Categories */}
             <div>
-              <h4 className="font-playfair text-sm font-semibold mb-3" style={{ color: "var(--text-primary)" }}>
+              <h4 className="font-general-sans text-sm font-semibold mb-3" style={{ color: "var(--text-primary)" }}>
                 CATEGORY
               </h4>
               <div className="flex flex-wrap gap-2">
@@ -237,7 +237,7 @@ function FleetContent() {
             {/* Transmission & Fuel */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <h4 className="font-playfair text-sm font-semibold mb-3" style={{ color: "var(--text-primary)" }}>
+                <h4 className="font-general-sans text-sm font-semibold mb-3" style={{ color: "var(--text-primary)" }}>
                   TRANSMISSION
                 </h4>
                 <div className="flex gap-2">
@@ -265,7 +265,7 @@ function FleetContent() {
               </div>
 
               <div>
-                <h4 className="font-playfair text-sm font-semibold mb-3" style={{ color: "var(--text-primary)" }}>
+                <h4 className="font-general-sans text-sm font-semibold mb-3" style={{ color: "var(--text-primary)" }}>
                   FUEL TYPE
                 </h4>
                 <div className="flex flex-wrap gap-2">
@@ -339,7 +339,7 @@ function FleetContent() {
             <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6" style={{ background: "var(--bg-secondary)" }}>
               <Search className="w-10 h-10 opacity-50" style={{ color: "var(--text-secondary)" }} />
             </div>
-            <h3 className="font-playfair text-xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>
+            <h3 className="font-general-sans text-xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>
               No vehicles found
             </h3>
             <p className="font-sans" style={{ color: "var(--text-secondary)" }}>

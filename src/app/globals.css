@@ -12,8 +12,8 @@
   --color-gunmetal: #1E293B;
   --color-carbon-black: #0D0D0D;
 
-  --font-playfair: "Playfair Display", serif;
   --font-inter: "Inter", sans-serif;
+  --font-general-sans: "General Sans", "Space Grotesk", "Inter Tight", var(--font-inter), sans-serif;
 
   --shadow-gold-glow: 0 4px 24px rgba(201, 169, 110, 0.12);
   --shadow-gold-glow-lg: 0 8px 40px rgba(201, 169, 110, 0.18);
@@ -65,7 +65,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-playfair), "Playfair Display", serif;
+    font-family: var(--font-general-sans), "General Sans", "Space Grotesk", "Inter Tight", sans-serif;
     color: var(--text-primary);
   }
 }

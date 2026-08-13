@@ -74,7 +74,7 @@ export default function CarCard({ car, index = 0 }: CarCardProps) {
           <div className="p-5 space-y-4">
             {/* Title */}
             <div>
-              <h3 className="font-playfair text-lg font-bold group-hover:text-electric-cyan transition-colors" style={{ color: "var(--text-primary)" }}>
+              <h3 className="font-general-sans text-lg font-bold group-hover:text-electric-cyan transition-colors" style={{ color: "var(--text-primary)" }}>
                 {car.name}
               </h3>
               <p className="font-sans text-sm" style={{ color: "var(--text-secondary)" }}>
@@ -106,7 +106,7 @@ export default function CarCard({ car, index = 0 }: CarCardProps) {
             {/* Price & CTA */}
             <div className="flex items-end justify-between">
               <div>
-                <span className="font-playfair text-xl font-bold text-gradient">
+                <span className="font-general-sans text-xl font-bold text-gradient">
                   Rs. {car.pricePerDay.toLocaleString()}
                 </span>
                 <span className="font-sans text-xs text-theme-secondary ml-1">

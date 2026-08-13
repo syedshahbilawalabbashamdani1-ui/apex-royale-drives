@@ -62,7 +62,7 @@ function AnimatedStat({
       animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       transition={{ delay, duration: 0.5 }}
     >
-      <div className="font-playfair text-2xl font-bold text-gradient">
+      <div className="font-general-sans text-2xl font-bold text-gradient">
         {count}
         {suffix}
       </div>
@@ -133,10 +133,10 @@ export default function Hero() {
 
               {/* Heading */}
               <div className="space-y-4">
-                <h1 className="font-playfair text-4xl sm:text-5xl lg:text-6xl font-black leading-tight">
+                <h1 className="font-general-sans text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
                   <span style={{ color: "var(--text-primary)" }}>DRIVE</span>
                   <br />
-                  <span className="text-gradient">YOUR DREAMS</span>
+                  <span className="font-medium text-gradient">YOUR DREAMS</span>
                 </h1>
                 <p className="font-sans text-lg text-theme-secondary max-w-lg leading-relaxed">
                   Trusted rent-a-car service in Islamabad and Rawalpindi.

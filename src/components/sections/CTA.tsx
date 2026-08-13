@@ -23,7 +23,7 @@ export default function CTA() {
           viewport={{ once: true }}
           className="space-y-8"
         >
-          <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight" style={{ color: "var(--text-primary)" }}>
+          <h2 className="font-general-sans text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight" style={{ color: "var(--text-primary)" }}>
             READY TO HIT
             <br />
             <span className="text-gradient">THE ROAD?</span>

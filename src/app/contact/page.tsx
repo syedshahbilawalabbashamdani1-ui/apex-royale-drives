@@ -56,7 +56,7 @@ export default function ContactPage() {
             animate={{ opacity: 1, y: 0 }}
             className="text-center space-y-4"
           >
-            <h1 className="font-playfair text-4xl sm:text-5xl font-bold text-theme-primary">
+            <h1 className="font-general-sans text-4xl sm:text-5xl font-bold text-theme-primary">
               CONTACT <span className="text-gradient">US</span>
             </h1>
             <p className="font-sans text-theme-secondary max-w-2xl mx-auto">
@@ -76,7 +76,7 @@ export default function ContactPage() {
             className="space-y-8"
           >
             <div>
-              <h2 className="font-playfair text-2xl font-bold text-theme-primary mb-4">
+              <h2 className="font-general-sans text-2xl font-bold text-theme-primary mb-4">
                 GET IN <span className="text-gradient">TOUCH</span>
               </h2>
               <p className="font-sans text-theme-secondary leading-relaxed">
@@ -95,7 +95,7 @@ export default function ContactPage() {
                   <Phone className="w-6 h-6 text-electric-cyan" />
                 </div>
                 <div>
-                  <h3 className="font-playfair text-sm font-bold text-theme-primary group-hover:text-electric-cyan transition-colors">
+                  <h3 className="font-general-sans text-sm font-bold text-theme-primary group-hover:text-electric-cyan transition-colors">
                     Phone
                   </h3>
                   <p className="font-sans text-sm text-theme-secondary mt-1">
@@ -115,7 +115,7 @@ export default function ContactPage() {
                   <Mail className="w-6 h-6 text-electric-cyan" />
                 </div>
                 <div>
-                  <h3 className="font-playfair text-sm font-bold text-theme-primary group-hover:text-electric-cyan transition-colors">
+                  <h3 className="font-general-sans text-sm font-bold text-theme-primary group-hover:text-electric-cyan transition-colors">
                     Email
                   </h3>
                   <p className="font-sans text-sm text-theme-secondary mt-1">
@@ -132,7 +132,7 @@ export default function ContactPage() {
                   <MapPin className="w-6 h-6 text-electric-cyan" />
                 </div>
                 <div>
-                  <h3 className="font-playfair text-sm font-bold text-theme-primary">
+                  <h3 className="font-general-sans text-sm font-bold text-theme-primary">
                     Location
                   </h3>
                   <p className="font-sans text-sm text-theme-secondary mt-1">
@@ -146,7 +146,7 @@ export default function ContactPage() {
                   <Clock className="w-6 h-6 text-electric-cyan" />
                 </div>
                 <div>
-                  <h3 className="font-playfair text-sm font-bold text-theme-primary">
+                  <h3 className="font-general-sans text-sm font-bold text-theme-primary">
                     Working Hours
                   </h3>
                   <p className="font-sans text-sm text-theme-secondary mt-1">
@@ -177,7 +177,7 @@ export default function ContactPage() {
             animate={{ opacity: 1, x: 0 }}
           >
             <form onSubmit={handleSubmit} className="card-dark p-8 space-y-6">
-              <h3 className="font-playfair text-xl font-bold text-theme-primary">
+              <h3 className="font-general-sans text-xl font-bold text-theme-primary">
                 SEND A MESSAGE
               </h3>
 

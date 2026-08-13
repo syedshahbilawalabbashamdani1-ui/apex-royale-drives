@@ -82,7 +82,7 @@ export default function SuccessModal({
 
               {/* Title */}
               <h3
-                className="font-playfair text-xl font-bold"
+                className="font-general-sans text-xl font-bold"
                 style={{ color: "var(--text-primary, #F8FAFC)" }}
               >
                 {title}
@@ -121,7 +121,7 @@ export default function SuccessModal({
                     </span>
                   </div>
                   <div className="h-px" style={{ background: "var(--border-primary, #334155)" }} />
-                  <div className="flex justify-between font-playfair text-sm">
+                  <div className="flex justify-between font-general-sans text-sm">
                     <span className="font-semibold" style={{ color: "var(--text-primary, #F8FAFC)" }}>
                       Total
                     </span>
