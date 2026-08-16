@@ -4,6 +4,9 @@ export const metadata: Metadata = {
   title: "Book Your Ride",
   description:
     "Book your premium car rental with Apex Royale Drives. Select your vehicle, choose dates, and confirm — quick and easy online booking in Islamabad.",
+  alternates: {
+    canonical: "/booking",
+  },
   openGraph: {
     title: "Book Your Ride | Apex Royale Drives",
     description:

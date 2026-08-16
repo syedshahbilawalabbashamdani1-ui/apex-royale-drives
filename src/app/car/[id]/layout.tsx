@@ -23,6 +23,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title,
     description,
+    alternates: {
+      canonical: `/car/${id}`,
+    },
     keywords: [
       `rent ${car.name.toLowerCase()}`,
       `${car.brand.toLowerCase()} rental Islamabad`,

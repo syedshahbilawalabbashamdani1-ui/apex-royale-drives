@@ -4,6 +4,9 @@ export const metadata: Metadata = {
   title: "Our Fleet",
   description:
     "Browse Apex Royale Drives' fleet — Land Cruiser ZX, LC 300, Prado, G Wagon, Mercedes S Class, Audi A6, Corolla Altis, Honda Civic, Kia Sportage. Luxury and affordable cars with driver in Islamabad.",
+  alternates: {
+    canonical: "/fleet",
+  },
   openGraph: {
     title: "Our Fleet | Apex Royale Drives",
     description:
