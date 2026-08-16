@@ -2,9 +2,10 @@
 
 import { useState, useMemo, Suspense } from "react";
 import { motion } from "framer-motion";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { cars } from "@/lib/cars";
 import CarCard from "@/components/sections/CarCard";
+import CustomFleetCard from "@/components/sections/CustomFleetCard";
 import { CarCategory, FilterOptions } from "@/types";
 import {
   Search,
@@ -42,13 +43,14 @@ export default function FleetPage() {
 
 function FleetContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const urlCategory = searchParams.get("category");
-  const validCategory = urlCategory && categories.includes(urlCategory as CarCategory | "All")
-    ? (urlCategory as CarCategory | "All")
-    : "All";
+  const category: CarCategory | "All" =
+    urlCategory && categories.includes(urlCategory as CarCategory | "All")
+      ? (urlCategory as CarCategory | "All")
+      : "All";
 
-  const [filters, setFilters] = useState<FilterOptions>({
-    category: validCategory,
+  const [filters, setFilters] = useState<Omit<FilterOptions, "category">>({
     priceRange: [0, 200000],
     transmission: "All",
     fuel: "All",
@@ -56,6 +58,15 @@ function FleetContent() {
   });
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
+
+  const setCategory = (next: CarCategory | "All") => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (next === "All") params.delete("category");
+    else params.set("category", next);
+    router.replace(`/fleet${params.toString() ? `?${params.toString()}` : ""}`, {
+      scroll: false,
+    });
+  };
 
   const filteredCars = useMemo(() => {
     let result = [...cars];
@@ -72,11 +83,11 @@ function FleetContent() {
     }
 
     // Category filter
-    if (filters.category !== "All") {
-      if (filters.category === "Economy") {
+    if (category !== "All") {
+      if (category === "Economy") {
         result = result.filter((car) => car.pricePerDay < 20000);
       } else {
-        result = result.filter((car) => car.category === filters.category);
+        result = result.filter((car) => car.category === category);
       }
     }
 
@@ -113,10 +124,10 @@ function FleetContent() {
     }
 
     return result;
-  }, [filters, searchQuery]);
+  }, [filters, searchQuery, category]);
 
   const activeFilterCount =
-    (filters.category !== "All" ? 1 : 0) +
+    (category !== "All" ? 1 : 0) +
     (filters.transmission !== "All" ? 1 : 0) +
     (filters.fuel !== "All" ? 1 : 0);
 
@@ -216,19 +227,19 @@ function FleetContent() {
                 CATEGORY
               </h4>
               <div className="flex flex-wrap gap-2">
-                {categories.map((category) => (
+                {categories.map((cat) => (
                     <button
-                      key={category}
-                      onClick={() => setFilters({ ...filters, category })}
+                      key={cat}
+                      onClick={() => setCategory(cat)}
                       className={cn(
                         "px-4 py-2 rounded-lg font-sans text-sm font-medium transition-colors",
-                        filters.category === category
+                        category === cat
                           ? "bg-electric-cyan text-carbon-black"
                           : "text-theme-secondary hover:opacity-80 border"
                       )}
-                      style={filters.category !== category ? { background: "var(--bg-secondary)", borderColor: "var(--border-primary)" } : undefined}
+                      style={category !== cat ? { background: "var(--bg-secondary)", borderColor: "var(--border-primary)" } : undefined}
                     >
-                    {category}
+                    {cat}
                   </button>
                 ))}
               </div>
@@ -298,15 +309,15 @@ function FleetContent() {
             {/* Clear Filters */}
             {activeFilterCount > 0 && (
               <button
-                onClick={() =>
+                onClick={() => {
                   setFilters({
-                    category: "All",
                     priceRange: [0, 200000],
                     transmission: "All",
                     fuel: "All",
                     sortBy: "newest",
-                  })
-                }
+                  });
+                  setCategory("All");
+                }}
                 className="flex items-center gap-2 text-sm text-electric-cyan font-sans hover:underline"
               >
                 <X className="w-4 h-4" />
@@ -333,6 +344,7 @@ function FleetContent() {
             {filteredCars.map((car, index) => (
               <CarCard key={car.id} car={car} index={index} />
             ))}
+            <CustomFleetCard key="custom-fleet" />
           </div>
         ) : (
           <div className="text-center py-20">

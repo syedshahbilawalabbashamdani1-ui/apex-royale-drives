@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
@@ -10,31 +10,25 @@ import { ChevronDown } from "lucide-react";
 
 function useCountUp(target: number, decimals: number, inView: boolean) {
   const [value, setValue] = useState(0);
-  const rafRef = useRef<number>(0);
-  const startRef = useRef<number | null>(null);
   const duration = 1400;
 
-  const animate = useCallback(
-    (timestamp: number) => {
-      if (startRef.current === null) startRef.current = timestamp;
-      const elapsed = timestamp - startRef.current;
+  useEffect(() => {
+    if (!inView) return;
+    let start: number | null = null;
+    let raf = 0;
+
+    function step(timestamp: number) {
+      if (start === null) start = timestamp;
+      const elapsed = timestamp - start;
       const progress = Math.min(elapsed / duration, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
       setValue(eased * target);
-      if (progress < 1) {
-        rafRef.current = requestAnimationFrame(animate);
-      }
-    },
-    [target],
-  );
-
-  useEffect(() => {
-    if (inView) {
-      startRef.current = null;
-      rafRef.current = requestAnimationFrame(animate);
+      if (progress < 1) raf = requestAnimationFrame(step);
     }
-    return () => cancelAnimationFrame(rafRef.current);
-  }, [inView, animate]);
+
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [inView, target]);
 
   return decimals > 0 ? value.toFixed(decimals) : Math.round(value);
 }

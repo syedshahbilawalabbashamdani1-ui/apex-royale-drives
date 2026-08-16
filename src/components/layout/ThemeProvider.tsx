@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, useEffect, ReactNode, useSyncExternalStore } from "react";
 
 type Theme = "dark" | "light";
 
@@ -11,26 +11,40 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
+const THEME_KEY = "theme";
+const THEME_CHANGED_EVENT = "apex-theme-changed";
+
+function readTheme(): Theme {
+  if (typeof window === "undefined") return "dark";
+  try {
+    return window.localStorage.getItem(THEME_KEY) === "light" ? "light" : "dark";
+  } catch {
+    return "dark";
+  }
+}
+
+function subscribeTheme(onStoreChange: () => void) {
+  window.addEventListener(THEME_CHANGED_EVENT, onStoreChange);
+  window.addEventListener("storage", onStoreChange);
+  return () => {
+    window.removeEventListener(THEME_CHANGED_EVENT, onStoreChange);
+    window.removeEventListener("storage", onStoreChange);
+  };
+}
+
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("dark");
+  const theme = useSyncExternalStore<Theme>(subscribeTheme, readTheme, () => "dark");
 
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem("theme") as Theme | null;
-      if (saved) {
-        setTheme(saved);
-        document.documentElement.classList.toggle("light", saved === "light");
-      }
-    } catch {}
-  }, []);
+    document.documentElement.classList.toggle("light", theme === "light");
+  }, [theme]);
 
   const toggleTheme = () => {
     const next = theme === "dark" ? "light" : "dark";
-    setTheme(next);
     try {
-      localStorage.setItem("theme", next);
+      window.localStorage.setItem(THEME_KEY, next);
     } catch {}
-    document.documentElement.classList.toggle("light", next === "light");
+    window.dispatchEvent(new Event(THEME_CHANGED_EVENT));
   };
 
   return (

@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { cars, locations } from "@/lib/cars";
 import { CONTACT } from "@/lib/constants";
@@ -11,12 +10,10 @@ import {
   Car,
   Calendar,
   User,
-  CreditCard,
   Check,
   ArrowLeft,
   ArrowRight,
   Phone,
-  MapPin,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import SuccessModal from "@/components/ui/SuccessModal";
@@ -27,6 +24,12 @@ const steps = [
   { id: 3, label: "Personal Info", icon: User },
   { id: 4, label: "Confirm", icon: Check },
 ];
+
+function todayInPKT(): string {
+  const now = new Date();
+  const pkt = new Date(now.getTime() + 5 * 60 * 60 * 1000);
+  return pkt.toISOString().split("T")[0];
+}
 
 export default function BookingPage() {
   return (
@@ -92,7 +95,7 @@ function BookingContent() {
         d.setDate(d.getDate() + 1);
         return d.toISOString().split("T")[0];
       })()
-    : new Date().toISOString().split("T")[0];
+    : todayInPKT();
 
   const nextStep = () => {
     if (currentStep === 3) {
@@ -301,7 +304,7 @@ function BookingContent() {
                             returnDate: newReturn,
                           });
                         }}
-                        min={new Date().toISOString().split("T")[0]}
+                        min={todayInPKT()}
                         className="w-full px-4 py-3 rounded-lg font-sans text-sm focus:outline-none transition-colors"
                         style={{ background: "var(--bg-primary)", color: "var(--text-primary)", borderColor: "var(--border-primary)" }}
                       />

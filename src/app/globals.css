@@ -198,24 +198,30 @@ html.light ::-webkit-scrollbar-thumb {
   .text-electric-cyan\/5 { color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.05); }
   .text-electric-cyan\/10 { color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.1); }
   .text-electric-cyan\/20 { color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.2); }
+  .text-electric-cyan\/25 { color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.25); }
   .text-electric-cyan\/30 { color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.3); }
   .text-electric-cyan\/40 { color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.4); }
   .text-electric-cyan\/50 { color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.5); }
   .text-electric-cyan\/60 { color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.6); }
 
+  .bg-electric-cyan\/3 { background-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.03); }
   .bg-electric-cyan\/5 { background-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.05); }
+  .bg-electric-cyan\/8 { background-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.08); }
   .bg-electric-cyan\/10 { background-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.1); }
+  .bg-electric-cyan\/15 { background-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.15); }
   .bg-electric-cyan\/20 { background-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.2); }
   .bg-electric-cyan\/30 { background-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.3); }
 
   .border-electric-cyan\/5 { border-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.05); }
   .border-electric-cyan\/10 { border-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.1); }
+  .border-electric-cyan\/15 { border-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.15); }
   .border-electric-cyan\/20 { border-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.2); }
   .border-electric-cyan\/30 { border-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.3); }
 
   .hover\:text-electric-cyan:hover { color: var(--accent); }
   .hover\:bg-electric-cyan:hover { background-color: var(--accent); }
   .hover\:bg-electric-cyan\/10:hover { background-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.1); }
+  .hover\:bg-electric-cyan\/15:hover { background-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.15); }
   .hover\:bg-electric-cyan\/20:hover { background-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.2); }
   .hover\:border-electric-cyan:hover { border-color: var(--accent); }
   .hover\:border-electric-cyan\/20:hover { border-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.2); }
@@ -229,4 +235,7 @@ html.light ::-webkit-scrollbar-thumb {
   .shadow-electric-cyan\/10 { --tw-shadow-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.1); }
   .shadow-electric-cyan\/20 { --tw-shadow-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.2); }
   .shadow-electric-cyan\/50 { --tw-shadow-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.5); }
+
+  .shadow-cyan-glow { box-shadow: 0 0 24px rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.25); }
+  .hover\:shadow-cyan-glow:hover { box-shadow: 0 0 24px rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.25); }
 }

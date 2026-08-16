@@ -3,6 +3,7 @@
 import { use, useEffect, useState, useSyncExternalStore } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import Image from "next/image";
 import { cars } from "@/lib/cars";
 import {
@@ -103,18 +104,7 @@ export default function CarDetailPage({
   };
 
   if (!car) {
-    return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: "var(--bg-primary)" }}>
-        <div className="text-center">
-          <h1 className="font-general-sans text-2xl font-bold mb-4" style={{ color: "var(--text-primary)" }}>
-            Car Not Found
-          </h1>
-          <Link href="/fleet" className="btn-primary">
-            Browse Fleet
-          </Link>
-        </div>
-      </div>
-    );
+    notFound();
   }
 
   const relatedCars = cars
