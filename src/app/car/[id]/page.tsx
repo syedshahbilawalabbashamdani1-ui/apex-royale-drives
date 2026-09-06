@@ -349,26 +349,6 @@ export default function CarDetailPage({
                     Per Day
                   </div>
                 </div>
-                {car.pricePerWeek && (
-                  <div className="text-center p-4 rounded-lg" style={{ background: "var(--bg-primary)" }}>
-                    <div className="font-general-sans text-lg sm:text-xl font-bold text-gradient">
-                      Rs. {car.pricePerWeek.toLocaleString()}
-                    </div>
-                    <div className="font-sans text-xs mt-1" style={{ color: "var(--text-secondary)" }}>
-                      Per Week
-                    </div>
-                  </div>
-                )}
-                {car.pricePerMonth && (
-                  <div className="text-center p-4 rounded-lg" style={{ background: "var(--bg-primary)" }}>
-                    <div className="font-general-sans text-lg sm:text-xl font-bold text-gradient">
-                      Rs. {car.pricePerMonth.toLocaleString()}
-                    </div>
-                    <div className="font-sans text-xs mt-1" style={{ color: "var(--text-secondary)" }}>
-                      Per Month
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
 
