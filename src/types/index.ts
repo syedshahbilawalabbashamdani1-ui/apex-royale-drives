@@ -32,7 +32,8 @@ export type CarCategory =
   | "Electric";
 
 export interface BookingFormData {
-  carId: string;
+  carIds: string[];
+  customCarNames: string[];
   pickupDate: string;
   returnDate: string;
   pickupLocation: string;

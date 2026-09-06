@@ -210,6 +210,8 @@ export default function GoogleReviews() {
           className="relative mt-4"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
+          role="region"
+          aria-label="Customer reviews"
         >
           {/* Arrow – left */}
           <button
@@ -232,7 +234,7 @@ export default function GoogleReviews() {
           </button>
 
           {/* Track */}
-          <div className="overflow-hidden">
+          <div className="overflow-hidden" aria-live="polite">
             <div
               className="flex transition-transform duration-500 ease-in-out"
               style={{

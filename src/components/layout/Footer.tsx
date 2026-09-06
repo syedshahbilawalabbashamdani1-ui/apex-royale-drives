@@ -16,12 +16,17 @@ const footerLinks = {
     { label: "About Us", href: "/about" },
     { label: "Our Fleet", href: "/fleet" },
     { label: "Contact", href: "/contact" },
+    { label: "FAQ", href: "/faq" },
   ],
   services: [
     { label: "Airport Transfers", href: "/booking" },
     { label: "Wedding Cars", href: "/fleet?category=Luxury" },
     { label: "Corporate Rental", href: "/fleet" },
-    { label: "Tour Packages", href: "/fleet?category=SUV" },
+    { label: "Long Distance Travel", href: "/fleet?category=SUV" },
+  ],
+  legal: [
+    { label: "Terms & Conditions", href: "/terms" },
+    { label: "Privacy Policy", href: "/privacy" },
   ],
 };
 
@@ -70,9 +75,9 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-general-sans text-sm font-semibold mb-6 tracking-wider text-white">
+            <p className="font-general-sans text-sm font-semibold mb-6 tracking-wider text-white">
               COMPANY
-            </h4>
+            </p>
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.href}>
@@ -89,9 +94,9 @@ export default function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="font-general-sans text-sm font-semibold mb-6 tracking-wider text-white">
+            <p className="font-general-sans text-sm font-semibold mb-6 tracking-wider text-white">
               SERVICES
-            </h4>
+            </p>
             <ul className="space-y-3">
               {footerLinks.services.map((link) => (
                 <li key={link.href}>
@@ -108,9 +113,9 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h4 className="font-general-sans text-sm font-semibold mb-6 tracking-wider text-white">
+            <p className="font-general-sans text-sm font-semibold mb-6 tracking-wider text-white">
               CONTACT US
-            </h4>
+            </p>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-electric-cyan mt-0.5 flex-shrink-0" />
@@ -151,9 +156,23 @@ export default function Footer() {
       <div className="border-t" style={{ borderColor: "rgba(201, 169, 110, 0.1)" }}>
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="font-sans text-sm text-silver-chrome">
-              &copy; {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
-            </p>
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              <p className="font-sans text-sm text-silver-chrome">
+                &copy; {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
+              </p>
+              <span className="hidden sm:inline text-silver-chrome/30">|</span>
+              <div className="flex items-center gap-3">
+                {footerLinks.legal.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="font-sans text-xs text-silver-chrome hover:text-electric-cyan transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
             <button
               onClick={scrollToTop}
               className="w-10 h-10 rounded-lg bg-gunmetal flex items-center justify-center text-silver-chrome hover:bg-electric-cyan/10 hover:text-electric-cyan transition-all"

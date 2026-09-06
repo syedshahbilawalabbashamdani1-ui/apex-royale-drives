@@ -8,7 +8,6 @@ import {
   Mail,
   MapPin,
   Clock,
-  Send,
 } from "lucide-react";
 import { WhatsAppIcon } from "@/components/ui/SocialIcons";
 
@@ -37,13 +36,10 @@ export default function ContactPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
-    const encodedMessage = encodeURIComponent(
-      `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\nSubject: ${formData.subject}\nMessage: ${formData.message}`
+    const message = encodeURIComponent(
+      `Hi, I have a ${formData.subject || "general"} inquiry.\n\nName: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\nMessage: ${formData.message}`
     );
-    window.open(
-      `https://wa.me/${CONTACT.whatsapp}?text=${encodedMessage}`,
-      "_blank"
-    );
+    window.open(`https://wa.me/${CONTACT.whatsapp}?text=${message}`, "_blank");
   };
 
   return (
@@ -286,8 +282,8 @@ export default function ContactPage() {
               </div>
 
               <button type="submit" className="btn-primary w-full py-4">
-                <Send className="w-5 h-5 mr-2" />
-                Send Message
+                <WhatsAppIcon className="w-5 h-5 mr-2" />
+                Send on WhatsApp
               </button>
             </form>
           </motion.div>

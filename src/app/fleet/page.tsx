@@ -2,6 +2,7 @@
 
 import { useState, useMemo, Suspense } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { cars } from "@/lib/cars";
 import CarCard from "@/components/sections/CarCard";
@@ -12,6 +13,7 @@ import {
   SlidersHorizontal,
   X,
   ChevronDown,
+  ArrowLeft,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -20,7 +22,8 @@ const categories: (CarCategory | "All")[] = [
   "Sedan",
   "SUV",
   "Luxury",
-  "Economy",
+  "Sports",
+  "Electric",
 ];
 
 const sortOptions: { value: FilterOptions["sortBy"]; label: string }[] = [
@@ -84,11 +87,7 @@ function FleetContent() {
 
     // Category filter
     if (category !== "All") {
-      if (category === "Economy") {
-        result = result.filter((car) => car.pricePerDay < 20000);
-      } else {
-        result = result.filter((car) => car.category === category);
-      }
+      result = result.filter((car) => car.category === category);
     }
 
     // Transmission filter
@@ -136,6 +135,19 @@ function FleetContent() {
       {/* Header */}
       <div className="py-20" style={{ background: "var(--bg-tertiary)" }}>
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Breadcrumb */}
+          <div className="flex items-center gap-2 font-sans text-sm mb-6">
+            <Link
+              href="/"
+              className="text-theme-secondary hover:text-electric-cyan transition-colors flex items-center gap-1"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Home
+            </Link>
+            <span style={{ color: "var(--text-secondary)", opacity: 0.5 }}>/</span>
+            <span style={{ color: "var(--text-primary)" }}>Fleet</span>
+          </div>
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

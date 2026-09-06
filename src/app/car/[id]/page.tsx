@@ -105,6 +105,7 @@ export default function CarDetailPage({
 
   if (!car) {
     notFound();
+    return null;
   }
 
   const relatedCars = cars
@@ -402,7 +403,7 @@ export default function CarDetailPage({
               SIMILAR <span className="text-gradient">VEHICLES</span>
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {relatedCars.map((relatedCar, index) => (
+              {relatedCars.map((relatedCar) => (
                 <Link
                   key={relatedCar.id}
                   href={`/car/${relatedCar.id}`}

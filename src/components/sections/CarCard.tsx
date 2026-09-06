@@ -8,10 +8,8 @@ import {
   Users,
   Luggage,
   Gauge,
-  Fuel,
   ArrowRight,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 interface CarCardProps {
   car: Car;
@@ -27,7 +25,7 @@ export default function CarCard({ car, index = 0 }: CarCardProps) {
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className="group"
     >
-      <Link href={`/car/${car.id}`}>
+      <Link href={`/car/${car.id}`} aria-label={`View details for ${car.name} — Rs. ${car.pricePerDay.toLocaleString()} per day`}>
         <div className="card-dark overflow-hidden hover:border-electric-cyan/30 transition-all duration-300 hover:shadow-cyan-glow">
           {/* Image */}
           <div className="relative h-48 overflow-hidden" style={{ background: "var(--bg-secondary)" }}>

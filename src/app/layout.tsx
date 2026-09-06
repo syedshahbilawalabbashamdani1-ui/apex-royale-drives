@@ -44,7 +44,7 @@ const jsonLd = {
   aggregateRating: {
     "@type": "AggregateRating",
     ratingValue: "5.0",
-    reviewCount: "30",
+    reviewCount: "5",
   },
   priceRange: "PKR 12000 - PKR 110000",
   areaServed: [
@@ -106,7 +106,7 @@ export const metadata: Metadata = {
     description: SITE_DESCRIPTION,
     images: [
       {
-        url: "/Images/Homepage/logo.png",
+        url: `${SITE_URL}/Images/Homepage/logo.png`,
         width: 1200,
         height: 630,
         alt: SITE_NAME,
@@ -117,7 +117,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${SITE_NAME} | Premium Car Rental Islamabad & Pakistan`,
     description: SITE_DESCRIPTION,
-    images: ["/Images/Homepage/logo.png"],
+    images: [`${SITE_URL}/Images/Homepage/logo.png`],
   },
   robots: {
     index: true,

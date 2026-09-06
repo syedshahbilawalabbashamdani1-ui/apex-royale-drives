@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { cars } from "@/lib/cars";
-import { SITE_NAME } from "@/lib/constants";
+import { SITE_NAME, SITE_URL } from "@/lib/constants";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -36,12 +36,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `${car.name} | ${SITE_NAME}`,
       description,
-      images: car.images?.length ? [{ url: car.images[0], width: 1200, height: 630, alt: car.name }] : [],
+      images: car.images?.length
+        ? [{ url: car.images[0], width: 1200, height: 630, alt: car.name }]
+        : [{ url: `${SITE_URL}/Images/Homepage/logo.png`, width: 1200, height: 630, alt: SITE_NAME }],
     },
     twitter: {
       card: "summary_large_image",
       title: `${car.name} | ${SITE_NAME}`,
       description,
+      images: car.images?.length ? [car.images[0]] : [`${SITE_URL}/Images/Homepage/logo.png`],
     },
   };
 }

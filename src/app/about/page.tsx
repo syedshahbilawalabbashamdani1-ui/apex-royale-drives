@@ -16,6 +16,33 @@ import {
 } from "lucide-react";
 import { CONTACT } from "@/lib/constants";
 
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Apex Royale Drives",
+  url: "https://apexroyaledrives.com",
+  logo: "https://apexroyaledrives.com/Images/Homepage/logo.png",
+  description: "Trusted rent-a-car service in Islamabad and Rawalpindi offering luxury and affordable vehicles with professional drivers.",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "F-10 Markaz F 10/4",
+    addressLocality: "Islamabad",
+    postalCode: "44000",
+    addressCountry: "PK",
+  },
+  contactPoint: {
+    "@type": "ContactPoint",
+    telephone: CONTACT.phone,
+    contactType: "customer service",
+    availableLanguage: ["English", "Urdu"],
+  },
+  sameAs: [
+    "https://wa.me/923045255558",
+    "https://instagram.com/apex_royale_drives",
+    "https://tiktok.com/@apex.royale.drives",
+  ],
+};
+
 const stats = [
   { icon: Car, value: "30+", label: "Happy Clients" },
   { icon: Award, value: "5.0", label: "Google Rating" },
@@ -47,6 +74,10 @@ const values = [
 export default function AboutPage() {
   return (
     <div className="min-h-screen" style={{ background: "var(--bg-primary)" }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema).replace(/</g, "\\u003c") }}
+      />
       {/* Hero Section */}
       <section className="relative py-24 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-dark" />
@@ -125,10 +156,9 @@ export default function AboutPage() {
                   rental services in Islamabad and Rawalpindi.
                 </p>
                 <p>
-                  Our fleet includes luxury vehicles like Land Cruiser ZX, LC
-                  300, Prado, G Wagon, Mercedes S Class, and Audi A6, as well
-                  as practical options like Corolla Altis, Honda Civic, Kia
-                  Sportage, and hatchbacks.
+                  Our fleet includes luxury vehicles like the Mercedes G63 AMG,
+                  Mercedes Maybach S-Class, Range Rover, Toyota Land Cruiser V8
+                  ZX, Toyota Land Cruiser Prado, Audi A6, and Toyota Hilux Revo.
                 </p>
                 <p>
                   Whether you need a car for a business trip, airport transfer,
@@ -223,12 +253,12 @@ export default function AboutPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { category: "Luxury SUVs", items: "Land Cruiser ZX, LC 300, Prado, G Wagon, Range Rover" },
-              { category: "Premium Sedans", items: "Mercedes S Class, E Class, Audi A4, A5, A6" },
-              { category: "Family Cars", items: "Corolla Altis, Honda Civic, Kia Sportage, Honda BR-V" },
-              { category: "Economy", items: "Hatchback cars for daily use" },
+              { category: "Luxury SUVs", items: "Land Cruiser V8 ZX, Land Cruiser Prado, Toyota Revo" },
+              { category: "Premium Cars", items: "Mercedes G63 AMG, Mercedes Maybach S-Class, Range Rover, Audi A6" },
               { category: "Airport Transfers", items: "Professional drivers, on-time pickup & drop" },
               { category: "Wedding & Events", items: "Premium vehicles for special occasions" },
+              { category: "Business Travel", items: "Executive cars with professional chauffeurs" },
+              { category: "Tour Packages", items: "Northern areas & long-distance travel" },
             ].map((item, index) => (
               <motion.div
                 key={item.category}

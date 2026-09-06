@@ -10,7 +10,7 @@ interface SuccessModalProps {
   title?: string;
   message?: string;
   bookingSummary?: {
-    carName: string;
+    carNames: string[];
     pickupDate: string;
     returnDate: string;
     total: number;
@@ -68,6 +68,9 @@ export default function SuccessModal({
             initial={{ opacity: 0, scale: 0.95, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="success-modal-title"
           >
             {/* Content */}
             <div className="p-8 text-center space-y-5">
@@ -82,6 +85,7 @@ export default function SuccessModal({
 
               {/* Title */}
               <h3
+                id="success-modal-title"
                 className="font-general-sans text-xl font-bold"
                 style={{ color: "var(--text-primary, #F8FAFC)" }}
               >
@@ -102,11 +106,20 @@ export default function SuccessModal({
                   className="rounded-xl p-4 space-y-3 text-left"
                   style={{ background: "var(--bg-primary, #0F172A)" }}
                 >
-                  <div className="flex justify-between font-sans text-sm">
-                    <span style={{ color: "var(--text-secondary, #94A3B8)" }}>Vehicle</span>
-                    <span className="font-medium" style={{ color: "var(--text-primary, #F8FAFC)" }}>
-                      {bookingSummary.carName}
-                    </span>
+                  <div className="font-sans text-sm">
+                    <span style={{ color: "var(--text-secondary, #94A3B8)" }}>Vehicle{bookingSummary.carNames.length > 1 ? "s" : ""}</span>
+                    <div className="mt-1 space-y-1">
+                      {bookingSummary.carNames.slice(0, 3).map((name, i) => (
+                        <div key={i} className="font-medium" style={{ color: "var(--text-primary, #F8FAFC)" }}>
+                          {name}
+                        </div>
+                      ))}
+                      {bookingSummary.carNames.length > 3 && (
+                        <div className="text-xs" style={{ color: "var(--text-secondary, #94A3B8)" }}>
+                          and {bookingSummary.carNames.length - 3} more...
+                        </div>
+                      )}
+                    </div>
                   </div>
                   <div className="flex justify-between font-sans text-sm">
                     <span style={{ color: "var(--text-secondary, #94A3B8)" }}>Pickup</span>
