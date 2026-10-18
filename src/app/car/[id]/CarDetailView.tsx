@@ -285,8 +285,8 @@ export default function CarDetailView({ car }: { car: Car }) {
               <RentalRates car={car} />
               <p className="font-sans text-xs" style={{ color: "var(--text-secondary)" }}>
                 All rates include a professional driver. Fuel, tolls and parking are
-                not included. Longer rentals are billed at the cheaper weekly or
-                monthly rate.
+                not included. Rentals are billed at the daily rate multiplied by
+                the number of days.
               </p>
             </div>
 

@@ -76,7 +76,7 @@ export default function ContactPage() {
                 GET IN <span className="text-accent">TOUCH</span>
               </h2>
               <p className="font-sans text-theme-secondary leading-relaxed">
-                Whether you need a car for a day or a month, have questions about
+                Whether you need a car for one day or several days, have questions about
                 our fleet, or want to discuss corporate partnerships, we&apos;re
                 ready to assist.
               </p>

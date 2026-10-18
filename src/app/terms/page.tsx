@@ -44,7 +44,7 @@ export default function TermsPage() {
           },
           {
             title: "3. Rental Period & Pricing",
-            body: `The rental period begins at the time of vehicle pickup and ends at the time of return. Rental rates are as displayed on our Fleet page or as quoted during booking. Weekly and monthly rates offer discounted pricing compared to daily rates. All prices are in Pakistani Rupees (PKR) and inclusive of applicable taxes unless stated otherwise.`,
+            body: `The rental period begins at the time of vehicle pickup and ends at the time of return. Rental rates are as displayed on our Fleet page or as quoted during booking. All rentals are charged per day. The rental amount is the vehicle's daily rate multiplied by the number of rental days. All prices are in Pakistani Rupees (PKR) and inclusive of applicable taxes unless stated otherwise.`,
           },
           {
             title: "4. Professional Driver",

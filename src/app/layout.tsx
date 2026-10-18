@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -8,6 +8,8 @@ import { SITE_NAME, SITE_URL, SITE_DESCRIPTION, CONTACT, RATING } from "@/lib/co
 import { cars } from "@/lib/cars";
 
 const prices = cars.map((c) => c.pricePerDay);
+
+export const viewport: Viewport = { themeColor: "#000000" };
 
 const jsonLd = {
   "@context": "https://schema.org",

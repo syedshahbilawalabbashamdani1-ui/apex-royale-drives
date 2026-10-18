@@ -21,8 +21,8 @@ const features = [
   },
   {
     icon: Wallet,
-    title: "Longer bookings cost less per day",
-    body: "A month is priced at roughly 22 days of the daily rate. The booking form works out the cheapest combination for you.",
+    title: "Clear daily pricing",
+    body: "Your rental price is the daily rate multiplied by the number of days. The booking form calculates the amount for you.",
   },
   {
     icon: Clock,

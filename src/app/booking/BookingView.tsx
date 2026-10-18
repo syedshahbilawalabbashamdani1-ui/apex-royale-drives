@@ -446,8 +446,7 @@ export default function BookingView({
                       <div className="h-px my-2" style={{ background: "var(--border-primary)" }} />
                       <QuoteSummary quote={rentalQuote} />
                       <p className="font-sans text-xs" style={{ color: "var(--text-secondary)" }}>
-                        Longer bookings are charged at the weekly or monthly rate,
-                        whichever combination works out cheapest.
+                        Rental amount = daily rate × number of days.
                       </p>
                     </div>
                   )}

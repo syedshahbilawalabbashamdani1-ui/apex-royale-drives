@@ -10,3 +10,4 @@ Reference: `C:/Users/syeds/Desktop/ALPHA` and `C:/Users/syeds/Desktop/Tech_And_S
 - Reuse Button, NavigationMenu, Dialog, FilterGroup and QuoteSummary. Preserve keyboard access, touch targets, focus states and reduced motion.
 - Keep Next.js App Router and existing routes. ALPHA's Vite, AI APIs and image-gallery backend are outside this rental site's scope.
 - Business content comes from https://apex-royale-drives.vercel.app when reachable. Keep existing content until verified; never invent rental prices or availability.
+- Rentals use daily pricing only: vehicle daily rate multiplied by rental days. Do not add weekly/monthly rates or duration discounts.

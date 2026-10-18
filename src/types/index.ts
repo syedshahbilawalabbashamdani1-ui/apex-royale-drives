@@ -5,8 +5,6 @@ export interface Car {
   category: CarCategory;
   year: number;
   pricePerDay: number;
-  pricePerWeek: number;
-  pricePerMonth: number;
   seats: number;
   luggage: number;
   transmission: "Automatic" | "Manual";

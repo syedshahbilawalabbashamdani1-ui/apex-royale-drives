@@ -47,11 +47,11 @@ const faqCategories = [
     questions: [
       {
         q: "What are your rates?",
-        a: `Daily rates run from ${formatPKR(Math.min(...dailyPrices))} for the ${cheapest.name} up to ${formatPKR(Math.max(...dailyPrices))} for our luxury vehicles. Every vehicle has its own day, week and month rate listed on its page.`,
+        a: `Daily rates run from ${formatPKR(Math.min(...dailyPrices))} for the ${cheapest.name} up to ${formatPKR(Math.max(...dailyPrices))} for our luxury vehicles. Each vehicle has its daily rate listed on its page.`,
       },
       {
-        q: "Do you have weekly and monthly rates?",
-        a: "Yes, and they are cheaper than paying day by day. A month is priced at roughly 22 days of the daily rate, so long bookings work out considerably better per day. The booking form automatically works out the cheapest combination of months, weeks and days for you.",
+        q: "How is the rental price calculated?",
+        a: "All rentals use daily pricing. Multiply the vehicle's daily rate by the number of rental days. The booking form calculates this amount for you.",
       },
       {
         q: "Are there any hidden charges?",

@@ -1,51 +1,20 @@
-import { Car } from "@/types";
+import type { Car } from "@/types";
 
 export interface PriceBreakdown {
   days: number;
-  months: number;
-  weeks: number;
-  extraDays: number;
   total: number;
   /** Human-readable summary of how the total was built. */
   label: string;
 }
 
-const DAYS_PER_WEEK = 7;
-const DAYS_PER_MONTH = 30;
-
-/**
- * Builds a price from the cheapest combination of whole months, whole weeks and
- * single days. Long rentals must use the discounted monthly/weekly rates, otherwise
- * a 30-day booking would be quoted at 30x the daily rate.
- */
+/** All rentals are billed at the vehicle's daily rate. */
 export function priceCar(car: Car, days: number): PriceBreakdown {
-  const safeDays = Math.max(0, Math.floor(days));
-
-  const months = Math.floor(safeDays / DAYS_PER_MONTH);
-  let remainder = safeDays % DAYS_PER_MONTH;
-
-  const weeks = Math.floor(remainder / DAYS_PER_WEEK);
-  remainder %= DAYS_PER_WEEK;
-
-  const extraDays = remainder;
-
-  const total =
-    months * car.pricePerMonth +
-    weeks * car.pricePerWeek +
-    extraDays * car.pricePerDay;
-
-  const parts: string[] = [];
-  if (months > 0) parts.push(`${months} month${months > 1 ? "s" : ""}`);
-  if (weeks > 0) parts.push(`${weeks} week${weeks > 1 ? "s" : ""}`);
-  if (extraDays > 0) parts.push(`${extraDays} day${extraDays > 1 ? "s" : ""}`);
+  const safeDays = Number.isFinite(days) ? Math.max(0, Math.floor(days)) : 0;
 
   return {
     days: safeDays,
-    months,
-    weeks,
-    extraDays,
-    total,
-    label: parts.length > 0 ? parts.join(" + ") : "No dates selected",
+    total: safeDays * car.pricePerDay,
+    label: safeDays > 0 ? `${safeDays} day${safeDays === 1 ? "" : "s"}` : "No dates selected",
   };
 }
 

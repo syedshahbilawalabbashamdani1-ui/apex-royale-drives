@@ -49,8 +49,8 @@ export default function Hero() {
               {...rise(0.16)}
               className="mt-8 text-lg text-muted leading-relaxed max-w-[46ch]"
             >
-              Seven vehicles, all with a professional driver. Daily, weekly and
-              monthly rates, confirmed on WhatsApp in minutes.
+              Seven vehicles, all with a professional driver. Daily rates,
+              confirmed on WhatsApp in minutes.
             </motion.p>
 
             <motion.div {...rise(0.24)} className="mt-12 flex flex-wrap gap-3">

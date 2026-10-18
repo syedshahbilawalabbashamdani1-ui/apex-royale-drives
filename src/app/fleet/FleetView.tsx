@@ -12,7 +12,7 @@ import {
 } from "@/lib/cars";
 import Button from "@/components/ui/Button";
 import FilterGroup from "@/components/ui/FilterGroup";
-import CarCard from "@/components/sections/CarCard";
+import FleetPreviewCard from "@/components/sections/FleetPreviewCard";
 import CustomFleetCard from "@/components/sections/CustomFleetCard";
 import { CarCategory, FilterOptions } from "@/types";
 import {
@@ -145,8 +145,8 @@ export default function FleetView({
               OUR <span className="text-accent">FLEET</span>
             </h1>
             <p className="font-sans max-w-2xl mx-auto" style={{ color: "var(--text-secondary)" }}>
-              Every vehicle comes with a professional driver. Daily, weekly and
-              monthly rates are available — longer bookings cost less per day.
+              Every vehicle comes with a professional driver. Rentals are charged
+              per day at the rate shown for each vehicle.
             </p>
           </motion.div>
         </div>
@@ -245,9 +245,9 @@ export default function FleetView({
 
         {/* Car Grid */}
         {filteredCars.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {filteredCars.map((car, index) => (
-              <CarCard key={car.id} car={car} index={index} />
+          <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-3">
+            {filteredCars.map((car) => (
+              <FleetPreviewCard key={car.id} car={car} />
             ))}
             <CustomFleetCard key="custom-fleet" />
           </div>
