@@ -21,8 +21,8 @@ export default function TermsPage() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
             <div className="flex items-center gap-3">
               <FileText className="w-8 h-8 text-electric-cyan" />
-              <h1 className="font-general-sans text-4xl sm:text-5xl font-bold" style={{ color: "var(--text-primary)" }}>
-                Terms &amp; <span className="text-gradient">Conditions</span>
+              <h1 className="font-sans text-4xl sm:text-5xl font-bold" style={{ color: "var(--text-primary)" }}>
+                Terms &amp; <span className="text-accent">Conditions</span>
               </h1>
             </div>
             <p className="font-sans" style={{ color: "var(--text-secondary)" }}>
@@ -47,8 +47,8 @@ export default function TermsPage() {
             body: `The rental period begins at the time of vehicle pickup and ends at the time of return. Rental rates are as displayed on our Fleet page or as quoted during booking. Weekly and monthly rates offer discounted pricing compared to daily rates. All prices are in Pakistani Rupees (PKR) and inclusive of applicable taxes unless stated otherwise.`,
           },
           {
-            title: "4. Driver & Self-Drive",
-            body: `Professional drivers are available with every rental. Self-drive options are available for select vehicles upon request. For self-drive rentals, a valid Pakistani driving license or international driving permit is required, along with a valid national identity card or passport.`,
+            title: "4. Professional Driver",
+            body: `Every rental is provided with a professional driver. Driver time, fuel and vehicle wear are included in the rental rate and no separate driver charge applies. Vehicles are not rented for self-drive.`,
           },
           {
             title: "5. Insurance & Liability",
@@ -56,7 +56,7 @@ export default function TermsPage() {
           },
           {
             title: "6. Fuel Policy",
-            body: `Vehicles are provided with a fuel level as noted at pickup. The renter is responsible for refueling to the same level before return. Alternatively, a fuel surcharge may be applied at the Company's discretion.`,
+            body: `Fuel is not included in the rental rate. The driver refuels the vehicle as needed during the rental and the cost is charged to you at cost. Tolls on motorways and inter-city highways, and parking, are also charged at cost and are always reported to you before they are incurred.`,
           },
           {
             title: "7. Cancellation & Refunds",
@@ -89,7 +89,7 @@ export default function TermsPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="font-general-sans text-lg font-bold mb-3" style={{ color: "var(--text-primary)" }}>
+            <h2 className="font-sans text-lg font-bold mb-3" style={{ color: "var(--text-primary)" }}>
               {section.title}
             </h2>
             <p className="font-sans text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>

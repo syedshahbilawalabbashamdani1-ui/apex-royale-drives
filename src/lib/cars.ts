@@ -2,38 +2,37 @@ import { Car } from "@/types";
 
 export const cars: Car[] = [
   {
-    id: "audi-a6-2024",
-    name: "Audi A6",
-    brand: "Audi",
-    category: "Sedan",
+    id: "toyota-hilux-revo",
+    name: "Toyota Revo",
+    brand: "Toyota",
+    category: "SUV",
     year: 2024,
-    pricePerDay: 50000,
-    pricePerWeek: 280000,
-    pricePerMonth: 1100000,
+    pricePerDay: 12000,
+    pricePerWeek: 68000,
+    pricePerMonth: 265000,
     seats: 5,
     luggage: 3,
     transmission: "Automatic",
-    fuel: "Petrol",
-    engine: "2.0L Turbo 4-Cylinder",
-    horsepower: 261,
-    topSpeed: "210 km/h",
-    acceleration: "0-100 in 5.8s",
+    fuel: "Diesel",
+    engine: "2.8L Turbo Diesel (1GD-FTV)",
+    horsepower: 201,
+    topSpeed: "200 km/h",
+    acceleration: "0-100 in 10.8s",
     features: [
       "Professional Driver",
-      "Panoramic Sunroof",
-      "Audi Virtual Cockpit",
-      "Bang & Olufsen 3D Sound",
-      "Matrix LED Headlights",
-      "4-Zone Climate Control",
-      "Wireless Apple CarPlay",
-      "Leather Seats",
+      "4WD with Auto LSD",
+      "8 inch Touchscreen Display",
+      "Rear Parking Camera",
+      "Hill Start Assist Control",
+      "Traction Control System",
+      "Bluetooth & USB Connectivity",
+      "Cruise Control",
     ],
-    images: ["/Images/Fleet/Audi_A6.jpeg"],
-    color: "#FFFFFF",
+    images: ["/Images/Fleet/Toyota_Revo.jpeg"],
     available: true,
     popular: true,
     description:
-      "The Audi A6 combines sophistication with performance. Rent with a professional driver, fuel included, for travel all over Pakistan. Perfect for business executives and VIP travel.",
+      "The Toyota Hilux Revo is built tough for any terrain. Ideal for northern areas adventure and off-road exploration in Pakistan. With driver, without fuel.",
   },
   {
     id: "toyota-land-cruiser-prado",
@@ -63,11 +62,10 @@ export const cars: Car[] = [
       "Hill Assist Control",
     ],
     images: ["/Images/Fleet/Land_Cruiser_Prado.jpeg"],
-    color: "#FFFFFF",
     available: true,
     popular: true,
     description:
-      "The Toyota Land Cruiser Prado is the ultimate travel companion. Comfortable, clean, and hassle-free — ready to be your travel solution. With driver, without fuel.",
+      "The Toyota Land Cruiser Prado is the ultimate travel companion. Comfortable, clean, and hassle-free for family trips to Murree, Naran and Swat. With driver, without fuel.",
   },
   {
     id: "toyota-land-cruiser-v8-zx",
@@ -97,11 +95,43 @@ export const cars: Car[] = [
       "Multi-Terrain Monitor",
     ],
     images: ["/Images/Fleet/Land_Cruiser_V8_ZX.jpeg"],
-    color: "#FFFFFF",
     available: true,
     popular: true,
     description:
-      "Experience the luxury of the Land Cruiser V8 ZX. The flagship SUV from Toyota delivers unmatched comfort and power for premium travel across Pakistan.",
+      "Experience the luxury of the Land Cruiser V8 ZX. The flagship SUV from Toyota delivers unmatched comfort and power for premium travel across Pakistan. With driver, without fuel.",
+  },
+  {
+    id: "audi-a6-2024",
+    name: "Audi A6",
+    brand: "Audi",
+    category: "Sedan",
+    year: 2024,
+    pricePerDay: 50000,
+    pricePerWeek: 280000,
+    pricePerMonth: 1100000,
+    seats: 5,
+    luggage: 3,
+    transmission: "Automatic",
+    fuel: "Petrol",
+    engine: "2.0L Turbo 4-Cylinder",
+    horsepower: 261,
+    topSpeed: "210 km/h",
+    acceleration: "0-100 in 5.8s",
+    features: [
+      "Professional Driver",
+      "Panoramic Sunroof",
+      "Audi Virtual Cockpit",
+      "Bang & Olufsen 3D Sound",
+      "Matrix LED Headlights",
+      "4-Zone Climate Control",
+      "Wireless Apple CarPlay",
+      "Leather Seats",
+    ],
+    images: ["/Images/Fleet/Audi_A6.jpeg"],
+    available: true,
+    popular: true,
+    description:
+      "The Audi A6 combines sophistication with performance. Rent with a professional driver for business trips and executive travel across Pakistan. With driver, without fuel.",
   },
   {
     id: "mercedes-g63-amg",
@@ -131,11 +161,10 @@ export const cars: Car[] = [
       "360 degree Camera",
     ],
     images: ["/Images/Fleet/Mercedes_G63_AMG.jpeg"],
-    color: "#FFFFFF",
     available: true,
     popular: true,
     description:
-      "The Mercedes G63 AMG is the ultimate statement of power and luxury. With driver, without fuel, available all over Pakistan for weddings, events, and VIP transport.",
+      "The Mercedes G63 AMG is the ultimate statement of power and luxury. With driver, without fuel, available for weddings, events, and VIP transport across Pakistan.",
   },
   {
     id: "mercedes-maybach-s-class",
@@ -155,7 +184,7 @@ export const cars: Car[] = [
     topSpeed: "250 km/h",
     acceleration: "0-100 in 4.8s",
     features: [
-      "Professional Chauffeur",
+      "Professional Driver",
       "4.0L V8 Biturbo with Mild Hybrid",
       "Burmester 4D Surround Sound",
       "First-Class Rear Executive Seats",
@@ -165,11 +194,10 @@ export const cars: Car[] = [
       "Executive Interior Lighting",
     ],
     images: ["/Images/Fleet/Mercedes_Maybach_S_Class.jpeg"],
-    color: "#FFFFFF",
     available: true,
     popular: true,
     description:
-      "The Mercedes-Maybach S-Class represents the pinnacle of automotive luxury. Experience first-class travel with professional chauffeur service all over Pakistan.",
+      "The Mercedes-Maybach S-Class represents the pinnacle of automotive luxury. Experience first-class travel with professional driver service across Pakistan. With driver, without fuel.",
   },
   {
     id: "range-rover-2024",
@@ -184,13 +212,13 @@ export const cars: Car[] = [
     luggage: 5,
     transmission: "Automatic",
     fuel: "Petrol",
-    engine: "4.4L Twin-Turbo V8",
+    engine: "4.4L Supercharged V8",
     horsepower: 523,
     topSpeed: "250 km/h",
     acceleration: "0-100 in 4.6s",
     features: [
       "Professional Driver",
-      "4.4L BMW Twin-Turbo V8",
+      "4.4L Supercharged V8 Engine",
       "Terrain Response 2 Auto",
       "Meridian Signature Sound",
       "Pixel LED Headlights",
@@ -199,54 +227,36 @@ export const cars: Car[] = [
       "13.1 inch Touchscreen",
     ],
     images: ["/Images/Fleet/Range_Rover.jpeg"],
-    color: "#FFFFFF",
     available: true,
     popular: true,
     description:
-      "The Range Rover combines British luxury with unmatched capability. Available with driver, without fuel, for premium travel across Pakistan's diverse terrain.",
-  },
-  {
-    id: "toyota-hilux-revo",
-    name: "Toyota Revo",
-    brand: "Toyota",
-    category: "SUV",
-    year: 2024,
-    pricePerDay: 12000,
-    pricePerWeek: 68000,
-    pricePerMonth: 265000,
-    seats: 5,
-    luggage: 3,
-    transmission: "Automatic",
-    fuel: "Diesel",
-    engine: "2.8L Turbo Diesel (1GD-FTV)",
-    horsepower: 201,
-    topSpeed: "200 km/h",
-    acceleration: "0-100 in 10.8s",
-    features: [
-      "Professional Driver",
-      "4WD with Auto LSD",
-      "8 inch Touchscreen Display",
-      "Rear Parking Camera",
-      "Hill Start Assist Control",
-      "Traction Control System",
-      "Bluetooth & USB Connectivity",
-      "Cruise Control",
-    ],
-    images: ["/Images/Fleet/Toyota_Revo.jpeg"],
-    color: "#FFFFFF",
-    available: true,
-    popular: true,
-    description:
-      "The Toyota Hilux Revo is built tough for any terrain. Ideal for northern areas adventure and off-road exploration in Pakistan. With driver, without fuel.",
+      "The Range Rover combines British luxury with unmatched capability. With driver, without fuel, for premium travel across Pakistan's diverse terrain.",
   },
 ];
 
 export const locations = [
   "Islamabad International Airport",
+  "F-10 Markaz, Islamabad",
   "Blue Area, Islamabad",
   "F-8 Markaz, Islamabad",
   "G-9 Markaz, Islamabad",
   "Centaurus Mall, Islamabad",
-  "Rawalpindi Saddar",
   "DHA Phase 5, Islamabad",
+  "Rawalpindi Saddar",
 ];
+
+export function getCar(id: string): Car | undefined {
+  return cars.find((c) => c.id === id);
+}
+
+export function getCategories(): (Car["category"] | "All")[] {
+  return ["All", ...new Set(cars.map((c) => c.category))];
+}
+
+export function getTransmissions(): ("All" | Car["transmission"])[] {
+  return ["All", ...new Set(cars.map((c) => c.transmission))];
+}
+
+export function getFuels(): ("All" | Car["fuel"])[] {
+  return ["All", ...new Set(cars.map((c) => c.fuel))];
+}

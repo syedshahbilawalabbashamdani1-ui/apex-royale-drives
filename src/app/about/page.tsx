@@ -1,7 +1,7 @@
 "use client";
 
+import Button from "@/components/ui/Button";
 import { motion } from "framer-motion";
-import Link from "next/link";
 import Image from "next/image";
 import {
   Car,
@@ -14,7 +14,8 @@ import {
   Heart,
   Shield,
 } from "lucide-react";
-import { CONTACT } from "@/lib/constants";
+import { CONTACT, RATING } from "@/lib/constants";
+import { cars } from "@/lib/cars";
 
 const organizationSchema = {
   "@context": "https://schema.org",
@@ -44,8 +45,8 @@ const organizationSchema = {
 };
 
 const stats = [
-  { icon: Car, value: "30+", label: "Happy Clients" },
-  { icon: Award, value: "5.0", label: "Google Rating" },
+  { icon: Car, value: String(cars.length), label: "Vehicles in Fleet" },
+  { icon: Award, value: RATING.value, label: "Google Rating" },
   { icon: MapPin, value: "2", label: "Cities Served" },
   { icon: Clock, value: "24/7", label: "Availability" },
 ];
@@ -93,8 +94,8 @@ export default function AboutPage() {
             <span className="font-sans text-sm text-electric-cyan font-medium tracking-wider uppercase">
               About Us
             </span>
-            <h1 className="font-general-sans text-4xl sm:text-5xl lg:text-6xl font-bold text-theme-primary mt-4 mb-6">
-              DRIVING <span className="text-gradient">EXCELLENCE</span>
+            <h1 className="font-sans text-4xl sm:text-5xl lg:text-6xl font-bold text-theme-primary mt-4 mb-6">
+              DRIVING <span className="text-accent">EXCELLENCE</span>
             </h1>
             <p className="font-sans text-lg text-theme-secondary leading-relaxed">
               Apex Royale Drives is a trusted rent-a-car service in Islamabad
@@ -121,7 +122,7 @@ export default function AboutPage() {
                 <div className="w-14 h-14 rounded-xl bg-electric-cyan/10 flex items-center justify-center mx-auto mb-4">
                   <stat.icon className="w-7 h-7 text-electric-cyan" />
                 </div>
-                <div className="font-general-sans text-3xl font-bold text-gradient">
+                <div className="font-sans text-3xl font-bold text-accent">
                   {stat.value}
                 </div>
                 <div className="font-sans text-sm text-theme-secondary mt-1">
@@ -146,8 +147,8 @@ export default function AboutPage() {
               <span className="font-sans text-sm text-electric-cyan font-medium tracking-wider uppercase">
                 Our Story
               </span>
-              <h2 className="font-general-sans text-3xl font-bold text-theme-primary">
-                FROM A VISION TO <span className="text-gradient">REALITY</span>
+              <h2 className="font-sans text-3xl font-bold text-theme-primary">
+                FROM A VISION TO <span className="text-accent">REALITY</span>
               </h2>
               <div className="space-y-4 font-sans text-theme-secondary leading-relaxed">
                 <p>
@@ -175,7 +176,7 @@ export default function AboutPage() {
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="card-dark p-8"
+              className="panel p-8"
             >
               <div className="aspect-square rounded-xl overflow-hidden relative">
                 <Image
@@ -204,8 +205,8 @@ export default function AboutPage() {
             <span className="font-sans text-sm text-electric-cyan font-medium tracking-wider uppercase">
               Our Values
             </span>
-            <h2 className="font-general-sans text-3xl font-bold text-theme-primary">
-              WHAT <span className="text-gradient">DRIVES</span> US
+            <h2 className="font-sans text-3xl font-bold text-theme-primary">
+              WHAT <span className="text-accent">DRIVES</span> US
             </h2>
           </motion.div>
 
@@ -217,12 +218,12 @@ export default function AboutPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="card-dark p-8 text-center hover:border-electric-cyan/30 transition-all"
+                className="panel p-8 text-center hover:border-electric-cyan/30 transition-all"
               >
                 <div className="w-16 h-16 rounded-xl bg-electric-cyan/10 flex items-center justify-center mx-auto mb-6">
                   <value.icon className="w-8 h-8 text-electric-cyan" />
                 </div>
-                <h3 className="font-general-sans text-xl font-bold text-theme-primary mb-3">
+                <h3 className="font-sans text-xl font-bold text-theme-primary mb-3">
                   {value.title}
                 </h3>
                 <p className="font-sans text-sm text-theme-secondary leading-relaxed">
@@ -246,8 +247,8 @@ export default function AboutPage() {
             <span className="font-sans text-sm text-electric-cyan font-medium tracking-wider uppercase">
               Our Fleet
             </span>
-            <h2 className="font-general-sans text-3xl font-bold text-theme-primary">
-              VEHICLES WE <span className="text-gradient">OFFER</span>
+            <h2 className="font-sans text-3xl font-bold text-theme-primary">
+              VEHICLES WE <span className="text-accent">OFFER</span>
             </h2>
           </motion.div>
 
@@ -266,9 +267,9 @@ export default function AboutPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="card-dark p-6 hover:border-electric-cyan/30 transition-all"
+                className="panel p-6 hover:border-electric-cyan/30 transition-all"
               >
-                <h3 className="font-general-sans text-lg font-bold text-gradient mb-2">
+                <h3 className="font-sans text-lg font-bold text-accent mb-2">
                   {item.category}
                 </h3>
                 <p className="font-sans text-sm text-theme-secondary">
@@ -289,8 +290,8 @@ export default function AboutPage() {
             viewport={{ once: true }}
             className="space-y-8"
           >
-            <h2 className="font-general-sans text-3xl font-bold text-theme-primary">
-              GET IN <span className="text-gradient">TOUCH</span>
+            <h2 className="font-sans text-3xl font-bold text-theme-primary">
+              GET IN <span className="text-accent">TOUCH</span>
             </h2>
             <p className="font-sans text-lg text-theme-secondary">
               Ready to experience the Apex Royale difference? Contact us today.
@@ -299,10 +300,10 @@ export default function AboutPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <a
                 href={`tel:${CONTACT.phone}`}
-                className="card-dark p-6 hover:border-electric-cyan/30 transition-all group"
+                className="panel p-6 hover:border-electric-cyan/30 transition-all group"
               >
                 <Phone className="w-8 h-8 text-electric-cyan mx-auto mb-3" />
-                <h4 className="font-general-sans text-sm font-bold text-theme-primary group-hover:text-electric-cyan transition-colors">
+                <h4 className="font-sans text-sm font-bold text-theme-primary group-hover:text-electric-cyan transition-colors">
                   Call Us
                 </h4>
                 <p className="font-sans text-sm text-theme-secondary mt-1">
@@ -312,10 +313,10 @@ export default function AboutPage() {
 
               <a
                 href={`mailto:${CONTACT.email}`}
-                className="card-dark p-6 hover:border-electric-cyan/30 transition-all group"
+                className="panel p-6 hover:border-electric-cyan/30 transition-all group"
               >
                 <Mail className="w-8 h-8 text-electric-cyan mx-auto mb-3" />
-                <h4 className="font-general-sans text-sm font-bold text-theme-primary group-hover:text-electric-cyan transition-colors">
+                <h4 className="font-sans text-sm font-bold text-theme-primary group-hover:text-electric-cyan transition-colors">
                   Email Us
                 </h4>
                 <p className="font-sans text-sm text-theme-secondary mt-1">
@@ -323,9 +324,9 @@ export default function AboutPage() {
                 </p>
               </a>
 
-              <div className="card-dark p-6">
+              <div className="panel p-6">
                 <Clock className="w-8 h-8 text-electric-cyan mx-auto mb-3" />
-                <h4 className="font-general-sans text-sm font-bold text-theme-primary">
+                <h4 className="font-sans text-sm font-bold text-theme-primary">
                   Working Hours
                 </h4>
                 <p className="font-sans text-sm text-theme-secondary mt-1">
@@ -334,9 +335,9 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <Link href="/fleet" className="btn-primary">
+            <Button href="/fleet" className="">
               Explore Our Fleet
-            </Link>
+            </Button>
           </motion.div>
         </div>
       </section>

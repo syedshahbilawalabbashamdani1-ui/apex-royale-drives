@@ -1,46 +1,31 @@
-import Link from "next/link";
-import { MapPin } from "lucide-react";
-import { CONTACT } from "@/lib/constants";
+import Button from "@/components/ui/Button";
+import { whatsappLink } from "@/lib/constants";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen flex items-center justify-center" style={{ background: "var(--bg-primary)" }}>
-      <div className="text-center space-y-8 px-4">
-        {/* Icon */}
-        <div className="w-24 h-24 rounded-full bg-electric-cyan/10 flex items-center justify-center mx-auto">
-          <MapPin className="w-12 h-12 text-electric-cyan" />
-        </div>
-
-        {/* Heading */}
-        <div className="space-y-3">
-          <h1 className="font-general-sans text-6xl font-black text-gradient">
-            404
-          </h1>
-          <h2 className="font-general-sans text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
-            Page Not Found
-          </h2>
-        </div>
-
-        {/* Message */}
-        <div className="max-w-md mx-auto space-y-4">
-          <p className="font-sans text-lg" style={{ color: "var(--text-secondary)" }}>
-            The page you&apos;re looking for doesn&apos;t exist or has been moved.
-          </p>
-        </div>
-
-        {/* Actions */}
-        <div className="flex flex-wrap items-center justify-center gap-4">
-          <Link href="/" className="btn-primary">
-            Go to Homepage
-          </Link>
-          <a
-            href={`https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent("Hi, I need help finding something on your website.")}`}
+    <div className="min-h-[calc(100dvh-var(--header-h))] flex items-center justify-center px-4">
+      <div className="max-w-md text-center">
+        <p className="text-[7rem] sm:text-[9rem] font-medium leading-none tracking-[-0.04em] text-text">
+          404
+        </p>
+        <h1 className="mt-4 text-2xl font-medium tracking-[-0.02em]">
+          Page not found
+        </h1>
+        <p className="mt-4 text-lg text-muted leading-relaxed">
+          The page you are looking for does not exist or has moved.
+        </p>
+        <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
+          <Button href="/" className="">
+            Go to homepage
+          </Button>
+          <Button variant="ghost"
+            href={whatsappLink("Hi, I need help finding something on your website.")}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-secondary"
+            className=""
           >
             Contact on WhatsApp
-          </a>
+          </Button>
         </div>
       </div>
     </div>

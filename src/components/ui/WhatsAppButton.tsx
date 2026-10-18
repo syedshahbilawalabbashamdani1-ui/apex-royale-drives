@@ -1,25 +1,16 @@
 "use client";
 
-import { CONTACT } from "@/lib/constants";
+import WhatsAppLink from "./WhatsAppLink";
 import { WhatsAppIcon } from "@/components/ui/SocialIcons";
 
 export default function WhatsAppButton() {
-  const message = encodeURIComponent(
-    "Hi, I want to rent a car in Islamabad"
-  );
-  const whatsappUrl = `https://wa.me/${CONTACT.whatsapp}?text=${message}`;
-
   return (
-    <a
-      href={whatsappUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-50 group"
-      aria-label="Chat on WhatsApp"
+    <WhatsAppLink
+      message="Hi, I want to rent a car in Islamabad"
+      className="fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] left-4 z-[var(--z-overlay)] gap-3"
     >
-      <div className="w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 transition-colors hover:scale-110 transform duration-300">
-        <WhatsAppIcon className="w-7 h-7 text-white" />
-      </div>
-    </a>
+      <WhatsAppIcon className="w-5 h-5" aria-hidden="true" />
+      <span>WhatsApp</span>
+    </WhatsAppLink>
   );
 }

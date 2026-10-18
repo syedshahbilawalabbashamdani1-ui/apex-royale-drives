@@ -1,8 +1,10 @@
 "use client";
 
+import Button from "@/components/ui/Button";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { CONTACT } from "@/lib/constants";
+import { CONTACT, whatsappLink } from "@/lib/constants";
+import { isValidPhone, normalizePhone, PHONE_ERROR } from "@/lib/phone";
 import {
   Phone,
   Mail,
@@ -26,8 +28,8 @@ export default function ContactPage() {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       next.email = "Please enter a valid email address";
     }
-    if (formData.phone && !/^[+\d\s-]{7,15}$/.test(formData.phone)) {
-      next.phone = "Please enter a valid phone number";
+    if (!isValidPhone(formData.phone, false)) {
+      next.phone = PHONE_ERROR;
     }
     setErrors(next);
     return Object.keys(next).length === 0;
@@ -36,10 +38,8 @@ export default function ContactPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
-    const message = encodeURIComponent(
-      `Hi, I have a ${formData.subject || "general"} inquiry.\n\nName: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\nMessage: ${formData.message}`
-    );
-    window.open(`https://wa.me/${CONTACT.whatsapp}?text=${message}`, "_blank");
+    const message = `Hi, I have a ${formData.subject || "general"} inquiry.\n\nName: ${formData.name}\nEmail: ${formData.email}\nPhone: ${normalizePhone(formData.phone)}\n\nMessage: ${formData.message}`;
+    window.open(whatsappLink(message), "_blank");
   };
 
   return (
@@ -52,8 +52,8 @@ export default function ContactPage() {
             animate={{ opacity: 1, y: 0 }}
             className="text-center space-y-4"
           >
-            <h1 className="font-general-sans text-4xl sm:text-5xl font-bold text-theme-primary">
-              CONTACT <span className="text-gradient">US</span>
+            <h1 className="font-sans text-4xl sm:text-5xl font-bold text-theme-primary">
+              CONTACT <span className="text-accent">US</span>
             </h1>
             <p className="font-sans text-theme-secondary max-w-2xl mx-auto">
               Have questions? We&apos;re here to help. Reach out to us via any of
@@ -72,8 +72,8 @@ export default function ContactPage() {
             className="space-y-8"
           >
             <div>
-              <h2 className="font-general-sans text-2xl font-bold text-theme-primary mb-4">
-                GET IN <span className="text-gradient">TOUCH</span>
+              <h2 className="font-sans text-2xl font-bold text-theme-primary mb-4">
+                GET IN <span className="text-accent">TOUCH</span>
               </h2>
               <p className="font-sans text-theme-secondary leading-relaxed">
                 Whether you need a car for a day or a month, have questions about
@@ -85,13 +85,13 @@ export default function ContactPage() {
             <div className="space-y-6">
               <a
                 href={`tel:${CONTACT.phone}`}
-                className="card-dark p-6 flex items-start gap-4 hover:border-electric-cyan/30 transition-all group"
+                className="panel p-6 flex items-start gap-4 hover:border-electric-cyan/30 transition-all group"
               >
                 <div className="w-12 h-12 rounded-xl bg-electric-cyan/10 flex items-center justify-center flex-shrink-0 group-hover:bg-electric-cyan/20 transition-colors">
                   <Phone className="w-6 h-6 text-electric-cyan" />
                 </div>
                 <div>
-                  <h3 className="font-general-sans text-sm font-bold text-theme-primary group-hover:text-electric-cyan transition-colors">
+                  <h3 className="font-sans text-sm font-bold text-theme-primary group-hover:text-electric-cyan transition-colors">
                     Phone
                   </h3>
                   <p className="font-sans text-sm text-theme-secondary mt-1">
@@ -105,13 +105,13 @@ export default function ContactPage() {
 
               <a
                 href={`mailto:${CONTACT.email}`}
-                className="card-dark p-6 flex items-start gap-4 hover:border-electric-cyan/30 transition-all group"
+                className="panel p-6 flex items-start gap-4 hover:border-electric-cyan/30 transition-all group"
               >
                 <div className="w-12 h-12 rounded-xl bg-electric-cyan/10 flex items-center justify-center flex-shrink-0 group-hover:bg-electric-cyan/20 transition-colors">
                   <Mail className="w-6 h-6 text-electric-cyan" />
                 </div>
                 <div>
-                  <h3 className="font-general-sans text-sm font-bold text-theme-primary group-hover:text-electric-cyan transition-colors">
+                  <h3 className="font-sans text-sm font-bold text-theme-primary group-hover:text-electric-cyan transition-colors">
                     Email
                   </h3>
                   <p className="font-sans text-sm text-theme-secondary mt-1">
@@ -123,12 +123,12 @@ export default function ContactPage() {
                 </div>
               </a>
 
-              <div className="card-dark p-6 flex items-start gap-4">
+              <div className="panel p-6 flex items-start gap-4">
                 <div className="w-12 h-12 rounded-xl bg-electric-cyan/10 flex items-center justify-center flex-shrink-0">
                   <MapPin className="w-6 h-6 text-electric-cyan" />
                 </div>
                 <div>
-                  <h3 className="font-general-sans text-sm font-bold text-theme-primary">
+                  <h3 className="font-sans text-sm font-bold text-theme-primary">
                     Location
                   </h3>
                   <p className="font-sans text-sm text-theme-secondary mt-1">
@@ -137,12 +137,12 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              <div className="card-dark p-6 flex items-start gap-4">
+              <div className="panel p-6 flex items-start gap-4">
                 <div className="w-12 h-12 rounded-xl bg-electric-cyan/10 flex items-center justify-center flex-shrink-0">
                   <Clock className="w-6 h-6 text-electric-cyan" />
                 </div>
                 <div>
-                  <h3 className="font-general-sans text-sm font-bold text-theme-primary">
+                  <h3 className="font-sans text-sm font-bold text-theme-primary">
                     Working Hours
                   </h3>
                   <p className="font-sans text-sm text-theme-secondary mt-1">
@@ -157,7 +157,7 @@ export default function ContactPage() {
 
             {/* WhatsApp CTA */}
             <a
-              href={`https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent("Hi, I have a question about car rental")}`}
+              href={whatsappLink("Hi, I have a question about car rental")}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-3 w-full py-4 bg-green-600 hover:bg-green-700 rounded-lg font-sans text-theme-primary font-medium transition-colors"
@@ -172,8 +172,8 @@ export default function ContactPage() {
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
           >
-            <form onSubmit={handleSubmit} className="card-dark p-8 space-y-6">
-              <h3 className="font-general-sans text-xl font-bold text-theme-primary">
+            <form onSubmit={handleSubmit} className="panel p-8 space-y-6">
+              <h3 className="font-sans text-xl font-bold text-theme-primary">
                 SEND A MESSAGE
               </h3>
 
@@ -191,7 +191,7 @@ export default function ContactPage() {
                     }
                     required
                     placeholder="Enter your name"
-                    className="w-full px-4 py-3 border border-electric-cyan/10 rounded-lg font-sans text-sm text-theme-primary placeholder:text-theme-secondary/50 focus:outline-none focus:border-electric-cyan/30 transition-colors"
+                    className="field w-full px-4 py-3 border border-electric-cyan/10 rounded-lg font-sans text-sm text-theme-primary placeholder:text-theme-secondary/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent focus:border-electric-cyan/30 transition-colors"
                     style={{ background: "var(--bg-primary)" }}
                   />
                 </div>
@@ -209,7 +209,7 @@ export default function ContactPage() {
                     }
                     required
                     placeholder="Enter your email"
-                    className="w-full px-4 py-3 border border-electric-cyan/10 rounded-lg font-sans text-sm text-theme-primary placeholder:text-theme-secondary/50 focus:outline-none focus:border-electric-cyan/30 transition-colors"
+                    className="field w-full px-4 py-3 border border-electric-cyan/10 rounded-lg font-sans text-sm text-theme-primary placeholder:text-theme-secondary/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent focus:border-electric-cyan/30 transition-colors"
                     style={{ background: "var(--bg-primary)" }}
                   />
                   {errors.email && (
@@ -231,7 +231,7 @@ export default function ContactPage() {
                       setFormData({ ...formData, phone: e.target.value })
                     }
                     placeholder="+92 300 123 4567"
-                    className="w-full px-4 py-3 border border-electric-cyan/10 rounded-lg font-sans text-sm text-theme-primary placeholder:text-theme-secondary/50 focus:outline-none focus:border-electric-cyan/30 transition-colors"
+                    className="field w-full px-4 py-3 border border-electric-cyan/10 rounded-lg font-sans text-sm text-theme-primary placeholder:text-theme-secondary/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent focus:border-electric-cyan/30 transition-colors"
                     style={{ background: "var(--bg-primary)" }}
                   />
                   {errors.phone && (
@@ -250,7 +250,7 @@ export default function ContactPage() {
                       setFormData({ ...formData, subject: e.target.value })
                     }
                     required
-                    className="w-full px-4 py-3 border border-electric-cyan/10 rounded-lg font-sans text-sm text-theme-primary focus:outline-none focus:border-electric-cyan/30 transition-colors"
+                    className="field w-full px-4 py-3 border border-electric-cyan/10 rounded-lg font-sans text-sm text-theme-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent focus:border-electric-cyan/30 transition-colors"
                     style={{ background: "var(--bg-primary)" }}
                   >
                     <option value="">Select a subject</option>
@@ -276,15 +276,15 @@ export default function ContactPage() {
                   required
                   rows={5}
                   placeholder="Tell us how we can help..."
-                  className="w-full px-4 py-3 border border-electric-cyan/10 rounded-lg font-sans text-sm text-theme-primary placeholder:text-theme-secondary/50 focus:outline-none focus:border-electric-cyan/30 transition-colors resize-none"
+                  className="field w-full px-4 py-3 border border-electric-cyan/10 rounded-lg font-sans text-sm text-theme-primary placeholder:text-theme-secondary/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent focus:border-electric-cyan/30 transition-colors resize-none"
                   style={{ background: "var(--bg-primary)" }}
                 />
               </div>
 
-              <button type="submit" className="btn-primary w-full py-4">
+              <Button type="submit" className="w-full py-4">
                 <WhatsAppIcon className="w-5 h-5 mr-2" />
                 Send on WhatsApp
-              </button>
+              </Button>
             </form>
           </motion.div>
         </div>

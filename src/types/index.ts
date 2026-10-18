@@ -5,31 +5,24 @@ export interface Car {
   category: CarCategory;
   year: number;
   pricePerDay: number;
-  pricePerWeek?: number;
-  pricePerMonth?: number;
+  pricePerWeek: number;
+  pricePerMonth: number;
   seats: number;
   luggage: number;
   transmission: "Automatic" | "Manual";
-  fuel: "Petrol" | "Diesel" | "Electric" | "Hybrid";
+  fuel: "Petrol" | "Diesel";
   engine: string;
   horsepower: number;
   topSpeed: string;
   acceleration: string;
   features: string[];
   images: string[];
-  color: string;
   available: boolean;
   popular?: boolean;
   description: string;
 }
 
-export type CarCategory =
-  | "Sedan"
-  | "SUV"
-  | "Luxury"
-  | "Sports"
-  | "Economy"
-  | "Electric";
+export type CarCategory = "Sedan" | "SUV" | "Luxury";
 
 export interface BookingFormData {
   carIds: string[];
@@ -46,8 +39,7 @@ export interface BookingFormData {
 
 export interface FilterOptions {
   category: CarCategory | "All";
-  priceRange: [number, number];
   transmission: "All" | "Automatic" | "Manual";
-  fuel: "All" | "Petrol" | "Diesel" | "Electric" | "Hybrid";
+  fuel: "All" | "Petrol" | "Diesel";
   sortBy: "price-asc" | "price-desc" | "newest";
 }

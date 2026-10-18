@@ -1,241 +1,396 @@
+@import "./fonts.css";
 @import "tailwindcss";
 
+/* Tailwind dark variant driven by the .dark class on <html>. */
+@custom-variant dark (&:is(.dark *));
+
 @theme inline {
-  --color-champagne: #C9A96E;
-  --color-champagne-light: #D4B87A;
-  --color-deep-black: #0C0A09;
-  --color-warm-charcoal: #1C1917;
-  --color-warm-gray: #44403C;
-  --color-silver-chrome: #A89B8C;
-  --color-off-white: #FAFAF9;
-  --color-light-gray: #D6D3D1;
-  --color-gunmetal: #1E293B;
-  --color-carbon-black: #0D0D0D;
+  /* ALPHA reference: monochrome surfaces, Neue Montreal and one red accent. */
+  --color-background: var(--color-background-ref);
+  --color-surface: var(--color-surface-ref);
+  --color-surface-2: var(--color-surface-2-ref);
+  --color-text: var(--color-text-ref);
+  --color-muted: var(--color-muted-ref);
+  --color-accent: var(--color-accent-ref);
+  --color-accent-contrast: var(--color-accent-contrast-ref);
+  --color-line: var(--color-line-ref);
 
-  --font-inter: "Inter", sans-serif;
-  --font-general-sans: "General Sans", "Space Grotesk", "Inter Tight", var(--font-inter), sans-serif;
+  --color-brand: #e8391d;
 
-  --shadow-gold-glow: 0 4px 24px rgba(201, 169, 110, 0.12);
-  --shadow-gold-glow-lg: 0 8px 40px rgba(201, 169, 110, 0.18);
+  /* Deprecated aliases kept until the remaining routes are migrated. */
+  --color-electric-cyan: var(--color-accent-ref);
+  --color-theme-primary: var(--color-text-ref);
+  --color-theme-secondary: var(--color-muted-ref);
+
+  --font-sans: "Neue Montreal", system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, Consolas, monospace;
+
+  --shadow-accent: 0 8px 40px rgb(var(--accent-rgb) / 0.12);
+
+  --radius-panel: 16px;
+  --radius-control: 12px;
 }
 
 @layer base {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     box-sizing: border-box;
+  }
+
+  :root {
+    color-scheme: light;
+
+    /* ALPHA uses 18px desktop and 16px tablet/mobile. */
+    font-size: 18px;
+
+    --color-background-ref: #ffffff;
+    --color-surface-ref: #ffffff;
+    --color-surface-2-ref: #f3f4f6;
+    --color-text-ref: #111111;
+    --color-muted-ref: #555555;
+    --color-accent-ref: #c62e17;
+    --color-accent-contrast-ref: #ffffff;
+    --color-line-ref: #e5e5e5;
+
+    --accent-rgb: 198 46 23;
+
+    /* Legacy aliases: remaining routes still reference these. */
+    --bg-primary: var(--color-background-ref);
+    --bg-secondary: var(--color-surface-ref);
+    --bg-tertiary: var(--color-surface-2-ref);
+    --text-primary: var(--color-text-ref);
+    --text-secondary: var(--color-muted-ref);
+    --border-primary: var(--color-line-ref);
+    --border-secondary: var(--color-line-ref);
+    --accent: var(--color-accent-ref);
+    --accent-r: 198;
+    --accent-g: 46;
+    --accent-b: 23;
+  }
+
+  :root {
+    --color-header-bg: rgb(255 255 255 / 0.65);
+    --color-header-border: rgb(0 0 0 / 0.08);
+  }
+
+  html.dark {
+    color-scheme: dark;
+
+    --color-background-ref: #000000;
+    --color-surface-ref: #010101;
+    --color-surface-2-ref: #1e1e1e;
+    --color-text-ref: #ffffff;
+    --color-muted-ref: #a5a5a5;
+    --color-accent-ref: #ff735e;
+    --color-accent-contrast-ref: #000000;
+    --color-line-ref: #24232a;
+
+    --accent-rgb: 255 115 94;
+    --accent-r: 255;
+    --accent-g: 115;
+    --accent-b: 94;
+    --color-header-bg: rgb(0 0 0 / 0.65);
+    --color-header-border: #38383899;
   }
 
   html {
     scroll-behavior: smooth;
-    --bg-primary: #0C0A09;
-    --bg-secondary: #1C1917;
-    --bg-tertiary: #161210;
-    --text-primary: #FAFAF9;
-    --text-secondary: #A89B8C;
-    --border-primary: rgba(201, 169, 110, 0.1);
-    --border-secondary: rgba(201, 169, 110, 0.15);
-    --accent: #C9A96E;
-    --accent-r: 201;
-    --accent-g: 169;
-    --accent-b: 110;
-  }
 
-  html.light {
-    --bg-primary: #FAFAF9;
-    --bg-secondary: #FFFFFF;
-    --bg-tertiary: #F5F0E8;
-    --text-primary: #1C1917;
-    --text-secondary: #57534E;
-    --border-primary: rgba(201, 169, 110, 0.2);
-    --border-secondary: rgba(201, 169, 110, 0.3);
-    --accent: #92702A;
-    --accent-r: 146;
-    --accent-g: 112;
-    --accent-b: 42;
+    /* Single source of truth for the fixed header. Both the main offset and
+       full-height sections derive from this, so they cannot drift apart. */
+    --header-h: 88px;
+
+    /* Layer scale. Use these instead of ad-hoc z-50 / z-[100]. */
+    --z-base: 0;
+    --z-header: 50;
+    --z-overlay: 90;
+    --z-modal: 100;
   }
 
   body {
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    font-family: var(--font-inter), "Inter", sans-serif;
+    margin: 0;
+    background-color: var(--color-background-ref);
+    color: var(--color-text-ref);
+    font-family: "Neue Montreal", system-ui, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.45;
+    letter-spacing: 0.18px;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     width: 100%;
+    max-width: 100vw;
     overflow-x: hidden;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.5s ease, color 0.5s ease;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-general-sans), "General Sans", "Space Grotesk", "Inter Tight", sans-serif;
-    color: var(--text-primary);
+  main {
+    min-width: 0;
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: inherit;
+    color: var(--color-text-ref);
+    letter-spacing: -0.02em;
+  }
+
+  ::selection {
+    background: rgb(var(--accent-rgb) / 0.25);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent-ref);
+    outline-offset: 3px;
   }
 }
 
 @layer components {
-  .text-gradient {
-    background: linear-gradient(135deg, #C9A96E, #D4B87A);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  /*
+    Shape system: panels 16px, controls 12px, primary actions are pills.
+    These three are the only radii allowed.
+  */
+  .panel {
+    background: var(--color-surface-ref);
+    border: 1px solid var(--color-line-ref);
+    border-radius: var(--radius-panel);
+    box-shadow:
+      0 1px 2px rgb(0 0 0 / 0.05),
+      0 4px 12px rgb(0 0 0 / 0.04);
+    transition:
+      border-color 0.3s ease,
+      box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .bg-gradient-brand {
-    background: linear-gradient(135deg, #C9A96E, #92702A);
+  .panel-lift:hover {
+    border-color: var(--color-accent-ref);
+    transform: translateY(-2px);
+    box-shadow:
+      0 2px 4px rgb(0 0 0 / 0.06),
+      0 10px 28px rgb(0 0 0 / 0.1);
   }
 
-  .bg-gradient-dark {
-    background: linear-gradient(135deg, #0C0A09, #161210);
+  .modal::backdrop {
+    background: rgb(0 0 0 / 0.65);
   }
 
-  html.light .bg-gradient-dark {
-    background: linear-gradient(135deg, #F5F0E8, #E8E0D4);
-  }
-
-  .btn-primary {
-    padding: 12px 28px;
-    border-radius: 8px;
-    font-family: var(--font-inter), "Inter", sans-serif;
-    font-weight: 600;
-    font-size: 0.875rem;
-    background: linear-gradient(135deg, #C9A96E, #92702A);
-    color: #0C0A09;
-    box-shadow: 0 4px 24px rgba(201, 169, 110, 0.2);
-    transition: all 0.3s ease;
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
+  .btn {
     display: inline-flex;
+    min-height: 44px;
+    max-width: 100%;
     align-items: center;
     justify-content: center;
+    gap: 0.5rem;
+    font-weight: 400;
+    font-size: 0.9375rem;
+    line-height: 1.2;
+    text-align: center;
+    overflow-wrap: anywhere;
+    cursor: pointer;
+    text-decoration: none;
+    transition:
+      transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+      background-color 0.3s ease,
+      color 0.3s ease,
+      border-color 0.3s ease,
+      box-shadow 0.3s ease,
+      opacity 0.28s ease;
+  }
+
+  .btn:active {
+    transform: translateY(1px);
+  }
+
+  .btn:disabled,
+  .btn:disabled:hover {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .btn > svg {
+    flex-shrink: 0;
+  }
+
+  /*
+    Filled button. The hairline is an inset shadow rather than a border so the
+    box does not change size between states.
+  */
+  .btn-primary {
+    padding: 0.875rem 1.75rem;
+    border-radius: 999px;
+    min-height: 3.2rem;
+    background: var(--color-text-ref);
+    color: var(--color-background-ref);
+    box-shadow:
+      inset 0 0 0 1px rgb(255 255 255 / 0.1),
+      0 4px 12px rgb(0 0 0 / 0.1);
   }
 
   .btn-primary:hover {
-    box-shadow: 0 8px 40px rgba(201, 169, 110, 0.3);
+    opacity: 0.92;
     transform: translateY(-2px);
+    box-shadow:
+      inset 0 0 0 1px rgb(255 255 255 / 0.14),
+      0 6px 20px rgb(0 0 0 / 0.18);
   }
 
-  .btn-primary:active {
-    transform: translateY(0);
-  }
-
-  .btn-secondary {
-    padding: 12px 28px;
-    border-radius: 8px;
-    font-family: var(--font-inter), "Inter", sans-serif;
-    font-weight: 600;
-    font-size: 0.875rem;
+  .btn-ghost {
+    padding: 0.875rem 1.75rem;
+    border-radius: 999px;
     background: transparent;
-    color: var(--accent);
-    border: 1.5px solid rgba(201, 169, 110, 0.4);
-    transition: all 0.3s ease;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    color: var(--color-text-ref);
+    border: 1px solid var(--color-line-ref);
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.06);
   }
 
-  .btn-secondary:hover {
-    background: rgba(201, 169, 110, 0.08);
-    border-color: rgba(201, 169, 110, 0.6);
-    box-shadow: 0 4px 24px rgba(201, 169, 110, 0.1);
+  .btn-ghost:hover {
+    border-color: var(--color-accent-ref);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgb(0 0 0 / 0.12);
   }
 
-  .card-dark {
-    background: #1C1917;
-    border: 1px solid rgba(201, 169, 110, 0.08);
-    border-radius: 12px;
+  @media (prefers-reduced-motion: reduce) {
+    .panel-lift:hover,
+    .btn-primary:hover,
+    .btn-ghost:hover {
+      transform: none;
+    }
   }
 
-  html.light .card-dark {
-    background: #FFFFFF;
-    border: 1px solid rgba(201, 169, 110, 0.12);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  /* Depth on the original Audi cutout, with native vertical touch scrolling. */
+  .car-stage {
+    perspective: 1200px;
+    perspective-origin: 50% 45%;
+    touch-action: pan-y;
   }
 
-  .text-theme-primary {
-    color: var(--text-primary);
+  .car-tilt {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
   }
 
-  .text-theme-secondary {
-    color: var(--text-secondary);
+  .car-body {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    animation: car-float 7s ease-in-out infinite;
+    filter: drop-shadow(0 18px 14px rgb(0 0 0 / 0.18));
+  }
+
+  @keyframes car-float {
+    0%, 100% { transform: translate3d(0, 4px, 20px) rotate(-0.4deg); }
+    50% { transform: translate3d(0, -10px, 20px) rotate(0.4deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .car-tilt { transform: none !important; }
+    .car-body { animation: none; transform: none; }
+  }
+
+  /*
+    Frosted glass: backdrop-filter with a solid fallback for reduced transparency.
+  */
+  .glass {
+    background: var(--color-header-bg);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border-bottom: 1px solid var(--color-header-border);
+  }
+
+  .field {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border-radius: var(--radius-control);
+    background: var(--color-surface-2-ref);
+    color: var(--color-text-ref);
+    border: 1px solid var(--color-line-ref);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.2s ease;
+  }
+
+  .field::placeholder {
+    color: var(--color-muted-ref);
+    opacity: 1;
+  }
+
+  .field:hover {
+    border-color: rgb(var(--accent-rgb) / 0.4);
   }
 }
 
-::-webkit-scrollbar {
-  width: 8px;
+/*
+  Reduced motion: collapse every animation and transition. Covers the CSS-only
+  animations plus anything a component animates through inline styles.
+*/
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.15s !important;
+  }
 }
 
-::-webkit-scrollbar-track {
-  background: #0C0A09;
+@media (prefers-reduced-transparency: reduce) {
+  .glass {
+    background: var(--color-background-ref);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
 }
 
-html.light ::-webkit-scrollbar-track {
-  background: #F5F0E8;
+/* ALPHA's compact inverse menu; native hidden states preserve keyboard access. */
+@layer components {
+  /* The brand stays light-on-dark while page content follows the chosen theme. */
+  .brand-shell {
+    --color-background-ref: #000000;
+    --color-surface-ref: #111111;
+    --color-surface-2-ref: #1e1e1e;
+    --color-text-ref: #ffffff;
+    --color-muted-ref: #a5a5a5;
+    --color-line-ref: #2d2d2d;
+    color-scheme: dark;
+    background: var(--color-background-ref);
+    color: var(--color-text-ref);
+  }
+
+  .navigation-menu {
+    background: var(--color-text-ref);
+    color: var(--color-background-ref);
+    border: 1px solid var(--color-line-ref);
+    border-radius: 1.75rem;
+    box-shadow: 0 24px 64px rgb(0 0 0 / 0.18);
+    transform-origin: top right;
+    animation: menu-enter 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .navigation-menu :focus-visible { outline-color: currentColor; }
 }
 
-::-webkit-scrollbar-thumb {
-  background: #292524;
-  border-radius: 4px;
+@keyframes menu-enter {
+  from { opacity: 0; transform: translateY(-8px) scale(0.98); }
+  to { opacity: 1; transform: none; }
 }
 
-html.light ::-webkit-scrollbar-thumb {
-  background: #A89B8C;
+@media (max-width: 1024px) {
+  :root { font-size: 16px; --header-h: 80px; }
+  input:not([type="checkbox"]):not([type="radio"]), select, textarea { font-size: 16px; }
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--accent);
-}
-
-/* ── Override Tailwind electric-cyan utilities to use accent variable ── */
-
-@layer utilities {
-  .text-electric-cyan { color: var(--accent); }
-  .bg-electric-cyan { background-color: var(--accent); }
-  .border-electric-cyan { border-color: var(--accent); }
-  .ring-electric-cyan { --tw-ring-color: var(--accent); }
-  .shadow-electric-cyan { --tw-shadow-color: var(--accent); }
-
-  .text-electric-cyan\/5 { color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.05); }
-  .text-electric-cyan\/10 { color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.1); }
-  .text-electric-cyan\/20 { color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.2); }
-  .text-electric-cyan\/25 { color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.25); }
-  .text-electric-cyan\/30 { color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.3); }
-  .text-electric-cyan\/40 { color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.4); }
-  .text-electric-cyan\/50 { color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.5); }
-  .text-electric-cyan\/60 { color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.6); }
-
-  .bg-electric-cyan\/3 { background-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.03); }
-  .bg-electric-cyan\/5 { background-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.05); }
-  .bg-electric-cyan\/8 { background-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.08); }
-  .bg-electric-cyan\/10 { background-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.1); }
-  .bg-electric-cyan\/15 { background-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.15); }
-  .bg-electric-cyan\/20 { background-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.2); }
-  .bg-electric-cyan\/30 { background-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.3); }
-
-  .border-electric-cyan\/5 { border-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.05); }
-  .border-electric-cyan\/10 { border-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.1); }
-  .border-electric-cyan\/15 { border-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.15); }
-  .border-electric-cyan\/20 { border-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.2); }
-  .border-electric-cyan\/30 { border-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.3); }
-
-  .hover\:text-electric-cyan:hover { color: var(--accent); }
-  .hover\:bg-electric-cyan:hover { background-color: var(--accent); }
-  .hover\:bg-electric-cyan\/10:hover { background-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.1); }
-  .hover\:bg-electric-cyan\/15:hover { background-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.15); }
-  .hover\:bg-electric-cyan\/20:hover { background-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.2); }
-  .hover\:border-electric-cyan:hover { border-color: var(--accent); }
-  .hover\:border-electric-cyan\/20:hover { border-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.2); }
-  .hover\:border-electric-cyan\/30:hover { border-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.3); }
-
-  .group:hover .group-hover\:text-electric-cyan { color: var(--accent); }
-  .focus\:border-electric-cyan:focus { border-color: var(--accent); }
-  .focus\:ring-electric-cyan:focus { --tw-ring-color: var(--accent); }
-
-  .shadow-electric-cyan\/5 { --tw-shadow-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.05); }
-  .shadow-electric-cyan\/10 { --tw-shadow-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.1); }
-  .shadow-electric-cyan\/20 { --tw-shadow-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.2); }
-  .shadow-electric-cyan\/50 { --tw-shadow-color: rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.5); }
-
-  .shadow-cyan-glow { box-shadow: 0 0 24px rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.25); }
-  .hover\:shadow-cyan-glow:hover { box-shadow: 0 0 24px rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.25); }
+@media (hover: none) {
+  .panel-lift:hover, .btn-primary:hover, .btn-ghost:hover { transform: none; }
 }

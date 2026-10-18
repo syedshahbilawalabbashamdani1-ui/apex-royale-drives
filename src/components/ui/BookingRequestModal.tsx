@@ -1,79 +1,37 @@
 "use client";
 
-import { useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import Dialog from "./Dialog";
 import { CheckCircle } from "lucide-react";
+import WhatsAppLink from "./WhatsAppLink";
+import QuoteSummary from "./QuoteSummary";
+import type { RentalQuote } from "@/lib/quote";
 
-interface SuccessModalProps {
+interface BookingRequestModalProps {
   open: boolean;
   onClose: () => void;
+  whatsappMessage: string;
   title?: string;
   message?: string;
   bookingSummary?: {
     carNames: string[];
     pickupDate: string;
     returnDate: string;
-    total: number;
+    quote: RentalQuote;
   };
 }
 
-export default function SuccessModal({
+export default function BookingRequestModal({
   open,
   onClose,
-  title = "Booking Confirmed!",
-  message = "Booking submitted successfully! We will contact you shortly via WhatsApp.",
+  whatsappMessage,
+  title = "Request ready",
+  message = "Your request has not been sent yet. Continue to WhatsApp, send the message, and wait for our team to confirm availability and your reservation.",
   bookingSummary,
-}: SuccessModalProps) {
-  const handleKeyDown = useCallback(
-    (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    },
-    [onClose]
-  );
-
-  useEffect(() => {
-    if (!open) return;
-    document.addEventListener("keydown", handleKeyDown);
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "";
-    };
-  }, [open, handleKeyDown]);
-
+}: BookingRequestModalProps) {
   return (
-    <AnimatePresence>
-      {open && (
-        <motion.div
-          key="success-modal"
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
-        >
-          {/* Backdrop */}
-          <div
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-            onClick={onClose}
-          />
-
-          {/* Modal */}
-          <motion.div
-            className="relative w-full max-w-md rounded-2xl border overflow-hidden"
-            style={{
-              background: "var(--bg-secondary, #1E293B)",
-              borderColor: "rgba(var(--accent-r, 0), var(--accent-g, 224), var(--accent-b, 255), 0.15)",
-            }}
-            initial={{ opacity: 0, scale: 0.95, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="success-modal-title"
-          >
+    <Dialog open={open} onClose={onClose} titleId="booking-request-title">
             {/* Content */}
-            <div className="p-8 text-center space-y-5">
+            <div className="p-5 sm:p-8 text-center space-y-5">
               {/* Icon */}
               <div className="flex justify-center">
                 <div className="w-16 h-16 rounded-full flex items-center justify-center"
@@ -85,8 +43,8 @@ export default function SuccessModal({
 
               {/* Title */}
               <h3
-                id="success-modal-title"
-                className="font-general-sans text-xl font-bold"
+                id="booking-request-title"
+                className="font-sans text-xl font-bold"
                 style={{ color: "var(--text-primary, #F8FAFC)" }}
               >
                 {title}
@@ -134,30 +92,26 @@ export default function SuccessModal({
                     </span>
                   </div>
                   <div className="h-px" style={{ background: "var(--border-primary, #334155)" }} />
-                  <div className="flex justify-between font-general-sans text-sm">
-                    <span className="font-semibold" style={{ color: "var(--text-primary, #F8FAFC)" }}>
-                      Total
-                    </span>
-                    <span className="font-bold text-gradient">
-                      Rs. {bookingSummary.total.toLocaleString()}
-                    </span>
+                  <div style={{ color: "var(--text-primary, #F8FAFC)" }}>
+                    <QuoteSummary quote={bookingSummary.quote} />
                   </div>
                 </div>
               )}
             </div>
 
             {/* Footer */}
-            <div className="px-8 pb-8">
+            <div className="px-5 pb-5 sm:px-8 sm:pb-8">
+              <WhatsAppLink message={whatsappMessage} className="w-full">
+                Continue to WhatsApp
+              </WhatsAppLink>
               <button
+                type="button"
                 onClick={onClose}
-                className="btn-primary w-full"
+                className="w-full min-h-11 mt-3 py-2 text-sm text-theme-secondary cursor-pointer"
               >
-                Got it
+                Back to booking
               </button>
             </div>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+    </Dialog>
   );
 }

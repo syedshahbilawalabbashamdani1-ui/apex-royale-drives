@@ -1,18 +1,13 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/ui/WhatsAppButton";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
-import { SITE_NAME, SITE_URL, SITE_DESCRIPTION, CONTACT } from "@/lib/constants";
+import { SITE_NAME, SITE_URL, SITE_DESCRIPTION, CONTACT, RATING } from "@/lib/constants";
+import { cars } from "@/lib/cars";
 
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-inter",
-  display: "swap",
-});
+const prices = cars.map((c) => c.pricePerDay);
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -33,20 +28,28 @@ const jsonLd = {
   geo: {
     "@type": "GeoCoordinates",
     latitude: 33.7109,
-    longitude: 73.0610,
+    longitude: 73.061,
   },
   openingHoursSpecification: {
     "@type": "OpeningHoursSpecification",
-    dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    dayOfWeek: [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+    ],
     opens: "00:00",
     closes: "23:59",
   },
   aggregateRating: {
     "@type": "AggregateRating",
-    ratingValue: "5.0",
-    reviewCount: "5",
+    ratingValue: RATING.value,
+    reviewCount: RATING.reviewCount,
   },
-  priceRange: "PKR 12000 - PKR 110000",
+  priceRange: `PKR ${Math.min(...prices)} - PKR ${Math.max(...prices)}`,
   areaServed: [
     { "@type": "City", name: "Islamabad" },
     { "@type": "City", name: "Rawalpindi" },
@@ -57,16 +60,15 @@ const jsonLd = {
     itemListElement: [
       { "@type": "Offer", itemOffered: { "@type": "Product", name: "Luxury SUVs" } },
       { "@type": "Offer", itemOffered: { "@type": "Product", name: "Premium Sedans" } },
-      { "@type": "Offer", itemOffered: { "@type": "Product", name: "Family Cars" } },
       { "@type": "Offer", itemOffered: { "@type": "Product", name: "Airport Transfers" } },
       { "@type": "Offer", itemOffered: { "@type": "Product", name: "Wedding & Event Cars" } },
     ],
   },
-  sameAs: Object.values({
-    whatsapp: CONTACT.whatsapp ? `https://wa.me/${CONTACT.whatsapp}` : undefined,
-    instagram: "https://instagram.com/apex_royale_drives",
-    tiktok: "https://tiktok.com/@apex.royale.drives",
-  }).filter(Boolean),
+  sameAs: [
+    `https://wa.me/${CONTACT.whatsapp}`,
+    "https://instagram.com/apex_royale_drives",
+    "https://tiktok.com/@apex.royale.drives",
+  ],
 };
 
 export const metadata: Metadata = {
@@ -135,26 +137,39 @@ export const metadata: Metadata = {
   },
 };
 
+/*
+  Resolves the theme before first paint so the page never flashes the wrong
+  mode. Stored choice wins; otherwise fall back to the OS preference.
+*/
+const themeBoot = `(function(){try{var s=localStorage.getItem("theme");var t=(s==="light"||s==="dark")?s:(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");var e=document.documentElement;e.classList.remove("dark","light");e.classList.add(t);}catch(_){}})();`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@700,600,500&display=swap" />
+        <link
+          rel="preload"
+          href="/fonts/NeueMontreal-Regular.otf"
+          as="font"
+          type="font/otf"
+          crossOrigin="anonymous"
+        />
+        <script dangerouslySetInnerHTML={{ __html: themeBoot }} />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+          }}
         />
       </head>
-      <body
-        className={`${inter.variable} antialiased min-h-screen flex flex-col`}
-      >
+      <body className="antialiased min-h-[100dvh] flex flex-col">
         <ThemeProvider>
           <Navbar />
-          <main className="flex-1 pt-20">{children}</main>
+          <main className="flex-1 pt-[var(--header-h)]">{children}</main>
           <Footer />
           <WhatsAppButton />
         </ThemeProvider>

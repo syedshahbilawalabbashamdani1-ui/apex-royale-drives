@@ -3,14 +3,14 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "Apex Royale Drives is a trusted rent-a-car service in Islamabad and Rawalpindi, founded in 2026. 5.0 Google rating from 30+ reviews. Luxury and affordable vehicles with professional drivers.",
+    "Apex Royale Drives is a rent-a-car service in Islamabad and Rawalpindi, founded in 2026. Seven vehicles with professional drivers, 24/7 support and a 5.0 Google rating.",
   alternates: {
     canonical: "/about",
   },
   openGraph: {
     title: "About Us | Apex Royale Drives",
     description:
-      "Trusted rent-a-car service in Islamabad and Rawalpindi. 5.0 Google rating. Luxury and affordable vehicles.",
+      "A rent-a-car service in Islamabad and Rawalpindi with professional drivers and 24/7 support.",
   },
 };
 

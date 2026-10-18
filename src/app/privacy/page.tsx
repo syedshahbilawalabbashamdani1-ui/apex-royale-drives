@@ -21,8 +21,8 @@ export default function PrivacyPage() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
             <div className="flex items-center gap-3">
               <Shield className="w-8 h-8 text-electric-cyan" />
-              <h1 className="font-general-sans text-4xl sm:text-5xl font-bold" style={{ color: "var(--text-primary)" }}>
-                Privacy <span className="text-gradient">Policy</span>
+              <h1 className="font-sans text-4xl sm:text-5xl font-bold" style={{ color: "var(--text-primary)" }}>
+                Privacy <span className="text-accent">Policy</span>
               </h1>
             </div>
             <p className="font-sans" style={{ color: "var(--text-secondary)" }}>
@@ -36,11 +36,11 @@ export default function PrivacyPage() {
         {[
           {
             title: "1. Information We Collect",
-            body: `When you use our services or visit ${SITE_URL}, we may collect the following personal information: your name, email address, phone number, home address, driving license details (for self-drive rentals), payment information, and booking history. We also collect standard web analytics data including IP address, browser type, and pages visited.`,
+            body: `When you use our services or visit ${SITE_URL}, we may collect the following personal information: your name, email address, phone number, pickup and drop-off addresses, and booking history. We also collect standard web analytics data including IP address, browser type, and pages visited.`,
           },
           {
             title: "2. How We Use Your Information",
-            body: `We use your personal information to: process and confirm your bookings, communicate with you regarding your reservations, provide customer support, process payments, improve our services and website, send promotional offers (with your consent), and comply with legal obligations.`,
+            body: `We use your personal information to: confirm and coordinate your bookings, communicate with you regarding your reservations and pickup details, provide customer support, and improve our services and website. We do not use your information for automated decision-making or advertising.`,
           },
           {
             title: "3. WhatsApp Communications",
@@ -56,7 +56,7 @@ export default function PrivacyPage() {
           },
           {
             title: "6. Cookies & Tracking",
-            body: `Our website uses cookies to enhance your browsing experience and collect analytics data. You can control cookie settings through your browser preferences. We may use third-party analytics tools to understand website usage patterns.`,
+            body: `This website does not set advertising or tracking cookies. It stores two preferences in your browser's local storage, which never leaves your device: your light or dark theme choice, and any vehicles you have saved to your wishlist. Clearing your browser data removes both.`,
           },
           {
             title: "7. Data Retention",
@@ -85,7 +85,7 @@ export default function PrivacyPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="font-general-sans text-lg font-bold mb-3" style={{ color: "var(--text-primary)" }}>
+            <h2 className="font-sans text-lg font-bold mb-3" style={{ color: "var(--text-primary)" }}>
               {section.title}
             </h2>
             <p className="font-sans text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>

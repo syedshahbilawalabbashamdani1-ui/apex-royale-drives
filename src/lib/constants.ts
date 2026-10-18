@@ -5,14 +5,12 @@ export const SITE_URL = "https://apexroyaledrives.com";
 
 export const CONTACT = {
   phone: "+923045255558",
-  phone2: "+923435501246",
   email: "apexroyaledrives@gmail.com",
-  address: "Markaz, F-10 Markaz F 10/4, F-10, Islamabad, 44000",
+  address: "F-10 Markaz F 10/4, F-10, Islamabad 44000",
   whatsapp: "923045255558",
 };
 
 export const SOCIAL_LINKS = {
-  whatsapp: "https://wa.me/923045255558",
   instagram: "https://instagram.com/apex_royale_drives",
   tiktok: "https://tiktok.com/@apex.royale.drives",
 };
@@ -23,3 +21,14 @@ export const NAV_LINKS = [
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
+
+/** Matches the reviews published in GoogleReviews.tsx. */
+export const RATING = {
+  value: "5.0",
+  reviewCount: 5,
+};
+
+/** Accept plain text; URL encoding belongs exclusively here. */
+export function whatsappLink(message: string): string {
+  return `https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(message)}`;
+}

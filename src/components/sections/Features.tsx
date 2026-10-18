@@ -1,102 +1,85 @@
-"use client";
-
-import { motion } from "framer-motion";
 import {
-  Car,
-  Shield,
+  ShieldCheck,
   Clock,
-  CreditCard,
+  Wallet,
   Headphones,
   MapPin,
+  Plane,
 } from "lucide-react";
+import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 
+/*
+  Ruled two-column list rather than a card grid. Per the layout rules a grid of
+  three or six identical cards reads as a template, and this section carries no
+  imagery of its own.
+*/
 const features = [
   {
-    icon: Car,
-    title: "Diverse Fleet",
-    description:
-      "From luxury SUVs like Land Cruiser and G Wagon to affordable sedans like Corolla and Civic — find the right car for every need.",
+    icon: ShieldCheck,
+    title: "Professional driver with every car",
+    body: "Driver time, fuel handling and vehicle wear are all inside the rate. No separate chauffeur charge to negotiate.",
   },
   {
-    icon: Shield,
-    title: "Professional Drivers",
-    description:
-      "Experienced, courteous chauffeurs who know Islamabad and Rawalpindi inside out. Safe and comfortable rides guaranteed.",
+    icon: Wallet,
+    title: "Longer bookings cost less per day",
+    body: "A month is priced at roughly 22 days of the daily rate. The booking form works out the cheapest combination for you.",
   },
   {
     icon: Clock,
-    title: "24/7 Availability",
-    description:
-      "Round-the-clock service. Rent anytime, day or night, with instant WhatsApp confirmation.",
-  },
-  {
-    icon: CreditCard,
-    title: "Transparent Pricing",
-    description:
-      "Competitive rates with no hidden fees. Daily, weekly, and monthly packages available.",
+    title: "Booked and confirmed in minutes",
+    body: "The booking form hands your summary straight to WhatsApp. We reply day or night.",
   },
   {
     icon: Headphones,
-    title: "Customer Support",
-    description:
-      "Dedicated support via WhatsApp and phone. We're always ready to assist with bookings and inquiries.",
+    title: "Vehicles we do not list yet",
+    body: "Ask for any make or model. If we can source it and the dates work, we will quote it.",
   },
   {
     icon: MapPin,
-    title: "Islamabad & Rawalpindi",
-    description:
-      "Serving both cities with airport transfers, corporate travel, wedding cars, and special event transportation.",
+    title: "Islamabad and Rawalpindi pickups",
+    body: "The airport, F-10 Markaz, Blue Area, DHA Phase 5, Rawalpindi Saddar, or an address of your own.",
+  },
+  {
+    icon: Plane,
+    title: "Airport transfers and northern trips",
+    body: "Send your flight number and the driver meets arrivals with a name board. Murree, Naran and Swat quoted as a whole trip.",
   },
 ];
 
 export default function Features() {
   return (
-    <section className="py-24" style={{ background: "var(--bg-tertiary)" }}>
+    <section className="py-24" aria-labelledby="features-heading">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16 space-y-4"
-        >
-          <span className="font-sans text-sm text-electric-cyan font-medium tracking-wider uppercase">
-            Why Choose Us
-          </span>
-          <h2 className="font-general-sans text-3xl sm:text-4xl font-bold" style={{ color: "var(--text-primary)" }}>
-            THE <span className="text-gradient">APEX</span> ADVANTAGE
+        <Reveal className="max-w-2xl mb-16">
+          <h2
+            id="features-heading"
+            className="text-4xl sm:text-5xl font-medium tracking-[-0.03em] leading-[1.05]"
+          >
+            How booking works
           </h2>
-          <p className="font-sans max-w-2xl mx-auto" style={{ color: "var(--text-secondary)" }}>
-            We don&apos;t just rent cars. We deliver experiences. Discover why
-            clients trust Apex Royale Drives in Islamabad and Rawalpindi.
-          </p>
-        </motion.div>
+        </Reveal>
 
-        {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((feature, index) => (
-            <motion.div
+        <RevealGroup className="grid grid-cols-1 md:grid-cols-2 gap-x-16">
+          {features.map((feature) => (
+            <RevealItem
               key={feature.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group"
+              className="py-8 border-t border-line flex gap-6"
             >
-              <div className="card-dark p-6 h-full hover:border-electric-cyan/30 transition-all duration-300 hover:shadow-cyan-glow">
-                <div className="w-14 h-14 rounded-xl bg-electric-cyan/10 flex items-center justify-center mb-5 group-hover:bg-electric-cyan/20 transition-colors">
-                  <feature.icon className="w-7 h-7 text-electric-cyan" aria-hidden="true" />
-                </div>
-                <h3 className="font-general-sans text-lg font-bold mb-3 group-hover:text-electric-cyan transition-colors" style={{ color: "var(--text-primary)" }}>
+              <feature.icon
+                className="w-6 h-6 shrink-0 text-muted mt-1"
+                aria-hidden="true"
+              />
+              <div>
+                <h3 className="text-lg font-medium tracking-[-0.01em]">
                   {feature.title}
                 </h3>
-                <p className="font-sans text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-                  {feature.description}
+                <p className="mt-2 text-[0.9375rem] text-muted leading-relaxed max-w-[44ch]">
+                  {feature.body}
                 </p>
               </div>
-            </motion.div>
+            </RevealItem>
           ))}
-        </div>
+        </RevealGroup>
       </div>
     </section>
   );
