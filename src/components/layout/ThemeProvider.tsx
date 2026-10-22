@@ -20,6 +20,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 const THEME_KEY = "theme";
 const THEME_CHANGED_EVENT = "apex-theme-changed";
+let sessionTheme: Theme | null = null;
 
 function systemTheme(): Theme {
   return window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -29,6 +30,7 @@ function systemTheme(): Theme {
 
 function readTheme(): Theme {
   if (typeof window === "undefined") return "dark";
+  if (sessionTheme) return sessionTheme;
   try {
     const stored = window.localStorage.getItem(THEME_KEY);
     return stored === "light" || stored === "dark" ? stored : systemTheme();
@@ -38,10 +40,17 @@ function readTheme(): Theme {
 }
 
 function subscribeTheme(onStoreChange: () => void) {
+  const onStorage = (event: StorageEvent) => {
+    if (event.key !== THEME_KEY && event.key !== null) return;
+    sessionTheme = null;
+    onStoreChange();
+  };
+  window.addEventListener("storage", onStorage);
   window.addEventListener(THEME_CHANGED_EVENT, onStoreChange);
   const media = window.matchMedia("(prefers-color-scheme: dark)");
   media.addEventListener("change", onStoreChange);
   return () => {
+    window.removeEventListener("storage", onStorage);
     window.removeEventListener(THEME_CHANGED_EVENT, onStoreChange);
     media.removeEventListener("change", onStoreChange);
   };
@@ -62,6 +71,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   const toggleTheme = useCallback(() => {
     const next = readTheme() === "dark" ? "light" : "dark";
+    sessionTheme = next;
     try {
       window.localStorage.setItem(THEME_KEY, next);
     } catch {}

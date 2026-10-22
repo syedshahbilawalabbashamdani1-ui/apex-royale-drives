@@ -1,3 +1,4 @@
+import PageSection from "@/components/layout/PageSection";
 import Button from "@/components/ui/Button";
 import { whatsappLink } from "@/lib/constants";
 import { WhatsAppIcon } from "@/components/ui/SocialIcons";
@@ -6,11 +7,11 @@ import { MagneticLink } from "@/components/motion/Magnetic";
 
 export default function CTA() {
   return (
-    <section className="py-24" aria-labelledby="cta-heading">
+    <PageSection aria-labelledby="cta-heading">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Reveal>
           <div className="panel bg-surface-2 overflow-hidden">
-            <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-8 lg:gap-16 items-center p-8 sm:p-12 lg:p-16">
+            <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-6 lg:gap-8 items-center p-5 sm:p-8 lg:p-10">
               <div>
                 <h2
                   id="cta-heading"
@@ -32,7 +33,7 @@ export default function CTA() {
                   href={whatsappLink("Hi, I want to rent a car in Islamabad")}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className=""
+
                 >
                   <WhatsAppIcon className="w-4 h-4" />
                   Message us instead
@@ -42,6 +43,6 @@ export default function CTA() {
           </div>
         </Reveal>
       </div>
-    </section>
+    </PageSection>
   );
 }

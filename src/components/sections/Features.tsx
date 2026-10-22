@@ -1,3 +1,4 @@
+import PageSection from "@/components/layout/PageSection";
 import {
   ShieldCheck,
   Clock,
@@ -48,9 +49,9 @@ const features = [
 
 export default function Features() {
   return (
-    <section className="py-24" aria-labelledby="features-heading">
+    <PageSection aria-labelledby="features-heading">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="max-w-2xl mb-16">
+        <Reveal className="max-w-2xl section-heading">
           <h2
             id="features-heading"
             className="text-4xl sm:text-5xl font-medium tracking-[-0.03em] leading-[1.05]"
@@ -59,11 +60,11 @@ export default function Features() {
           </h2>
         </Reveal>
 
-        <RevealGroup className="grid grid-cols-1 md:grid-cols-2 gap-x-16">
+        <RevealGroup className="grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-10">
           {features.map((feature) => (
             <RevealItem
               key={feature.title}
-              className="py-8 border-t border-line flex gap-6"
+              className="py-5 border-t border-line flex gap-6"
             >
               <feature.icon
                 className="w-6 h-6 shrink-0 text-muted mt-1"
@@ -81,6 +82,6 @@ export default function Features() {
           ))}
         </RevealGroup>
       </div>
-    </section>
+    </PageSection>
   );
 }

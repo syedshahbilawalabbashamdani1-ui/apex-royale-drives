@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Apex Royale Drives
 
-## Getting Started
+Car rental website for Islamabad and Rawalpindi, built with Next.js 16 App Router, React 19, TypeScript, Tailwind CSS 4 and Framer Motion.
 
-First, run the development server:
+## Development
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Use Node.js 20.9 or later. From this directory, run `npm ci` and `npm run dev`, then open http://localhost:3000. Production commands: `npm run build` and `npm start`.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Booking workflow
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Customers select vehicles, dates, pickup location and contact details. The site calculates a daily estimate and prepares a WhatsApp message. Customers must send the message themselves; reservations require confirmation from the team. Custom vehicle requests are quoted separately.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+There is no database, payment integration, reservation API or live availability feed. Set each vehicle's `available` flag manually. Unavailable vehicles remain visible but cannot be selected for booking. A professional driver is included; fuel, tolls and parking are charged separately at cost.
 
-## Learn More
+## Code map
 
-To learn more about Next.js, take a look at the following resources:
+- `src/app`: pages, route metadata, sitemap and robots.
+- `src/lib/cars.ts`: vehicle specifications, prices, availability and pickup locations.
+- `src/lib/constants.ts`: domain, business details, social links and WhatsApp destination.
+- `src/lib/pricing.ts`, `quote.ts`, `bookingDates.ts`, `phone.ts`: estimates and validation. Dates use Pakistan time and require at least one rental day.
+- `src/components`: navigation, sections, dialogs, motion and shared controls.
+- `public/Images` and `public/fonts`: local assets.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Theme preference and saved vehicles use browser storage. Theme switching also works for the current session when storage is blocked. Booking form state lasts while the booking component is mounted.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Validation
 
-## Deploy on Vercel
+Run `npm test`, `npm run lint`, `npx tsc --noEmit` and `npm run build`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Tests use Node's test runner and the installed TypeScript compiler to exercise pricing, calendar validation, phone validation and custom quotes. Browser interactions and WhatsApp delivery require manual verification.

@@ -1,10 +1,13 @@
 "use client";
 
+import PageHeader from "@/components/layout/PageHeader";
+import Heading from "@/components/ui/Heading";
+
 import Button from "@/components/ui/Button";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ChevronDown, ArrowLeft, HelpCircle } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { whatsappLink, CONTACT } from "@/lib/constants";
 import { cars, locations } from "@/lib/cars";
 import { formatPKR } from "@/lib/pricing";
@@ -18,7 +21,7 @@ const fleetList = cars.map((c) => c.name).join(", ");
 
 const faqCategories = [
   {
-    category: "Booking & Reservations",
+    category: "Booking & reservations",
     questions: [
       {
         q: "How do I book a car?",
@@ -43,7 +46,7 @@ const faqCategories = [
     ],
   },
   {
-    category: "Pricing & Payment",
+    category: "Pricing & payment",
     questions: [
       {
         q: "What are your rates?",
@@ -64,11 +67,11 @@ const faqCategories = [
     ],
   },
   {
-    category: "Vehicles & Drivers",
+    category: "Vehicles & drivers",
     questions: [
       {
         q: "Do you provide drivers?",
-        a: "Every rental includes a professional driver. Driver time, fuel and vehicle wear are all covered in the rental rate — there is no separate driver charge to work out.",
+        a: "Every rental includes a professional driver. Driver time and vehicle wear are all covered in the rental rate — there is no separate driver charge to work out. Fuel, tolls and parking are charged separately at cost.",
       },
       {
         q: "What vehicles are in your fleet?",
@@ -85,7 +88,7 @@ const faqCategories = [
     ],
   },
   {
-    category: "Pickup & Coverage",
+    category: "Pickup & coverage",
     questions: [
       {
         q: "Where can I pick up the car?",
@@ -115,46 +118,15 @@ export default function FAQPage() {
 
   return (
     <div className="min-h-screen" style={{ background: "var(--bg-primary)" }}>
-      {/* Hero */}
-      <div className="py-20" style={{ background: "var(--bg-tertiary)" }}>
-        <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2 font-sans text-sm mb-6">
-            <Link
-              href="/"
-              className="text-theme-secondary hover:text-electric-cyan transition-colors flex items-center gap-1"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Home
-            </Link>
-            <span style={{ color: "var(--text-secondary)", opacity: 0.5 }}>/</span>
-            <span style={{ color: "var(--text-primary)" }}>FAQ</span>
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center space-y-4"
-          >
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <HelpCircle className="w-8 h-8 text-electric-cyan" />
-            </div>
-            <h1 className="font-sans text-4xl sm:text-5xl font-bold" style={{ color: "var(--text-primary)" }}>
-              Frequently Asked <span className="text-accent">Questions</span>
-            </h1>
-            <p className="font-sans max-w-2xl mx-auto" style={{ color: "var(--text-secondary)" }}>
-              Everything you need to know about renting a car with Apex Royale
-              Drives. Can&apos;t find your answer?{" "}
-              <Link href="/contact" className="text-electric-cyan hover:underline">
-                Contact us
-              </Link>
-              .
-            </p>
-          </motion.div>
-        </div>
-      </div>
+      <PageHeader
+        title="Frequently asked questions"
+        breadcrumb="FAQ"
+        width="reading"
+        description={<>Everything you need to know about renting a car with Apex Royale Drives. Can&apos;t find your answer? <Link href="/contact" className="text-accent-ink hover:underline underline-offset-4">Contact us</Link>.</>}
+      />
 
       {/* FAQ Content */}
-      <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-12">
+      <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 page-body space-y-8">
         {faqCategories.map((cat, catIndex) => (
           <motion.section
             key={cat.category}
@@ -163,9 +135,9 @@ export default function FAQPage() {
             viewport={{ once: true }}
             transition={{ delay: catIndex * 0.1 }}
           >
-            <h2 className="font-sans text-xl font-bold mb-6" style={{ color: "var(--text-primary)" }}>
+            <Heading as="h2" size="subsection" className="mb-6">
               {cat.category}
-            </h2>
+            </Heading>
             <div className="space-y-3">
               {cat.questions.map((item, i) => {
                 const key = `${catIndex}-${i}`;
@@ -173,17 +145,14 @@ export default function FAQPage() {
                 return (
                   <div
                     key={key}
-                    className="border rounded-lg overflow-hidden transition-colors"
-                    style={{
-                      background: "var(--bg-secondary)",
-                      borderColor: isOpen ? "var(--accent)" : "var(--border-primary)",
-                    }}
+                    className="accordion-item"
+                    data-open={isOpen}
                   >
                     <h3>
                       <button
                         id={`faq-btn-${key}`}
                         onClick={() => toggle(key)}
-                        className="w-full flex items-center justify-between p-4 text-left"
+                        className="accordion-trigger w-full flex items-center justify-between p-4 text-left"
                         aria-expanded={isOpen}
                         aria-controls={`faq-panel-${key}`}
                       >
@@ -238,11 +207,11 @@ export default function FAQPage() {
               href={whatsappLink("Hi, I have a question about car rental")}
               target="_blank"
               rel="noopener noreferrer"
-              className=""
+
             >
               Chat on WhatsApp
             </Button>
-            <Button variant="ghost" href="/contact" className="">
+            <Button variant="ghost" href="/contact">
               Contact Us
             </Button>
           </div>

@@ -1,5 +1,10 @@
 "use client";
 
+import FieldError from "@/components/ui/FieldError";
+import PageHeader from "@/components/layout/PageHeader";
+import WhatsAppLink from "@/components/ui/WhatsAppLink";
+import Heading from "@/components/ui/Heading";
+
 import Button from "@/components/ui/Button";
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -44,27 +49,10 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen" style={{ background: "var(--bg-primary)" }}>
-      {/* Header */}
-      <div className="py-20" style={{ background: "var(--bg-tertiary)" }}>
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center space-y-4"
-          >
-            <h1 className="font-sans text-4xl sm:text-5xl font-bold text-theme-primary">
-              CONTACT <span className="text-accent">US</span>
-            </h1>
-            <p className="font-sans text-theme-secondary max-w-2xl mx-auto">
-              Have questions? We&apos;re here to help. Reach out to us via any of
-              the following channels.
-            </p>
-          </motion.div>
-        </div>
-      </div>
+      <PageHeader title="Contact us" description="Have questions? We're here to help. Reach out to us via any of the following channels." />
 
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-        <div className="grid lg:grid-cols-2 gap-12">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 page-body">
+        <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">
           {/* Contact Info */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -72,9 +60,9 @@ export default function ContactPage() {
             className="space-y-8"
           >
             <div>
-              <h2 className="font-sans text-2xl font-bold text-theme-primary mb-4">
-                GET IN <span className="text-accent">TOUCH</span>
-              </h2>
+              <Heading as="h2" size="subsection" className="mb-4">
+                Get in touch
+              </Heading>
               <p className="font-sans text-theme-secondary leading-relaxed">
                 Whether you need a car for one day or several days, have questions about
                 our fleet, or want to discuss corporate partnerships, we&apos;re
@@ -87,13 +75,13 @@ export default function ContactPage() {
                 href={`tel:${CONTACT.phone}`}
                 className="panel p-6 flex items-start gap-4 hover:border-electric-cyan/30 transition-all group"
               >
-                <div className="w-12 h-12 rounded-xl bg-electric-cyan/10 flex items-center justify-center flex-shrink-0 group-hover:bg-electric-cyan/20 transition-colors">
-                  <Phone className="w-6 h-6 text-electric-cyan" />
+                <div className="w-12 h-12 rounded-xl bg-surface-2 flex items-center justify-center flex-shrink-0 group-hover:bg-surface-hover transition-colors">
+                  <Phone className="w-6 h-6 text-accent-ink" />
                 </div>
                 <div>
-                  <h3 className="font-sans text-sm font-bold text-theme-primary group-hover:text-electric-cyan transition-colors">
+                  <Heading as="h3" size="label" className="text-sm group-hover:text-accent-ink transition-colors">
                     Phone
-                  </h3>
+                  </Heading>
                   <p className="font-sans text-sm text-theme-secondary mt-1">
                     {CONTACT.phone}
                   </p>
@@ -107,13 +95,13 @@ export default function ContactPage() {
                 href={`mailto:${CONTACT.email}`}
                 className="panel p-6 flex items-start gap-4 hover:border-electric-cyan/30 transition-all group"
               >
-                <div className="w-12 h-12 rounded-xl bg-electric-cyan/10 flex items-center justify-center flex-shrink-0 group-hover:bg-electric-cyan/20 transition-colors">
-                  <Mail className="w-6 h-6 text-electric-cyan" />
+                <div className="w-12 h-12 rounded-xl bg-surface-2 flex items-center justify-center flex-shrink-0 group-hover:bg-surface-hover transition-colors">
+                  <Mail className="w-6 h-6 text-accent-ink" />
                 </div>
                 <div>
-                  <h3 className="font-sans text-sm font-bold text-theme-primary group-hover:text-electric-cyan transition-colors">
+                  <Heading as="h3" size="label" className="text-sm group-hover:text-accent-ink transition-colors">
                     Email
-                  </h3>
+                  </Heading>
                   <p className="font-sans text-sm text-theme-secondary mt-1">
                     {CONTACT.email}
                   </p>
@@ -124,13 +112,13 @@ export default function ContactPage() {
               </a>
 
               <div className="panel p-6 flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-electric-cyan/10 flex items-center justify-center flex-shrink-0">
-                  <MapPin className="w-6 h-6 text-electric-cyan" />
+                <div className="w-12 h-12 rounded-xl bg-surface-2 flex items-center justify-center flex-shrink-0">
+                  <MapPin className="w-6 h-6 text-accent-ink" />
                 </div>
                 <div>
-                  <h3 className="font-sans text-sm font-bold text-theme-primary">
+                  <Heading as="h3" size="label" className="text-sm">
                     Location
-                  </h3>
+                  </Heading>
                   <p className="font-sans text-sm text-theme-secondary mt-1">
                     {CONTACT.address}
                   </p>
@@ -138,13 +126,13 @@ export default function ContactPage() {
               </div>
 
               <div className="panel p-6 flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-electric-cyan/10 flex items-center justify-center flex-shrink-0">
-                  <Clock className="w-6 h-6 text-electric-cyan" />
+                <div className="w-12 h-12 rounded-xl bg-surface-2 flex items-center justify-center flex-shrink-0">
+                  <Clock className="w-6 h-6 text-accent-ink" />
                 </div>
                 <div>
-                  <h3 className="font-sans text-sm font-bold text-theme-primary">
-                    Working Hours
-                  </h3>
+                  <Heading as="h3" size="label" className="text-sm">
+                    Working hours
+                  </Heading>
                   <p className="font-sans text-sm text-theme-secondary mt-1">
                     24/7 - Always Available
                   </p>
@@ -155,16 +143,10 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* WhatsApp CTA */}
-            <a
-              href={whatsappLink("Hi, I have a question about car rental")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-3 w-full py-4 bg-green-600 hover:bg-green-700 rounded-lg font-sans text-theme-primary font-medium transition-colors"
-            >
-              <WhatsAppIcon className="w-5 h-5" />
+            <WhatsAppLink message="Hi, I have a question about car rental" className="w-full">
+              <WhatsAppIcon className="w-5 h-5" aria-hidden="true" />
               Chat on WhatsApp
-            </a>
+            </WhatsAppLink>
           </motion.div>
 
           {/* Contact Form */}
@@ -172,10 +154,10 @@ export default function ContactPage() {
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
           >
-            <form onSubmit={handleSubmit} className="panel p-8 space-y-6">
-              <h3 className="font-sans text-xl font-bold text-theme-primary">
-                SEND A MESSAGE
-              </h3>
+            <form onSubmit={handleSubmit} className="panel p-5 sm:p-6 space-y-6">
+              <Heading as="h2" size="subsection">
+                Send a message
+              </Heading>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
@@ -191,8 +173,7 @@ export default function ContactPage() {
                     }
                     required
                     placeholder="Enter your name"
-                    className="field w-full px-4 py-3 border border-electric-cyan/10 rounded-lg font-sans text-sm text-theme-primary placeholder:text-theme-secondary/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent focus:border-electric-cyan/30 transition-colors"
-                    style={{ background: "var(--bg-primary)" }}
+                    className="field w-full px-4 py-3 rounded-control font-sans text-sm text-theme-primary placeholder:text-theme-secondary/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors"
                   />
                 </div>
 
@@ -202,6 +183,8 @@ export default function ContactPage() {
                   </label>
                   <input
                     id="contact-email"
+                      aria-invalid={!!errors.email}
+                      aria-describedby={errors.email ? "contact-email-error" : undefined}
                     type="email"
                     value={formData.email}
                     onChange={(e) =>
@@ -209,11 +192,10 @@ export default function ContactPage() {
                     }
                     required
                     placeholder="Enter your email"
-                    className="field w-full px-4 py-3 border border-electric-cyan/10 rounded-lg font-sans text-sm text-theme-primary placeholder:text-theme-secondary/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent focus:border-electric-cyan/30 transition-colors"
-                    style={{ background: "var(--bg-primary)" }}
+                    className="field w-full px-4 py-3 rounded-control font-sans text-sm text-theme-primary placeholder:text-theme-secondary/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors"
                   />
                   {errors.email && (
-                    <p className="font-sans text-xs text-red-400 mt-1">{errors.email}</p>
+                    <FieldError id="contact-email-error">{errors.email}</FieldError>
                   )}
                 </div>
               </div>
@@ -225,17 +207,18 @@ export default function ContactPage() {
                   </label>
                   <input
                     id="contact-phone"
+                      aria-invalid={!!errors.phone}
+                      aria-describedby={errors.phone ? "contact-phone-error" : undefined}
                     type="tel"
                     value={formData.phone}
                     onChange={(e) =>
                       setFormData({ ...formData, phone: e.target.value })
                     }
                     placeholder="+92 300 123 4567"
-                    className="field w-full px-4 py-3 border border-electric-cyan/10 rounded-lg font-sans text-sm text-theme-primary placeholder:text-theme-secondary/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent focus:border-electric-cyan/30 transition-colors"
-                    style={{ background: "var(--bg-primary)" }}
+                    className="field w-full px-4 py-3 rounded-control font-sans text-sm text-theme-primary placeholder:text-theme-secondary/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors"
                   />
                   {errors.phone && (
-                    <p className="font-sans text-xs text-red-400 mt-1">{errors.phone}</p>
+                    <FieldError id="contact-phone-error">{errors.phone}</FieldError>
                   )}
                 </div>
 
@@ -250,8 +233,7 @@ export default function ContactPage() {
                       setFormData({ ...formData, subject: e.target.value })
                     }
                     required
-                    className="field w-full px-4 py-3 border border-electric-cyan/10 rounded-lg font-sans text-sm text-theme-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent focus:border-electric-cyan/30 transition-colors"
-                    style={{ background: "var(--bg-primary)" }}
+                    className="field w-full px-4 py-3 rounded-control font-sans text-sm text-theme-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors"
                   >
                     <option value="">Select a subject</option>
                     <option value="booking">Car Booking Inquiry</option>
@@ -276,8 +258,7 @@ export default function ContactPage() {
                   required
                   rows={5}
                   placeholder="Tell us how we can help..."
-                  className="field w-full px-4 py-3 border border-electric-cyan/10 rounded-lg font-sans text-sm text-theme-primary placeholder:text-theme-secondary/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent focus:border-electric-cyan/30 transition-colors resize-none"
-                  style={{ background: "var(--bg-primary)" }}
+                  className="field w-full px-4 py-3 rounded-control font-sans text-sm text-theme-primary placeholder:text-theme-secondary/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors resize-none"
                 />
               </div>
 

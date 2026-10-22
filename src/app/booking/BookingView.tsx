@@ -1,11 +1,16 @@
 "use client";
 
+import FieldError from "@/components/ui/FieldError";
+import PageHeader from "@/components/layout/PageHeader";
+import Heading from "@/components/ui/Heading";
+
 import BookingSteps from "@/components/ui/BookingSteps";
 import Button from "@/components/ui/Button";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cars, locations } from "@/lib/cars";
 import { formatPKR, priceCar, rentalDays } from "@/lib/pricing";
+import { isCalendarDate, todayInPKT, validateBookingDates, type BookingDateErrors } from "@/lib/bookingDates";
 import { quoteMessage, type RentalQuote } from "@/lib/quote";
 import QuoteSummary from "@/components/ui/QuoteSummary";
 import { isValidPhone, normalizePhone, PHONE_ERROR } from "@/lib/phone";
@@ -22,11 +27,6 @@ import { cn } from "@/lib/utils";
 import CustomVehicleDialog from "@/components/ui/CustomVehicleDialog";
 import BookingRequestModal from "@/components/ui/BookingRequestModal";
 
-/** Today in Pakistan Standard Time (UTC+5), as YYYY-MM-DD. */
-function todayInPKT(): string {
-  return new Date(Date.now() + 5 * 60 * 60 * 1000).toISOString().slice(0, 10);
-}
-
 /** The day after an ISO date, as YYYY-MM-DD. */
 function addDays(iso: string, days: number): string {
   const d = new Date(`${iso}T00:00:00Z`);
@@ -41,9 +41,10 @@ export default function BookingView({
 }: {
   initialCarId: string | null;
 }) {
-  const [currentStep, setCurrentStep] = useState(initialCarId ? 2 : 1);
+  const bookableInitialId = cars.find((car) => car.id === initialCarId && car.available)?.id;
+  const [currentStep, setCurrentStep] = useState(bookableInitialId ? 2 : 1);
   const [formData, setFormData] = useState<BookingFormData>({
-    carIds: initialCarId ? [initialCarId] : [],
+    carIds: bookableInitialId ? [bookableInitialId] : [],
     customCarNames: [],
     pickupDate: "",
     returnDate: "",
@@ -63,6 +64,26 @@ export default function BookingView({
     quote: RentalQuote;
   } | null>(null);
   const [stepErrors, setStepErrors] = useState<{ email?: string; phone?: string }>({});
+  const [dateErrors, setDateErrors] = useState<BookingDateErrors>({});
+  const pendingDateFocus = useRef<string | null>(null);
+  const focusDateError = () => {
+    const id = pendingDateFocus.current;
+    if (!id) return;
+    const input = document.getElementById(id);
+    if (input) {
+      input.focus();
+      pendingDateFocus.current = null;
+    }
+  };
+  const checkDates = () => {
+    const errors = validateBookingDates(formData.pickupDate, formData.returnDate);
+    setDateErrors(errors);
+    if (!errors.pickupDate && !errors.returnDate) return true;
+    pendingDateFocus.current = errors.pickupDate ? "booking-pickup-date" : "booking-return-date";
+    if (currentStep === 2) focusDateError();
+    else setCurrentStep(2);
+    return false;
+  };
 
   /* ── custom fleet modal ───────────────────────────────── */
   const [customFleetOpen, setCustomFleetOpen] = useState(false);
@@ -80,6 +101,7 @@ export default function BookingView({
 
   /* ── car selection ────────────────────────────────────── */
   const toggleCar = (carId: string) => {
+    if (!cars.some((car) => car.id === carId && car.available)) return;
     setFormData((prev) => ({
       ...prev,
       carIds: prev.carIds.includes(carId)
@@ -88,12 +110,12 @@ export default function BookingView({
     }));
   };
 
-  const selectedCars = cars.filter((c) => formData.carIds.includes(c.id));
-  const totalSelectionCount = formData.carIds.length + formData.customCarNames.length;
+  const selectedCars = cars.filter((c) => c.available && formData.carIds.includes(c.id));
+  const totalSelectionCount = selectedCars.length + formData.customCarNames.length;
 
   /* ── pricing ──────────────────────────────────────────── */
   const days = rentalDays(formData.pickupDate, formData.returnDate);
-  const isDateRangeValid = days > 0;
+  const isDateRangeValid = days > 0 && Object.keys(validateBookingDates(formData.pickupDate, formData.returnDate)).length === 0;
 
   const quote = selectedCars.map((car) => ({
     car,
@@ -107,12 +129,14 @@ export default function BookingView({
   };
 
   const today = todayInPKT();
-  const minReturnDate = formData.pickupDate
+  const minReturnDate = isCalendarDate(formData.pickupDate)
     ? addDays(formData.pickupDate, 1)
     : today;
 
   /* ── navigation ───────────────────────────────────────── */
   const nextStep = () => {
+    if (totalSelectionCount === 0) { setCurrentStep(1); return; }
+    if (currentStep === 2 && !checkDates()) return;
     if (currentStep === 3) {
       const errs: typeof stepErrors = {};
       if (!EMAIL_RE.test(formData.email)) {
@@ -168,6 +192,8 @@ export default function BookingView({
   };
 
   const handleSubmit = () => {
+    if (totalSelectionCount === 0) { setCurrentStep(1); return; }
+    if (!checkDates()) return;
     setBookingSummary({
       carNames: [
         ...selectedCars.map((c) => c.name),
@@ -190,26 +216,9 @@ export default function BookingView({
 
   return (
     <div className="min-h-screen" style={{ background: "var(--bg-primary)" }}>
-      {/* Header */}
-      <div className="py-20" style={{ background: "var(--bg-tertiary)" }}>
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center space-y-4"
-          >
-            <h1 className="font-sans text-4xl sm:text-5xl font-bold" style={{ color: "var(--text-primary)" }}>
-              BOOK YOUR <span className="text-accent">RIDE</span>
-            </h1>
-            <p className="font-sans max-w-2xl mx-auto" style={{ color: "var(--text-secondary)" }}>
-              Select one or more vehicles, pick your dates, and we&apos;ll confirm
-              your reservation within minutes.
-            </p>
-          </motion.div>
-        </div>
-      </div>
+      <PageHeader title="Book your ride" description="Select one or more vehicles, pick your dates, and we'll confirm your reservation within minutes." />
 
-      <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 page-body">
         <BookingSteps current={currentStep} />
 
         {/* Form Content */}
@@ -220,16 +229,17 @@ export default function BookingView({
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.3 }}
+            onAnimationComplete={() => { if (currentStep === 2) focusDateError(); }}
           >
             {/* ── Step 1: Select Car(s) ─────────────────────── */}
             {currentStep === 1 && (
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
-                  <h2 className="font-sans text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
-                    Select Your Vehicle{totalSelectionCount > 1 ? "s" : ""}
-                  </h2>
+                  <Heading as="h2" size="subsection">
+                    Select your vehicle{totalSelectionCount > 1 ? "s" : ""}
+                  </Heading>
                   {totalSelectionCount > 0 && (
-                    <span className="px-3 py-1 rounded-full bg-electric-cyan/10 border border-electric-cyan/20 font-sans text-xs text-electric-cyan font-medium">
+                    <span className="px-3 py-1 rounded-full bg-surface-2 border border-line font-sans text-xs text-accent-ink font-medium">
                       {totalSelectionCount} selected
                     </span>
                   )}
@@ -240,7 +250,7 @@ export default function BookingView({
                     {formData.customCarNames.map((name, i) => (
                       <span
                         key={i}
-                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-electric-cyan/10 border border-electric-cyan/20 font-sans text-sm text-electric-cyan"
+                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-control bg-surface-2 border border-line font-sans text-sm text-accent-ink"
                       >
                         {name}
                         <button
@@ -264,14 +274,15 @@ export default function BookingView({
                         key={car.id}
                         type="button"
                         role="checkbox"
+                        disabled={!car.available}
                         aria-checked={isSelected}
                         aria-label={`${car.name} — ${car.brand}, ${formatPKR(car.pricePerDay)} per day`}
                         onClick={() => toggleCar(car.id)}
                         className={cn(
-                          "panel p-4 text-left transition-all",
+                          "panel p-4 text-left transition-all disabled:opacity-50 disabled:cursor-not-allowed",
                           isSelected
-                            ? "border-electric-cyan shadow-accent"
-                            : "hover:border-electric-cyan/30"
+                            ? "border-accent"
+                            : "hover:border-accent/30"
                         )}
                       >
                         <div className="flex gap-4">
@@ -279,17 +290,18 @@ export default function BookingView({
                           <img
                             src={car.images[0]}
                             alt={car.name}
-                            className="w-20 h-16 rounded-lg object-cover flex-shrink-0"
+                            className="w-20 h-16 rounded-control object-cover flex-shrink-0"
                           />
                           <div className="flex-1 min-w-0">
-                            <h3 className="font-sans text-sm font-bold truncate" style={{ color: "var(--text-primary)" }}>
+                            <Heading as="h3" size="label" className="text-sm truncate">
                               {car.name}
-                            </h3>
+                            </Heading>
                             <p className="font-sans text-xs" style={{ color: "var(--text-secondary)" }}>
                               {car.brand} &bull; {car.category}
+                              {!car.available && " — Currently unavailable"}
                             </p>
                             <div className="mt-2 flex items-center gap-2">
-                              <span className="font-sans text-sm font-bold text-accent">
+                              <span className="font-sans text-sm font-bold text-accent-ink">
                                 {formatPKR(car.pricePerDay)}
                               </span>
                               <span className="font-sans text-xs" style={{ color: "var(--text-secondary)" }}>
@@ -301,11 +313,11 @@ export default function BookingView({
                             className={cn(
                               "w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 border transition-colors",
                               isSelected
-                                ? "bg-electric-cyan border-electric-cyan"
+                                ? "bg-text border-text"
                                 : "border-theme-secondary/30"
                             )}
                           >
-                            {isSelected && <Check className="w-4 h-4 text-accent-contrast" />}
+                            {isSelected && <Check className="w-4 h-4 text-background" />}
                           </div>
                         </div>
                       </button>
@@ -316,17 +328,17 @@ export default function BookingView({
                   <button
                     type="button"
                     onClick={() => setCustomFleetOpen(true)}
-                    className="group panel p-4 text-left transition-all duration-300 hover:border-electric-cyan/40 hover:shadow-accent flex items-center justify-center text-center cursor-pointer"
+                    className="group panel p-4 text-left transition-all duration-300 hover:border-electric-cyan/40  flex items-center justify-center text-center cursor-pointer"
                     style={{ borderStyle: "dashed", borderColor: "rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.25)" }}
                   >
                     <div className="flex items-center gap-4">
-                      <div className="w-14 h-14 rounded-full bg-electric-cyan/10 border border-electric-cyan/20 flex items-center justify-center group-hover:bg-electric-cyan/20 transition-colors flex-shrink-0">
-                        <Plus className="w-7 h-7 text-electric-cyan" aria-hidden="true" />
+                      <div className="w-14 h-14 rounded-full bg-surface-2 border border-line flex items-center justify-center group-hover:bg-surface-hover transition-colors flex-shrink-0">
+                        <Plus className="w-7 h-7 text-accent-ink" aria-hidden="true" />
                       </div>
                       <div className="text-left">
-                        <h3 className="font-sans text-sm font-bold group-hover:text-electric-cyan transition-colors" style={{ color: "var(--text-primary)" }}>
-                          CUSTOM FLEET
-                        </h3>
+                        <Heading as="h3" size="label" className="text-sm group-hover:text-accent-ink transition-colors">
+                          Custom fleet
+                        </Heading>
                         <p className="font-sans text-xs leading-relaxed" style={{ color: "var(--text-secondary)" }}>
                           Can&apos;t find your dream car? Request any vehicle.
                         </p>
@@ -337,12 +349,12 @@ export default function BookingView({
               </div>
             )}
 
-            {/* ── Step 2: Dates & Location ──────────────────── */}
+            {/* ── Step 2: Dates & location ──────────────────── */}
             {currentStep === 2 && (
               <div className="space-y-6">
-                <h2 className="font-sans text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
-                  Dates & Pickup Location
-                </h2>
+                <Heading as="h2" size="subsection">
+                  Dates & pickup location
+                </Heading>
                 <div className="panel p-6 space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
@@ -351,9 +363,12 @@ export default function BookingView({
                       </label>
                       <input
                         id="booking-pickup-date"
+                        aria-invalid={!!dateErrors.pickupDate}
+                        aria-describedby={dateErrors.pickupDate ? "booking-pickup-date-error" : undefined}
                         type="date"
                         value={formData.pickupDate}
                         onChange={(e) => {
+                          setDateErrors({});
                           const newPickup = e.target.value;
                           const newReturn =
                             formData.returnDate && formData.returnDate <= newPickup
@@ -366,9 +381,9 @@ export default function BookingView({
                           });
                         }}
                         min={today}
-                        className="field w-full px-4 py-3 rounded-lg font-sans text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors"
-                        style={{ background: "var(--bg-primary)", color: "var(--text-primary)", borderColor: "var(--border-primary)", colorScheme: "light" }}
+                        className="field w-full px-4 py-3 rounded-control font-sans text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors"
                       />
+                      {dateErrors.pickupDate && <FieldError id="booking-pickup-date-error">{dateErrors.pickupDate}</FieldError>}
                     </div>
                     <div>
                       <label htmlFor="booking-return-date" className="block font-sans text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
@@ -376,21 +391,24 @@ export default function BookingView({
                       </label>
                       <input
                         id="booking-return-date"
+                        aria-invalid={!!dateErrors.returnDate}
+                        aria-describedby={dateErrors.returnDate ? "booking-return-date-error" : undefined}
                         type="date"
                         value={formData.returnDate}
-                        onChange={(e) =>
-                          setFormData({ ...formData, returnDate: e.target.value })
-                        }
+                        onChange={(e) => {
+                          setDateErrors({});
+                          setFormData({ ...formData, returnDate: e.target.value });
+                        }}
                         min={minReturnDate}
-                        className="field w-full px-4 py-3 rounded-lg font-sans text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors"
-                        style={{ background: "var(--bg-primary)", color: "var(--text-primary)", borderColor: "var(--border-primary)", colorScheme: "light" }}
+                        className="field w-full px-4 py-3 rounded-control font-sans text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors"
                       />
+                      {dateErrors.returnDate && <FieldError id="booking-return-date-error">{dateErrors.returnDate}</FieldError>}
                     </div>
                   </div>
 
                   <div>
                     <label htmlFor="booking-pickup-location" className="block font-sans text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
-                      Pickup Location
+                      Pickup location
                     </label>
                     <select
                       id="booking-pickup-location"
@@ -398,8 +416,7 @@ export default function BookingView({
                       onChange={(e) =>
                         setFormData({ ...formData, pickupLocation: e.target.value })
                       }
-                      className="field w-full px-4 py-3 rounded-lg font-sans text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors"
-                      style={{ background: "var(--bg-primary)", color: "var(--text-primary)", borderColor: "var(--border-primary)" }}
+                      className="field w-full px-4 py-3 rounded-control font-sans text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors"
                     >
                       <option value="">Select a location</option>
                       {locations.map((loc) => (
@@ -412,7 +429,7 @@ export default function BookingView({
 
                   {/* Price Summary */}
                   {totalSelectionCount > 0 && !datesMissing && (
-                    <div className="p-4 rounded-lg space-y-2" style={{ background: "var(--bg-primary)" }}>
+                    <div className="p-4 rounded-control space-y-2" style={{ background: "var(--bg-primary)" }}>
                       {quote.map(({ car, breakdown }) => (
                         <div key={car.id} className="flex justify-between gap-4 font-sans text-sm">
                           <span style={{ color: "var(--text-secondary)" }}>
@@ -439,7 +456,7 @@ export default function BookingView({
                           {isDateRangeValid ? (
                             <>{days} days</>
                           ) : (
-                            <span className="text-red-400">Return date must be after pickup date</span>
+                            <span className="text-error">Return date must be after pickup date</span>
                           )}
                         </span>
                       </div>
@@ -457,14 +474,14 @@ export default function BookingView({
             {/* ── Step 3: Personal Info ─────────────────────── */}
             {currentStep === 3 && (
               <div className="space-y-6">
-                <h2 className="font-sans text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
-                  Personal Information
-                </h2>
+                <Heading as="h2" size="subsection">
+                  Personal information
+                </Heading>
                 <div className="panel p-6 space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label htmlFor="booking-first-name" className="block font-sans text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
-                        First Name
+                        First name
                       </label>
                       <input
                         id="booking-first-name"
@@ -474,13 +491,12 @@ export default function BookingView({
                           setFormData({ ...formData, firstName: e.target.value })
                         }
                         placeholder="Enter first name"
-                        className="field w-full px-4 py-3 rounded-lg font-sans text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors"
-                        style={{ background: "var(--bg-primary)", color: "var(--text-primary)", borderColor: "var(--border-primary)" }}
+                        className="field w-full px-4 py-3 rounded-control font-sans text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors"
                       />
                     </div>
                     <div>
                       <label htmlFor="booking-last-name" className="block font-sans text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
-                        Last Name
+                        Last name
                       </label>
                       <input
                         id="booking-last-name"
@@ -490,55 +506,56 @@ export default function BookingView({
                           setFormData({ ...formData, lastName: e.target.value })
                         }
                         placeholder="Enter last name"
-                        className="field w-full px-4 py-3 rounded-lg font-sans text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors"
-                        style={{ background: "var(--bg-primary)", color: "var(--text-primary)", borderColor: "var(--border-primary)" }}
+                        className="field w-full px-4 py-3 rounded-control font-sans text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors"
                       />
                     </div>
                   </div>
 
                   <div>
                     <label htmlFor="booking-email" className="block font-sans text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
-                      Email Address
+                      Email address
                     </label>
                     <input
                       id="booking-email"
+                      aria-invalid={!!stepErrors.email}
+                      aria-describedby={stepErrors.email ? "booking-email-error" : undefined}
                       type="email"
                       value={formData.email}
                       onChange={(e) =>
                         setFormData({ ...formData, email: e.target.value })
                       }
                       placeholder="Enter email address"
-                      className="field w-full px-4 py-3 rounded-lg font-sans text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors"
-                      style={{ background: "var(--bg-primary)", color: "var(--text-primary)", borderColor: "var(--border-primary)" }}
+                      className="field w-full px-4 py-3 rounded-control font-sans text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors"
                     />
                     {stepErrors.email && (
-                      <p className="font-sans text-xs text-red-400 mt-1">{stepErrors.email}</p>
+                      <FieldError id="booking-email-error">{stepErrors.email}</FieldError>
                     )}
                   </div>
 
                   <div>
                     <label htmlFor="booking-phone" className="block font-sans text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
-                      Phone Number
+                      Phone number
                     </label>
                     <input
                       id="booking-phone"
+                      aria-invalid={!!stepErrors.phone}
+                      aria-describedby={stepErrors.phone ? "booking-phone-error" : undefined}
                       type="tel"
                       value={formData.phone}
                       onChange={(e) =>
                         setFormData({ ...formData, phone: e.target.value })
                       }
                       placeholder="+92 300 1234567"
-                      className="field w-full px-4 py-3 rounded-lg font-sans text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors"
-                      style={{ background: "var(--bg-primary)", color: "var(--text-primary)", borderColor: "var(--border-primary)" }}
+                      className="field w-full px-4 py-3 rounded-control font-sans text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors"
                     />
                     {stepErrors.phone && (
-                      <p className="font-sans text-xs text-red-400 mt-1">{stepErrors.phone}</p>
+                      <FieldError id="booking-phone-error">{stepErrors.phone}</FieldError>
                     )}
                   </div>
 
                   <div>
                     <label htmlFor="booking-message" className="block font-sans text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
-                      Additional Message (Optional)
+                      Additional message (optional)
                     </label>
                     <textarea
                       id="booking-message"
@@ -548,8 +565,7 @@ export default function BookingView({
                       }
                       placeholder="Child seat, extra luggage, pickup flight details..."
                       rows={3}
-                      className="field w-full px-4 py-3 rounded-lg font-sans text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors resize-none"
-                      style={{ background: "var(--bg-primary)", color: "var(--text-primary)", borderColor: "var(--border-primary)" }}
+                      className="field w-full px-4 py-3 rounded-control font-sans text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors resize-none"
                     />
                   </div>
                 </div>
@@ -559,15 +575,15 @@ export default function BookingView({
             {/* ── Step 4: Confirmation ──────────────────────── */}
             {currentStep === 4 && (
               <div className="space-y-6">
-                <h2 className="font-sans text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
-                  Review Your Request
-                </h2>
+                <Heading as="h2" size="subsection">
+                  Review your request
+                </Heading>
                 <div className="panel p-6 space-y-6">
                   <div className="space-y-4">
-                    <div className="p-4 rounded-lg">
-                      <h4 className="font-sans text-sm font-semibold text-electric-cyan mb-3">
-                        VEHICLE{totalSelectionCount > 1 ? "S" : ""}
-                      </h4>
+                    <div className="p-4 rounded-control">
+                      <Heading as="h3" size="label" className="mb-3">
+                        Vehicle{totalSelectionCount > 1 ? "s" : ""}
+                      </Heading>
                       <div className="space-y-3">
                         {quote.map(({ car, breakdown }) => (
                           <div key={car.id} className="flex items-center gap-4">
@@ -575,30 +591,30 @@ export default function BookingView({
                             <img
                               src={car.images[0]}
                               alt={car.name}
-                              className="w-16 h-12 rounded-lg object-cover flex-shrink-0"
+                              className="w-16 h-12 rounded-control object-cover flex-shrink-0"
                             />
                             <div className="flex-1 min-w-0">
-                              <h3 className="font-sans text-base font-bold truncate" style={{ color: "var(--text-primary)" }}>
+                              <Heading as="h3" size="card" className="text-base truncate">
                                 {car.name}
-                              </h3>
+                              </Heading>
                               <p className="font-sans text-xs" style={{ color: "var(--text-secondary)" }}>
                                 {breakdown.label}
                               </p>
                             </div>
-                            <span className="font-sans text-sm font-bold text-accent flex-shrink-0">
+                            <span className="font-sans text-sm font-bold text-accent-ink flex-shrink-0">
                               {formatPKR(breakdown.total)}
                             </span>
                           </div>
                         ))}
                         {formData.customCarNames.map((name, i) => (
                           <div key={`custom-${i}`} className="flex items-center gap-4">
-                            <div className="w-16 h-12 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: "var(--bg-secondary)" }}>
-                              <Plus className="w-5 h-5 text-electric-cyan/50" />
+                            <div className="w-16 h-12 rounded-control flex items-center justify-center flex-shrink-0" style={{ background: "var(--bg-secondary)" }}>
+                              <Plus className="w-5 h-5 text-accent-ink/50" />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <h3 className="font-sans text-base font-bold truncate italic" style={{ color: "var(--text-primary)" }}>
+                              <Heading as="h3" size="card" className="text-base truncate italic">
                                 {name}
-                              </h3>
+                              </Heading>
                               <p className="font-sans text-xs" style={{ color: "var(--text-secondary)" }}>
                                 Custom request
                               </p>
@@ -612,9 +628,9 @@ export default function BookingView({
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
-                      <div className="p-4 rounded-lg" style={{ background: "var(--bg-primary)" }}>
-                        <h4 className="font-sans text-xs font-semibold text-electric-cyan mb-2">
-                          PICKUP
+                      <div className="p-4 rounded-control" style={{ background: "var(--bg-primary)" }}>
+                        <h4 className="font-sans text-xs font-semibold text-accent-ink mb-2">
+                          Pickup
                         </h4>
                         <p className="font-sans text-sm" style={{ color: "var(--text-primary)" }}>
                           {formData.pickupDate}
@@ -623,9 +639,9 @@ export default function BookingView({
                           {formData.pickupLocation}
                         </p>
                       </div>
-                      <div className="p-4 rounded-lg" style={{ background: "var(--bg-primary)" }}>
-                        <h4 className="font-sans text-xs font-semibold text-electric-cyan mb-2">
-                          RETURN
+                      <div className="p-4 rounded-control" style={{ background: "var(--bg-primary)" }}>
+                        <h4 className="font-sans text-xs font-semibold text-accent-ink mb-2">
+                          Return
                         </h4>
                         <p className="font-sans text-sm" style={{ color: "var(--text-primary)" }}>
                           {formData.returnDate}
@@ -636,9 +652,9 @@ export default function BookingView({
                       </div>
                     </div>
 
-                    <div className="p-4 rounded-lg" style={{ background: "var(--bg-primary)" }}>
-                      <h4 className="font-sans text-xs font-semibold text-electric-cyan mb-2">
-                        CONTACT
+                    <div className="p-4 rounded-control" style={{ background: "var(--bg-primary)" }}>
+                      <h4 className="font-sans text-xs font-semibold text-accent-ink mb-2">
+                        Contact
                       </h4>
                       <p className="font-sans text-sm" style={{ color: "var(--text-primary)" }}>
                         {formData.firstName} {formData.lastName}
@@ -653,17 +669,17 @@ export default function BookingView({
                       )}
                     </div>
 
-                    <div className="p-4 bg-accent rounded-lg text-accent-contrast">
+                    <div className="p-4 bg-surface-2 rounded-control text-text">
                       <QuoteSummary quote={rentalQuote} />
                     </div>
                   </div>
 
-                  <div className="p-4 bg-electric-cyan/10 border border-electric-cyan/20 rounded-lg">
+                  <div className="p-4 bg-surface-2 border border-line rounded-control">
                     <div className="flex items-start gap-3">
-                      <Phone className="w-5 h-5 text-electric-cyan mt-0.5" />
+                      <Phone className="w-5 h-5 text-accent-ink mt-0.5" />
                       <div>
                         <h4 className="font-sans text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
-                          Send Your Request on WhatsApp
+                          Send your request on WhatsApp
                         </h4>
                         <p className="font-sans text-xs mt-1" style={{ color: "var(--text-secondary)" }}>
                           Continue to WhatsApp and send your request. Your booking
@@ -684,7 +700,7 @@ export default function BookingView({
             onClick={prevStep}
             disabled={currentStep === 1}
             className={cn(
-              "flex items-center gap-2 px-6 py-3 rounded-lg font-sans text-sm font-medium transition-colors",
+              "flex items-center gap-2 px-6 py-3 rounded-control font-sans text-sm font-medium transition-colors",
               currentStep === 1
                 ? "opacity-50 cursor-not-allowed text-theme-secondary"
                 : "text-theme-primary hover:bg-surface-2"
@@ -700,7 +716,7 @@ export default function BookingView({
               disabled={
                 (currentStep === 1 && totalSelectionCount === 0) ||
                 (currentStep === 2 &&
-                  (datesMissing || !formData.pickupLocation || !isDateRangeValid)) ||
+                  (datesMissing || !formData.pickupLocation)) ||
                 (currentStep === 3 && contactMissing)
               }
               className="disabled:opacity-50 disabled:cursor-not-allowed"

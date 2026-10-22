@@ -5,7 +5,7 @@ const labels = ["Select car", "Dates & location", "Personal info", "Review"];
 
 export default function BookingSteps({ current }: { current: number }) {
   return (
-    <ol aria-label="Booking progress" className="grid grid-cols-4 gap-2 mb-12">
+    <ol aria-label="Booking progress" className="grid grid-cols-4 gap-2 mb-6">
       {labels.map((label, index) => (
         <li key={label} aria-current={current === index + 1 ? "step" : undefined}
           className="flex flex-col items-center gap-2 text-center min-w-0">

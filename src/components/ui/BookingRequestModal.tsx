@@ -1,5 +1,6 @@
 "use client";
 
+import Heading from "./Heading";
 import Dialog from "./Dialog";
 import { CheckCircle } from "lucide-react";
 import WhatsAppLink from "./WhatsAppLink";
@@ -34,26 +35,21 @@ export default function BookingRequestModal({
             <div className="p-5 sm:p-8 text-center space-y-5">
               {/* Icon */}
               <div className="flex justify-center">
-                <div className="w-16 h-16 rounded-full flex items-center justify-center"
-                  style={{ background: "rgba(var(--accent-r, 0), var(--accent-g, 224), var(--accent-b, 255), 0.12)" }}
+                <div className="w-16 h-16 rounded-full bg-surface-2 flex items-center justify-center"
                 >
-                  <CheckCircle className="w-9 h-9 text-electric-cyan" />
+                  <CheckCircle className="w-9 h-9 text-accent-ink" />
                 </div>
               </div>
 
               {/* Title */}
-              <h3
-                id="booking-request-title"
-                className="font-sans text-xl font-bold"
-                style={{ color: "var(--text-primary, #F8FAFC)" }}
-              >
+              <Heading as="h2" size="subsection" id="booking-request-title">
                 {title}
-              </h3>
+              </Heading>
 
               {/* Message */}
               <p
                 className="font-sans text-sm leading-relaxed"
-                style={{ color: "var(--text-secondary, #94A3B8)" }}
+                style={{ color: "var(--text-secondary, #555555)" }}
               >
                 {message}
               </p>
@@ -62,37 +58,37 @@ export default function BookingRequestModal({
               {bookingSummary && (
                 <div
                   className="rounded-xl p-4 space-y-3 text-left"
-                  style={{ background: "var(--bg-primary, #0F172A)" }}
+                  style={{ background: "var(--bg-primary, #ffffff)" }}
                 >
                   <div className="font-sans text-sm">
-                    <span style={{ color: "var(--text-secondary, #94A3B8)" }}>Vehicle{bookingSummary.carNames.length > 1 ? "s" : ""}</span>
+                    <span style={{ color: "var(--text-secondary, #555555)" }}>Vehicle{bookingSummary.carNames.length > 1 ? "s" : ""}</span>
                     <div className="mt-1 space-y-1">
                       {bookingSummary.carNames.slice(0, 3).map((name, i) => (
-                        <div key={i} className="font-medium" style={{ color: "var(--text-primary, #F8FAFC)" }}>
+                        <div key={i} className="font-medium" style={{ color: "var(--text-primary, #111111)" }}>
                           {name}
                         </div>
                       ))}
                       {bookingSummary.carNames.length > 3 && (
-                        <div className="text-xs" style={{ color: "var(--text-secondary, #94A3B8)" }}>
+                        <div className="text-xs" style={{ color: "var(--text-secondary, #555555)" }}>
                           and {bookingSummary.carNames.length - 3} more...
                         </div>
                       )}
                     </div>
                   </div>
                   <div className="flex justify-between font-sans text-sm">
-                    <span style={{ color: "var(--text-secondary, #94A3B8)" }}>Pickup</span>
-                    <span style={{ color: "var(--text-primary, #F8FAFC)" }}>
+                    <span style={{ color: "var(--text-secondary, #555555)" }}>Pickup</span>
+                    <span style={{ color: "var(--text-primary, #111111)" }}>
                       {bookingSummary.pickupDate}
                     </span>
                   </div>
                   <div className="flex justify-between font-sans text-sm">
-                    <span style={{ color: "var(--text-secondary, #94A3B8)" }}>Return</span>
-                    <span style={{ color: "var(--text-primary, #F8FAFC)" }}>
+                    <span style={{ color: "var(--text-secondary, #555555)" }}>Return</span>
+                    <span style={{ color: "var(--text-primary, #111111)" }}>
                       {bookingSummary.returnDate}
                     </span>
                   </div>
-                  <div className="h-px" style={{ background: "var(--border-primary, #334155)" }} />
-                  <div style={{ color: "var(--text-primary, #F8FAFC)" }}>
+                  <div className="h-px" style={{ background: "var(--border-primary, #e5e5e5)" }} />
+                  <div style={{ color: "var(--text-primary, #111111)" }}>
                     <QuoteSummary quote={bookingSummary.quote} />
                   </div>
                 </div>

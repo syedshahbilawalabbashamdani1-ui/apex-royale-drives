@@ -24,8 +24,8 @@ export default async function BookingPage({
   const raw = (await searchParams).car;
   const requested = Array.isArray(raw) ? raw[0] : raw;
 
-  // Only pre-select when the id actually resolves to a real vehicle.
-  const initialCarId = requested && getCar(requested) ? requested : null;
+  // Unavailable vehicles must also be excluded from direct booking links.
+  const initialCarId = requested && getCar(requested)?.available ? requested : null;
 
   return <BookingView initialCarId={initialCarId} />;
 }

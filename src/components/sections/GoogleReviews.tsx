@@ -1,5 +1,6 @@
 "use client";
 
+import PageSection from "@/components/layout/PageSection";
 import { useCallback, useEffect, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 import { Star, ChevronLeft, ChevronRight } from "lucide-react";
@@ -63,7 +64,7 @@ function Stars({ count }: { count: number }) {
           aria-hidden="true"
           className={cn(
             "w-3.5 h-3.5",
-            i < count ? "fill-current text-accent" : "text-line"
+            i < count ? "fill-current text-accent-ink" : "text-line"
           )}
         />
       ))}
@@ -84,7 +85,6 @@ export default function GoogleReviews() {
   const reduce = useReducedMotion();
   const [page, setPage] = useState(0);
   const [visibleCount, setVisibleCount] = useState(3);
-  const [paused, setPaused] = useState(false);
 
   useEffect(() => {
     function update() {
@@ -104,24 +104,16 @@ export default function GoogleReviews() {
   */
   const activePage = Math.min(page, maxPage);
 
-  const prev = useCallback(() => setPage((p) => Math.max(0, p - 1)), []);
+  const prev = useCallback(() => setPage((p) => Math.max(0, Math.min(p, maxPage) - 1)), [maxPage]);
   const next = useCallback(
     () => setPage((p) => Math.min(maxPage, p + 1)),
     [maxPage]
   );
 
-  useEffect(() => {
-    if (paused || reduce) return;
-    const id = setInterval(() => {
-      setPage((p) => (p >= maxPage ? 0 : p + 1));
-    }, 6000);
-    return () => clearInterval(id);
-  }, [paused, maxPage, reduce]);
-
   return (
-    <section className="py-24" aria-labelledby="reviews-heading">
+    <PageSection aria-labelledby="reviews-heading">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="mb-16">
+        <Reveal className="section-heading">
           <h2
             id="reviews-heading"
             className="text-4xl sm:text-5xl font-medium tracking-[-0.03em] leading-[1.05]"
@@ -138,8 +130,6 @@ export default function GoogleReviews() {
 
         <div
           className="relative"
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
           role="region"
           aria-roledescription="carousel"
           aria-label="Customer reviews"
@@ -172,12 +162,15 @@ export default function GoogleReviews() {
                 transform: `translateX(-${activePage * (100 / visibleCount)}%)`,
               }}
             >
-              {REVIEWS.map((review) => (
+              {REVIEWS.map((review, index) => (
                 <div
                   key={review.name}
                   className="flex-shrink-0 px-3"
                   style={{ width: `${100 / visibleCount}%` }}
-                  aria-hidden={true}
+                  role="group"
+                  aria-roledescription="slide"
+                  aria-label={`${index + 1} of ${REVIEWS.length}`}
+                  aria-hidden={index < activePage || index >= activePage + visibleCount}
                 >
                   <figure className="h-full panel p-6 flex flex-col">
                     <Stars count={review.rating} />
@@ -207,6 +200,9 @@ export default function GoogleReviews() {
           </div>
         </div>
 
+        <p className="sr-only" role="status" aria-atomic="true">
+          Showing reviews {activePage + 1} to {Math.min(activePage + visibleCount, REVIEWS.length)} of {REVIEWS.length}.
+        </p>
         <div className="mt-8 flex justify-center gap-2">
           {Array.from({ length: maxPage + 1 }).map((_, i) => (
             <button
@@ -222,6 +218,6 @@ export default function GoogleReviews() {
           ))}
         </div>
       </div>
-    </section>
+    </PageSection>
   );
 }

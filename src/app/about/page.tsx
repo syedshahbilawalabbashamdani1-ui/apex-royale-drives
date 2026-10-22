@@ -1,5 +1,9 @@
 "use client";
 
+import PageSection from "@/components/layout/PageSection";
+import PageHeader from "@/components/layout/PageHeader";
+import Heading from "@/components/ui/Heading";
+
 import Button from "@/components/ui/Button";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -54,13 +58,13 @@ const stats = [
 const values = [
   {
     icon: Target,
-    title: "Quality Service",
+    title: "Quality service",
     description:
       "Clean, well-maintained vehicles and professional drivers ensure a smooth travel experience every time.",
   },
   {
     icon: Heart,
-    title: "Customer Satisfaction",
+    title: "Customer satisfaction",
     description:
       "From luxury car rentals to affordable family cars, we are committed to meeting your unique travel needs.",
   },
@@ -79,35 +83,14 @@ export default function AboutPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema).replace(/</g, "\\u003c") }}
       />
-      {/* Hero Section */}
-      <section className="relative py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-dark" />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-electric-cyan/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-electric-cyan/5 rounded-full blur-[120px]" />
-
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="max-w-3xl"
-          >
-            <span className="font-sans text-sm text-electric-cyan font-medium tracking-wider uppercase">
-              About Us
-            </span>
-            <h1 className="font-sans text-4xl sm:text-5xl lg:text-6xl font-bold text-theme-primary mt-4 mb-6">
-              DRIVING <span className="text-accent">EXCELLENCE</span>
-            </h1>
-            <p className="font-sans text-lg text-theme-secondary leading-relaxed">
-              Apex Royale Drives is a trusted rent-a-car service in Islamabad
-              and Rawalpindi, offering luxury and affordable vehicles for every
-              occasion.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      <PageHeader
+        title="Driving excellence"
+        align="left"
+        description="Apex Royale Drives is a trusted rent-a-car service in Islamabad and Rawalpindi, offering luxury and affordable vehicles for every occasion."
+      />
 
       {/* Stats */}
-      <section className="py-20" style={{ background: "var(--bg-tertiary)" }}>
+      <PageSection style={{ background: "var(--bg-tertiary)" }}>
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
@@ -119,10 +102,10 @@ export default function AboutPage() {
                 transition={{ delay: index * 0.1 }}
                 className="text-center"
               >
-                <div className="w-14 h-14 rounded-xl bg-electric-cyan/10 flex items-center justify-center mx-auto mb-4">
-                  <stat.icon className="w-7 h-7 text-electric-cyan" />
+                <div className="w-14 h-14 rounded-xl bg-surface-2 flex items-center justify-center mx-auto mb-4">
+                  <stat.icon className="w-7 h-7 text-accent-ink" />
                 </div>
-                <div className="font-sans text-3xl font-bold text-accent">
+                <div className="font-sans text-3xl font-bold text-accent-ink">
                   {stat.value}
                 </div>
                 <div className="font-sans text-sm text-theme-secondary mt-1">
@@ -132,24 +115,21 @@ export default function AboutPage() {
             ))}
           </div>
         </div>
-      </section>
+      </PageSection>
 
       {/* Story */}
-      <section className="py-24">
+      <PageSection>
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-center">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               className="space-y-6"
             >
-              <span className="font-sans text-sm text-electric-cyan font-medium tracking-wider uppercase">
-                Our Story
-              </span>
-              <h2 className="font-sans text-3xl font-bold text-theme-primary">
-                FROM A VISION TO <span className="text-accent">REALITY</span>
-              </h2>
+              <Heading as="h2" size="section">
+                From a vision to reality
+              </Heading>
               <div className="space-y-4 font-sans text-theme-secondary leading-relaxed">
                 <p>
                   Founded in 2026, Apex Royale Drives started with a clear
@@ -176,7 +156,7 @@ export default function AboutPage() {
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="panel p-8"
+              className="panel p-5 sm:p-6"
             >
               <div className="aspect-square rounded-xl overflow-hidden relative">
                 <Image
@@ -191,23 +171,20 @@ export default function AboutPage() {
             </motion.div>
           </div>
         </div>
-      </section>
+      </PageSection>
 
       {/* Values */}
-      <section className="py-24" style={{ background: "var(--bg-tertiary)" }}>
+      <PageSection style={{ background: "var(--bg-tertiary)" }}>
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16 space-y-4"
+            className="text-center section-heading space-y-4"
           >
-            <span className="font-sans text-sm text-electric-cyan font-medium tracking-wider uppercase">
-              Our Values
-            </span>
-            <h2 className="font-sans text-3xl font-bold text-theme-primary">
-              WHAT <span className="text-accent">DRIVES</span> US
-            </h2>
+            <Heading as="h2" size="section">
+              What drives us
+            </Heading>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -218,14 +195,14 @@ export default function AboutPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="panel p-8 text-center hover:border-electric-cyan/30 transition-all"
+                className="panel p-5 sm:p-6 text-center hover:border-electric-cyan/30 transition-all"
               >
-                <div className="w-16 h-16 rounded-xl bg-electric-cyan/10 flex items-center justify-center mx-auto mb-6">
-                  <value.icon className="w-8 h-8 text-electric-cyan" />
+                <div className="w-16 h-16 rounded-xl bg-surface-2 flex items-center justify-center mx-auto mb-6">
+                  <value.icon className="w-8 h-8 text-accent-ink" />
                 </div>
-                <h3 className="font-sans text-xl font-bold text-theme-primary mb-3">
+                <Heading as="h3" size="subsection" className="mb-3">
                   {value.title}
-                </h3>
+                </Heading>
                 <p className="font-sans text-sm text-theme-secondary leading-relaxed">
                   {value.description}
                 </p>
@@ -233,33 +210,30 @@ export default function AboutPage() {
             ))}
           </div>
         </div>
-      </section>
+      </PageSection>
 
       {/* Fleet Highlights */}
-      <section className="py-24">
+      <PageSection>
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16 space-y-4"
+            className="text-center section-heading space-y-4"
           >
-            <span className="font-sans text-sm text-electric-cyan font-medium tracking-wider uppercase">
-              Our Fleet
-            </span>
-            <h2 className="font-sans text-3xl font-bold text-theme-primary">
-              VEHICLES WE <span className="text-accent">OFFER</span>
-            </h2>
+            <Heading as="h2" size="section">
+              Vehicles we offer
+            </Heading>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               { category: "Luxury SUVs", items: "Land Cruiser V8 ZX, Land Cruiser Prado, Toyota Revo" },
-              { category: "Premium Cars", items: "Mercedes G63 AMG, Mercedes Maybach S-Class, Range Rover, Audi A6" },
-              { category: "Airport Transfers", items: "Professional drivers, on-time pickup & drop" },
-              { category: "Wedding & Events", items: "Premium vehicles for special occasions" },
-              { category: "Business Travel", items: "Executive cars with professional chauffeurs" },
-              { category: "Tour Packages", items: "Northern areas & long-distance travel" },
+              { category: "Premium cars", items: "Mercedes G63 AMG, Mercedes Maybach S-Class, Range Rover, Audi A6" },
+              { category: "Airport transfers", items: "Professional drivers, on-time pickup & drop" },
+              { category: "Wedding & events", items: "Premium vehicles for special occasions" },
+              { category: "Business travel", items: "Executive cars with professional chauffeurs" },
+              { category: "Tour packages", items: "Northern areas & long-distance travel" },
             ].map((item, index) => (
               <motion.div
                 key={item.category}
@@ -269,9 +243,9 @@ export default function AboutPage() {
                 transition={{ delay: index * 0.1 }}
                 className="panel p-6 hover:border-electric-cyan/30 transition-all"
               >
-                <h3 className="font-sans text-lg font-bold text-accent mb-2">
+                <Heading as="h3" size="card" className="text-lg text-accent-ink mb-2">
                   {item.category}
-                </h3>
+                </Heading>
                 <p className="font-sans text-sm text-theme-secondary">
                   {item.items}
                 </p>
@@ -279,10 +253,10 @@ export default function AboutPage() {
             ))}
           </div>
         </div>
-      </section>
+      </PageSection>
 
       {/* Contact CTA */}
-      <section className="py-24" style={{ background: "var(--bg-tertiary)" }}>
+      <PageSection style={{ background: "var(--bg-tertiary)" }}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -290,9 +264,9 @@ export default function AboutPage() {
             viewport={{ once: true }}
             className="space-y-8"
           >
-            <h2 className="font-sans text-3xl font-bold text-theme-primary">
-              GET IN <span className="text-accent">TOUCH</span>
-            </h2>
+            <Heading as="h2" size="section">
+              Get in touch
+            </Heading>
             <p className="font-sans text-lg text-theme-secondary">
               Ready to experience the Apex Royale difference? Contact us today.
             </p>
@@ -302,10 +276,10 @@ export default function AboutPage() {
                 href={`tel:${CONTACT.phone}`}
                 className="panel p-6 hover:border-electric-cyan/30 transition-all group"
               >
-                <Phone className="w-8 h-8 text-electric-cyan mx-auto mb-3" />
-                <h4 className="font-sans text-sm font-bold text-theme-primary group-hover:text-electric-cyan transition-colors">
-                  Call Us
-                </h4>
+                <Phone className="w-8 h-8 text-accent-ink mx-auto mb-3" />
+                <Heading as="h3" size="label" className=" group-hover:text-accent-ink transition-colors">
+                  Call us
+                </Heading>
                 <p className="font-sans text-sm text-theme-secondary mt-1">
                   {CONTACT.phone}
                 </p>
@@ -315,32 +289,32 @@ export default function AboutPage() {
                 href={`mailto:${CONTACT.email}`}
                 className="panel p-6 hover:border-electric-cyan/30 transition-all group"
               >
-                <Mail className="w-8 h-8 text-electric-cyan mx-auto mb-3" />
-                <h4 className="font-sans text-sm font-bold text-theme-primary group-hover:text-electric-cyan transition-colors">
-                  Email Us
-                </h4>
+                <Mail className="w-8 h-8 text-accent-ink mx-auto mb-3" />
+                <Heading as="h3" size="label" className=" group-hover:text-accent-ink transition-colors">
+                  Email us
+                </Heading>
                 <p className="font-sans text-sm text-theme-secondary mt-1">
                   {CONTACT.email}
                 </p>
               </a>
 
               <div className="panel p-6">
-                <Clock className="w-8 h-8 text-electric-cyan mx-auto mb-3" />
-                <h4 className="font-sans text-sm font-bold text-theme-primary">
-                  Working Hours
-                </h4>
+                <Clock className="w-8 h-8 text-accent-ink mx-auto mb-3" />
+                <Heading as="h3" size="label" >
+                  Working hours
+                </Heading>
                 <p className="font-sans text-sm text-theme-secondary mt-1">
                   24/7 Available
                 </p>
               </div>
             </div>
 
-            <Button href="/fleet" className="">
+            <Button href="/fleet">
               Explore Our Fleet
             </Button>
           </motion.div>
         </div>
-      </section>
+      </PageSection>
     </div>
   );
 }

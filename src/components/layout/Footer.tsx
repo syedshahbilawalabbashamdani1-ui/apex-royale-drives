@@ -41,9 +41,9 @@ const socials = [
 
 export default function Footer() {
   return (
-    <footer className="brand-shell mt-8">
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-12 lg:gap-12">
+    <footer className="brand-shell mt-4">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8">
           <div className="col-span-2 md:col-span-1 space-y-5">
             <Link href="/" aria-label="Apex Royale Drives home" className="flex w-52 max-w-full aspect-[1366/751]">
               <BrandLogo />

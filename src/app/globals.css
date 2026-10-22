@@ -9,11 +9,18 @@
   --color-background: var(--color-background-ref);
   --color-surface: var(--color-surface-ref);
   --color-surface-2: var(--color-surface-2-ref);
+  --color-surface-hover: var(--color-surface-hover-ref);
   --color-text: var(--color-text-ref);
   --color-muted: var(--color-muted-ref);
   --color-accent: var(--color-accent-ref);
+  --color-primary: var(--color-accent-ref);
+  --color-nav-border: var(--color-line-ref);
+  --color-create-surface: var(--color-surface-2-ref);
+  --color-create-surface-hover: var(--color-surface-hover-ref);
+  --color-accent-ink: var(--color-accent-ink-ref);
   --color-accent-contrast: var(--color-accent-contrast-ref);
   --color-line: var(--color-line-ref);
+  --color-error: var(--color-error-ref);
 
   --color-brand: #e8391d;
 
@@ -46,14 +53,24 @@
 
     --color-background-ref: #ffffff;
     --color-surface-ref: #ffffff;
-    --color-surface-2-ref: #f3f4f6;
+    --color-surface-2-ref: #f9fafb;
+    --color-surface-hover-ref: #f3f4f6;
     --color-text-ref: #111111;
     --color-muted-ref: #555555;
-    --color-accent-ref: #c62e17;
-    --color-accent-contrast-ref: #ffffff;
+    --color-accent-ref: #e8391d;
+    /* Small labels use neutral ink; #E8391D is the only brand accent. */
+    --color-accent-ink-ref: var(--color-text-ref);
+    --color-accent-contrast-ref: #000000;
     --color-line-ref: #e5e5e5;
+    --color-error-ref: #b91c1c;
 
-    --accent-rgb: 198 46 23;
+    --accent-rgb: 232 57 29;
+
+    /* Pixel-based spacing stays stable when the root font changes at 1024px. */
+    --section-space: 32px;
+    --page-intro-space: 28px;
+    --page-body-space: 24px;
+    --section-heading-gap: 24px;
 
     /* Legacy aliases: remaining routes still reference these. */
     --bg-primary: var(--color-background-ref);
@@ -64,14 +81,14 @@
     --border-primary: var(--color-line-ref);
     --border-secondary: var(--color-line-ref);
     --accent: var(--color-accent-ref);
-    --accent-r: 198;
-    --accent-g: 46;
-    --accent-b: 23;
+    --accent-r: 232;
+    --accent-g: 57;
+    --accent-b: 29;
   }
 
   :root {
     --color-header-bg: rgb(255 255 255 / 0.65);
-    --color-header-border: rgb(0 0 0 / 0.08);
+    --color-header-border: rgba(255, 255, 255, 0.4);
   }
 
   html.dark {
@@ -80,16 +97,19 @@
     --color-background-ref: #000000;
     --color-surface-ref: #010101;
     --color-surface-2-ref: #1e1e1e;
+    --color-surface-hover-ref: #2a2a2a;
     --color-text-ref: #ffffff;
     --color-muted-ref: #a5a5a5;
-    --color-accent-ref: #ff735e;
+    --color-accent-ref: #e8391d;
+    --color-accent-ink-ref: var(--color-text-ref);
     --color-accent-contrast-ref: #000000;
     --color-line-ref: #24232a;
+    --color-error-ref: #fca5a5;
 
-    --accent-rgb: 255 115 94;
-    --accent-r: 255;
-    --accent-g: 115;
-    --accent-b: 94;
+    --accent-rgb: 232 57 29;
+    --accent-r: 232;
+    --accent-g: 57;
+    --accent-b: 29;
     --color-header-bg: rgb(0 0 0 / 0.65);
     --color-header-border: #38383899;
   }
@@ -152,6 +172,11 @@
 }
 
 @layer components {
+  .section-space { padding-block: var(--section-space); }
+  .page-intro { padding-block: var(--page-intro-space); }
+  .page-body { padding-block: var(--page-body-space); }
+  .section-heading { margin-bottom: var(--section-heading-gap); }
+
   /*
     Shape system: panels 16px, controls 12px, primary actions are pills.
     These three are the only radii allowed.
@@ -227,8 +252,8 @@
     padding: 0.875rem 1.75rem;
     border-radius: 999px;
     min-height: 3.2rem;
-    background: var(--color-text-ref);
-    color: var(--color-background-ref);
+    background: var(--color-accent-ref);
+    color: var(--color-accent-contrast-ref);
     box-shadow:
       inset 0 0 0 1px rgb(255 255 255 / 0.1),
       0 4px 12px rgb(0 0 0 / 0.1);
@@ -307,6 +332,8 @@
   }
 
   .field {
+    min-height: 44px;
+    color-scheme: inherit;
     width: 100%;
     padding: 0.875rem 1rem;
     border-radius: var(--radius-control);
@@ -324,8 +351,32 @@
   }
 
   .field:hover {
+    background: var(--color-surface-hover-ref);
     border-color: rgb(var(--accent-rgb) / 0.4);
   }
+
+  .field[aria-invalid="true"] { border-color: var(--color-error-ref); }
+  .field-error {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-error-ref);
+  }
+
+  .accordion-item {
+    border: 1px solid var(--color-line-ref);
+    border-radius: var(--radius-panel);
+    background: var(--color-surface-ref);
+    transition: border-color 0.2s ease;
+  }
+  .accordion-item[data-open="true"], .accordion-item:focus-within {
+    border-color: var(--color-accent-ref);
+  }
+  .accordion-trigger {
+    min-height: 44px;
+    border-radius: var(--radius-panel);
+  }
+  .accordion-trigger:focus-visible { outline-offset: -4px; }
 }
 
 /*
@@ -359,11 +410,14 @@
   /* The brand stays light-on-dark while page content follows the chosen theme. */
   .brand-shell {
     --color-background-ref: #000000;
-    --color-surface-ref: #111111;
+    --color-surface-ref: #010101;
     --color-surface-2-ref: #1e1e1e;
+    --color-surface-hover-ref: #2a2a2a;
     --color-text-ref: #ffffff;
     --color-muted-ref: #a5a5a5;
-    --color-line-ref: #2d2d2d;
+    --color-line-ref: #24232a;
+    --color-accent-ink-ref: var(--color-text-ref);
+    --color-accent-contrast-ref: #000000;
     color-scheme: dark;
     background: var(--color-background-ref);
     color: var(--color-text-ref);
@@ -379,6 +433,24 @@
     animation: menu-enter 0.24s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .navigation-menu :focus-visible { outline-color: currentColor; }
+}
+
+@media (min-width: 768px) {
+  :root {
+    --section-space: 40px;
+    --page-intro-space: 36px;
+    --page-body-space: 28px;
+    --section-heading-gap: 28px;
+  }
+}
+
+@media (min-width: 1025px) {
+  :root {
+    --section-space: 48px;
+    --page-intro-space: 40px;
+    --page-body-space: 32px;
+    --section-heading-gap: 32px;
+  }
 }
 
 @keyframes menu-enter {

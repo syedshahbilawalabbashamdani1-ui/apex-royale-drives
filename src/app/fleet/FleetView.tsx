@@ -1,8 +1,9 @@
 "use client";
 
+import PageHeader from "@/components/layout/PageHeader";
+import Heading from "@/components/ui/Heading";
+
 import { useMemo, useState } from "react";
-import { motion } from "framer-motion";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   cars,
@@ -20,7 +21,6 @@ import {
   SlidersHorizontal,
   X,
   ChevronDown,
-  ArrowLeft,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -121,38 +121,9 @@ export default function FleetView({
 
   return (
     <div className="min-h-screen" style={{ background: "var(--bg-primary)" }}>
-      {/* Header */}
-      <div className="py-20" style={{ background: "var(--bg-tertiary)" }}>
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2 font-sans text-sm mb-6">
-            <Link
-              href="/"
-              className="text-theme-secondary hover:text-electric-cyan transition-colors flex items-center gap-1"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Home
-            </Link>
-            <span style={{ color: "var(--text-secondary)", opacity: 0.5 }}>/</span>
-            <span style={{ color: "var(--text-primary)" }}>Fleet</span>
-          </div>
+      <PageHeader title="Our fleet" description="Every vehicle comes with a professional driver. Rentals are charged per day at the rate shown for each vehicle." breadcrumb="Fleet" />
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center space-y-4"
-          >
-            <h1 className="font-sans text-4xl sm:text-5xl font-bold" style={{ color: "var(--text-primary)" }}>
-              OUR <span className="text-accent">FLEET</span>
-            </h1>
-            <p className="font-sans max-w-2xl mx-auto" style={{ color: "var(--text-secondary)" }}>
-              Every vehicle comes with a professional driver. Rentals are charged
-              per day at the rate shown for each vehicle.
-            </p>
-          </motion.div>
-        </div>
-      </div>
-
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 page-body">
         {/* Search */}
         <div className="flex flex-col gap-4 mb-8">
           <div className="relative flex-1 min-w-0">
@@ -163,8 +134,7 @@ export default function FleetView({
               placeholder="Search cars..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="field w-full pl-12 pr-4 py-3 rounded-lg font-sans text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors"
-              style={{ background: "var(--bg-secondary)", color: "var(--text-primary)", borderColor: "var(--border-primary)" }}
+              className="field w-full pl-12 pr-4 py-3 rounded-control font-sans text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors"
             />
           </div>
 
@@ -179,8 +149,7 @@ export default function FleetView({
                     sortBy: e.target.value as FilterOptions["sortBy"],
                   })
                 }
-                className="field appearance-none w-full pl-4 pr-10 py-3 rounded-lg font-sans text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors cursor-pointer"
-                style={{ background: "var(--bg-secondary)", color: "var(--text-primary)", borderColor: "var(--border-primary)" }}
+                className="field appearance-none w-full pl-4 pr-10 py-3 rounded-control font-sans text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors cursor-pointer"
               >
                 {sortOptions.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -198,8 +167,8 @@ export default function FleetView({
               className={cn(
                 "flex items-center gap-2 px-4 py-3 rounded-lg font-sans text-sm font-medium transition-colors whitespace-nowrap",
                 showFilters || activeFilterCount > 0
-                  ? "bg-electric-cyan/10 text-electric-cyan border border-electric-cyan/30"
-                  : "text-theme-secondary border hover:border-electric-cyan/20"
+                  ? "bg-surface-2 text-accent-ink border border-electric-cyan/30"
+                  : "text-theme-secondary border hover:border-line"
               )}
               style={
                 !(showFilters || activeFilterCount > 0)
@@ -245,23 +214,23 @@ export default function FleetView({
 
         {/* Car Grid */}
         {filteredCars.length > 0 ? (
-          <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3">
             {filteredCars.map((car) => (
               <FleetPreviewCard key={car.id} car={car} />
             ))}
             <CustomFleetCard key="custom-fleet" />
           </div>
         ) : (
-          <div className="text-center py-20">
+          <div className="text-center page-intro">
             <div
               className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"
               style={{ background: "var(--bg-secondary)" }}
             >
               <Search className="w-10 h-10 opacity-50" style={{ color: "var(--text-secondary)" }} />
             </div>
-            <h3 className="font-sans text-xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>
+            <Heading as="h3" size="subsection" className="mb-2">
               No vehicles found
-            </h3>
+            </Heading>
             <p className="font-sans" style={{ color: "var(--text-secondary)" }}>
               Try adjusting your filters or search query.
             </p>

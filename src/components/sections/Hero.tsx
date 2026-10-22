@@ -21,16 +21,16 @@ export default function Hero() {
 
   return (
     <section
-      className="relative flex items-center overflow-hidden min-h-[calc(100dvh-var(--header-h))]"
+      className="relative flex items-center overflow-hidden"
       aria-labelledby="hero-heading"
     >
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-        <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-16 items-center">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 lg:py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-5 sm:gap-8 lg:gap-10 items-center">
           {/* Copy */}
           <div className="max-w-xl">
             <motion.p
               {...rise(0)}
-              className="text-xs uppercase tracking-[0.18em] text-muted mb-6"
+              className="text-xs uppercase tracking-[0.18em] text-muted mb-4"
             >
               Rent a car in Islamabad and Rawalpindi
             </motion.p>
@@ -47,13 +47,13 @@ export default function Hero() {
 
             <motion.p
               {...rise(0.16)}
-              className="mt-8 text-lg text-muted leading-relaxed max-w-[46ch]"
+              className="mt-5 text-lg text-muted leading-relaxed max-w-[46ch]"
             >
               Seven vehicles, all with a professional driver. Daily rates,
               confirmed on WhatsApp in minutes.
             </motion.p>
 
-            <motion.div {...rise(0.24)} className="mt-12 flex flex-wrap gap-3">
+            <motion.div {...rise(0.24)} className="mt-6 flex flex-wrap gap-3">
               <MagneticLink href="/booking" strength={0.2}>
                 Book your vehicle
                 <ArrowRight className="w-4 h-4" aria-hidden="true" />
@@ -66,7 +66,7 @@ export default function Hero() {
 
           {/* Audi hero image */}
           <motion.div
-            className="relative aspect-[4/3] lg:aspect-[5/4]"
+            className="relative aspect-[16/9] lg:aspect-[5/4]"
             initial={reduce ? false : { opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.1, delay: 0.15, ease: EASE }}

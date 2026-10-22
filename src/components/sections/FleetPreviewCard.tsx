@@ -22,6 +22,7 @@ export default function FleetPreviewCard({ car }: { car: Car }) {
       <div className="flex items-start justify-between gap-4 pt-5">
         <div className="min-w-0">
           <h3 className="text-xl font-medium tracking-[-0.02em]">{car.name}</h3>
+          {!car.available && <p className="mt-2 text-sm text-muted">Currently unavailable</p>}
           <p className="mt-2 text-sm text-muted">
             {formatPKR(car.pricePerDay)} <span>/ day</span>
           </p>

@@ -18,7 +18,7 @@ export default function Stats() {
           {stats.map((stat) => (
             <RevealItem
               key={stat.label}
-              className="bg-background px-6 sm:px-12 py-12"
+              className="bg-background px-4 sm:px-6 py-5 sm:py-6"
             >
               <div className="text-4xl sm:text-5xl font-medium tracking-[-0.03em] text-text">
                 {stat.value}

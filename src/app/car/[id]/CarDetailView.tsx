@@ -122,7 +122,7 @@ export default function CarDetailView({ car }: { car: Car }) {
           <div className="flex items-center gap-2 font-sans text-sm">
             <Link
               href="/fleet"
-              className="text-theme-secondary hover:text-electric-cyan transition-colors flex items-center gap-1"
+              className="text-theme-secondary hover:text-accent-ink transition-colors flex items-center gap-1"
             >
               <ArrowLeft className="w-4 h-4" />
               Fleet
@@ -133,8 +133,8 @@ export default function CarDetailView({ car }: { car: Car }) {
         </div>
       </div>
 
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid lg:grid-cols-2 gap-12">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 page-body">
+        <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">
           {/* Left: image, specs, features */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -221,7 +221,7 @@ export default function CarDetailView({ car }: { car: Car }) {
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {car.features.map((feature) => (
                   <li key={feature} className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-electric-cyan flex-shrink-0" />
+                    <Check className="w-4 h-4 text-accent-ink flex-shrink-0" />
                     <span className="font-sans text-sm" style={{ color: "var(--text-secondary)" }}>
                       {feature}
                     </span>
@@ -237,7 +237,7 @@ export default function CarDetailView({ car }: { car: Car }) {
             animate={{ opacity: 1, x: 0 }}
             className="space-y-6"
           >
-            <span className="inline-flex items-center px-3 py-1 rounded-full bg-electric-cyan/10 border border-electric-cyan/20 font-sans text-xs text-electric-cyan font-medium">
+            <span className="inline-flex items-center px-3 py-1 rounded-full bg-surface-2 border border-line font-sans text-xs text-accent-ink font-medium">
               {car.category}
             </span>
 
@@ -266,7 +266,7 @@ export default function CarDetailView({ car }: { car: Car }) {
                 { icon: Fuel, value: car.fuel, label: "Fuel" },
               ].map((spec) => (
                 <div key={spec.label} className="panel p-3 text-center">
-                  <spec.icon className="w-5 h-5 text-electric-cyan mx-auto mb-1" />
+                  <spec.icon className="w-5 h-5 text-accent-ink mx-auto mb-1" />
                   <div className="font-sans text-xs font-medium" style={{ color: "var(--text-primary)" }}>
                     {spec.value}
                   </div>
@@ -290,10 +290,10 @@ export default function CarDetailView({ car }: { car: Car }) {
               </p>
             </div>
 
-            <Button href={`/booking?car=${car.id}`} className="w-full py-4 text-base">
+            {car.available ? <Button href={`/booking?car=${car.id}`} className="w-full py-4 text-base">
               <Calendar className="w-5 h-5 mr-2" />
               Book This Vehicle
-            </Button>
+            </Button> : <Button disabled className="w-full py-4 text-base opacity-50">Currently unavailable</Button>}
 
             <div className="flex items-center gap-2">
               <div className={cn("w-3 h-3 rounded-full", car.available ? "bg-green-500" : "bg-red-500")} />
@@ -308,7 +308,7 @@ export default function CarDetailView({ car }: { car: Car }) {
         {relatedCars.length > 0 && (
           <div className="mt-24">
             <h2 className="font-sans text-2xl font-bold mb-8" style={{ color: "var(--text-primary)" }}>
-              SIMILAR <span className="text-accent">VEHICLES</span>
+              SIMILAR <span className="text-accent-ink">VEHICLES</span>
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {relatedCars.map((relatedCar) => (
@@ -329,14 +329,14 @@ export default function CarDetailView({ car }: { car: Car }) {
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
-                  <h3 className="font-sans text-lg font-bold group-hover:text-electric-cyan transition-colors" style={{ color: "var(--text-primary)" }}>
+                  <h3 className="font-sans text-lg font-bold group-hover:text-accent-ink transition-colors" style={{ color: "var(--text-primary)" }}>
                     {relatedCar.name}
                   </h3>
                   <p className="font-sans text-sm" style={{ color: "var(--text-secondary)" }}>
                     {relatedCar.brand}
                   </p>
                   <div className="mt-3">
-                    <span className="font-sans text-lg font-bold text-accent">
+                    <span className="font-sans text-lg font-bold text-accent-ink">
                       {formatPKR(relatedCar.pricePerDay)}/day
                     </span>
                   </div>

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "test": "node --test tests/rental.test.cjs",
     "dev": "next dev --webpack",
     "build": "next build --webpack",
     "start": "next start",

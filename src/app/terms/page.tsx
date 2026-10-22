@@ -8,10 +8,10 @@ import { CONTACT, SITE_NAME } from "@/lib/constants";
 export default function TermsPage() {
   return (
     <div className="min-h-screen" style={{ background: "var(--bg-primary)" }}>
-      <div className="py-20" style={{ background: "var(--bg-tertiary)" }}>
+      <div className="page-intro" style={{ background: "var(--bg-tertiary)" }}>
         <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 font-sans text-sm mb-6">
-            <Link href="/" className="text-theme-secondary hover:text-electric-cyan transition-colors flex items-center gap-1">
+            <Link href="/" className="text-theme-secondary hover:text-accent-ink transition-colors flex items-center gap-1">
               <ArrowLeft className="w-4 h-4" /> Home
             </Link>
             <span style={{ color: "var(--text-secondary)", opacity: 0.5 }}>/</span>
@@ -20,9 +20,9 @@ export default function TermsPage() {
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
             <div className="flex items-center gap-3">
-              <FileText className="w-8 h-8 text-electric-cyan" />
+              <FileText className="w-8 h-8 text-accent-ink" />
               <h1 className="font-sans text-4xl sm:text-5xl font-bold" style={{ color: "var(--text-primary)" }}>
-                Terms &amp; <span className="text-accent">Conditions</span>
+                Terms &amp; <span className="text-accent-ink">Conditions</span>
               </h1>
             </div>
             <p className="font-sans" style={{ color: "var(--text-secondary)" }}>
@@ -32,7 +32,7 @@ export default function TermsPage() {
         </div>
       </div>
 
-      <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-10">
+      <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 page-body space-y-10">
         {[
           {
             title: "1. Acceptance of Terms",
@@ -48,7 +48,7 @@ export default function TermsPage() {
           },
           {
             title: "4. Professional Driver",
-            body: `Every rental is provided with a professional driver. Driver time, fuel and vehicle wear are included in the rental rate and no separate driver charge applies. Vehicles are not rented for self-drive.`,
+            body: `Every rental is provided with a professional driver. Driver time and vehicle wear are included in the rental rate and no separate driver charge applies. Fuel, tolls and parking are charged separately at cost. Vehicles are not rented for self-drive.`,
           },
           {
             title: "5. Insurance & Liability",
