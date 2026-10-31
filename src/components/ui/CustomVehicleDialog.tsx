@@ -33,7 +33,11 @@ export default function CustomVehicleDialog({ open, onClose, onSubmit, submitLab
           event.preventDefault();
           const value = name.trim();
           setError(!value);
-          if (value) onSubmit(value);
+          if (value) {
+            onSubmit(value);
+            setName("");
+            setError(false);
+          }
         }}>
           <div>
             <label htmlFor={id} className="block text-sm mb-2">Which car are you looking for?</label>

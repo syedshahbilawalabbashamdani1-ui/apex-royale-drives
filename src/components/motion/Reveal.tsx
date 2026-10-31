@@ -51,6 +51,7 @@ export function RevealGroup({
   className?: string;
   stagger?: number;
 }) {
+  const reduce = useReducedMotion();
   const variants: Variants = {
     hidden: {},
     shown: { transition: { staggerChildren: stagger } },
@@ -60,7 +61,7 @@ export function RevealGroup({
     <motion.div
       className={className}
       variants={variants}
-      initial="hidden"
+      initial={reduce ? false : "hidden"}
       whileInView="shown"
       viewport={{ once: true, amount: 0.2 }}
     >

@@ -26,7 +26,7 @@ const organizationSchema = {
   "@type": "Organization",
   name: "Apex Royale Drives",
   url: "https://apexroyaledrives.com",
-  logo: "https://apexroyaledrives.com/Images/Homepage/logo.png",
+  logo: "https://apexroyaledrives.com/brand/logo.svg",
   description: "Trusted rent-a-car service in Islamabad and Rawalpindi offering luxury and affordable vehicles with professional drivers.",
   address: {
     "@type": "PostalAddress",
@@ -84,8 +84,8 @@ export default function AboutPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema).replace(/</g, "\\u003c") }}
       />
       <PageHeader
-        title="Driving excellence"
-        align="left"
+        title="Driving excellence" breadcrumb="About"
+        align="center"
         description="Apex Royale Drives is a trusted rent-a-car service in Islamabad and Rawalpindi, offering luxury and affordable vehicles for every occasion."
       />
 

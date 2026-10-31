@@ -23,6 +23,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Reveal } from "@/components/motion/Reveal";
 
 const sortOptions: { value: FilterOptions["sortBy"]; label: string }[] = [
   { value: "price-asc", label: "Price: Low to High" },
@@ -214,11 +215,11 @@ export default function FleetView({
 
         {/* Car Grid */}
         {filteredCars.length > 0 ? (
-          <div className="grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-x-6 gap-y-8 md:grid-cols-2 lg:grid-cols-3">
             {filteredCars.map((car) => (
-              <FleetPreviewCard key={car.id} car={car} />
+              <Reveal key={car.id} className="min-w-0"><FleetPreviewCard car={car} /></Reveal>
             ))}
-            <CustomFleetCard key="custom-fleet" />
+            <Reveal key="custom-fleet" className="min-w-0"><CustomFleetCard /></Reveal>
           </div>
         ) : (
           <div className="text-center page-intro">

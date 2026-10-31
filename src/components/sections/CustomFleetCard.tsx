@@ -39,7 +39,7 @@ export default function CustomFleetCard() {
           `Hi, I would like to request a custom vehicle that is not in your current fleet: "${name}". Please let me know if you can arrange it.`
         ), "_blank", "noopener,noreferrer")}
         submitLabel="Continue to WhatsApp"
-        note="Send the message in WhatsApp. Your vehicle name stays here if you need to retry."
+        note="Send the message in WhatsApp so our team can confirm availability and pricing."
       />
     </>
   );

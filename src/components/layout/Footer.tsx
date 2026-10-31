@@ -45,7 +45,7 @@ export default function Footer() {
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8">
           <div className="col-span-2 md:col-span-1 space-y-5">
-            <Link href="/" aria-label="Apex Royale Drives home" className="flex w-52 max-w-full aspect-[1366/751]">
+            <Link href="/" aria-label="Apex Royale Drives home" className="flex w-52 max-w-full aspect-[1600/541]">
               <BrandLogo />
             </Link>
             <p className="text-sm text-muted leading-relaxed max-w-[34ch]">
@@ -133,7 +133,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div>
+      <div id="footer-legal">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted">
             &copy; {new Date().getFullYear()} {SITE_NAME}

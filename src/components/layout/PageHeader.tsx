@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import Heading from "@/components/ui/Heading";
 import { cn } from "@/lib/utils";
+import { Reveal } from "@/components/motion/Reveal";
 
 interface PageHeaderProps {
   title: string;
@@ -12,7 +13,7 @@ interface PageHeaderProps {
   align?: "center" | "left";
 }
 
-/** Static, theme-aware page introduction shared by the secondary routes. */
+/** Shared page introduction with entrance motion and a Home breadcrumb. */
 export default function PageHeader({ title, description, breadcrumb, width = "wide", align = "center" }: PageHeaderProps) {
   return (
     <header className="bg-surface-2 page-intro">
@@ -26,10 +27,10 @@ export default function PageHeader({ title, description, breadcrumb, width = "wi
             </ol>
           </nav>
         )}
-        <div className={cn("max-w-3xl space-y-3", align === "center" && "mx-auto text-center")}>
+        <Reveal className={cn("max-w-3xl space-y-3", align === "center" && "mx-auto text-center")}>
           <Heading as="h1" size="page">{title}</Heading>
           <p className={cn("max-w-2xl text-lg text-muted leading-relaxed", align === "center" && "mx-auto")}>{description}</p>
-        </div>
+        </Reveal>
       </div>
     </header>
   );

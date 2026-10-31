@@ -6,6 +6,7 @@ import WhatsAppButton from "@/components/ui/WhatsAppButton";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import { SITE_NAME, SITE_URL, SITE_DESCRIPTION, CONTACT, RATING } from "@/lib/constants";
 import { cars } from "@/lib/cars";
+import MotionProvider from "@/components/motion/MotionProvider";
 
 const prices = cars.map((c) => c.pricePerDay);
 
@@ -110,7 +111,7 @@ export const metadata: Metadata = {
     description: SITE_DESCRIPTION,
     images: [
       {
-        url: `${SITE_URL}/Images/Homepage/logo.png`,
+        url: `${SITE_URL}/brand/social-card.png`,
         width: 1200,
         height: 630,
         alt: SITE_NAME,
@@ -121,7 +122,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${SITE_NAME} | Premium Car Rental Islamabad & Pakistan`,
     description: SITE_DESCRIPTION,
-    images: [`${SITE_URL}/Images/Homepage/logo.png`],
+    images: [`${SITE_URL}/brand/social-card.png`],
   },
   robots: {
     index: true,
@@ -170,10 +171,12 @@ export default function RootLayout({
       </head>
       <body className="antialiased min-h-[100dvh] flex flex-col">
         <ThemeProvider>
+          <MotionProvider>
           <Navbar />
           <main className="flex-1 pt-[var(--header-h)]">{children}</main>
           <Footer />
           <WhatsAppButton />
+                  </MotionProvider>
         </ThemeProvider>
       </body>
     </html>

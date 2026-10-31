@@ -25,7 +25,7 @@ export default function FleetGrid() {
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
         </Reveal>
-        <div className="grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-x-6 gap-y-8 md:grid-cols-2 lg:grid-cols-3">
           {featuredCars.map((car, index) => (
             <Reveal key={car.id} delay={index * 0.08} className="min-w-0">
               <FleetPreviewCard car={car} />

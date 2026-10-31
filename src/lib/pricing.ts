@@ -1,4 +1,5 @@
 import type { Car } from "@/types";
+import { isCalendarDate } from "./bookingDates";
 
 export interface PriceBreakdown {
   days: number;
@@ -20,7 +21,7 @@ export function priceCar(car: Car, days: number): PriceBreakdown {
 
 /** Number of rental days between two YYYY-MM-DD strings, 0 when invalid. */
 export function rentalDays(pickupDate: string, returnDate: string): number {
-  if (!pickupDate || !returnDate) return 0;
+  if (!isCalendarDate(pickupDate) || !isCalendarDate(returnDate)) return 0;
   const start = Date.parse(`${pickupDate}T00:00:00Z`);
   const end = Date.parse(`${returnDate}T00:00:00Z`);
   if (Number.isNaN(start) || Number.isNaN(end)) return 0;

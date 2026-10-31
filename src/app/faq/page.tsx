@@ -1,6 +1,7 @@
 "use client";
 
 import PageHeader from "@/components/layout/PageHeader";
+import { Reveal } from "@/components/motion/Reveal";
 import Heading from "@/components/ui/Heading";
 
 import Button from "@/components/ui/Button";
@@ -198,7 +199,7 @@ export default function FAQPage() {
         ))}
 
         {/* CTA */}
-        <div className="text-center pt-8 border-t" style={{ borderColor: "var(--border-primary)" }}>
+        <Reveal className="text-center pt-8 border-t border-line">
           <p className="font-sans mb-4" style={{ color: "var(--text-secondary)" }}>
             Still have questions? Call {CONTACT.phone} — we&apos;re on WhatsApp 24/7.
           </p>
@@ -215,7 +216,7 @@ export default function FAQPage() {
               Contact Us
             </Button>
           </div>
-        </div>
+        </Reveal>
       </div>
     </div>
   );

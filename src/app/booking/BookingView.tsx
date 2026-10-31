@@ -6,14 +6,16 @@ import Heading from "@/components/ui/Heading";
 
 import BookingSteps from "@/components/ui/BookingSteps";
 import Button from "@/components/ui/Button";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cars, locations } from "@/lib/cars";
 import { formatPKR, priceCar, rentalDays } from "@/lib/pricing";
 import { isCalendarDate, todayInPKT, validateBookingDates, type BookingDateErrors } from "@/lib/bookingDates";
 import { quoteMessage, type RentalQuote } from "@/lib/quote";
 import QuoteSummary from "@/components/ui/QuoteSummary";
-import { isValidPhone, normalizePhone, PHONE_ERROR } from "@/lib/phone";
+import { normalizePhone } from "@/lib/phone";
+import { validateBookingContact } from "@/lib/bookingContact";
+import { BOOKING_DRAFT_KEY, emptyBooking, restoreBookingDraft } from "@/lib/bookingDraft";
 import { BookingFormData } from "@/types";
 import {
   Check,
@@ -34,8 +36,6 @@ function addDays(iso: string, days: number): string {
   return d.toISOString().slice(0, 10);
 }
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 export default function BookingView({
   initialCarId,
 }: {
@@ -43,18 +43,42 @@ export default function BookingView({
 }) {
   const bookableInitialId = cars.find((car) => car.id === initialCarId && car.available)?.id;
   const [currentStep, setCurrentStep] = useState(bookableInitialId ? 2 : 1);
-  const [formData, setFormData] = useState<BookingFormData>({
-    carIds: bookableInitialId ? [bookableInitialId] : [],
-    customCarNames: [],
-    pickupDate: "",
-    returnDate: "",
-    pickupLocation: "",
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    message: "",
-  });
+  const [formData, setFormData] = useState<BookingFormData>(() => emptyBooking(bookableInitialId));
+  const [draftReady, setDraftReady] = useState(false);
+  const restoredDraft = useRef(false);
+
+  useEffect(() => {
+    // Hydrate after the server render; never overwrite storage with the empty form.
+    if (restoredDraft.current) return;
+    restoredDraft.current = true;
+    try {
+      const draft = restoreBookingDraft(
+        window.sessionStorage.getItem(BOOKING_DRAFT_KEY),
+        cars.filter((car) => car.available).map((car) => car.id), locations, bookableInitialId,
+      );
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Restore browser-only session state after hydration.
+      setFormData(draft.formData);
+      setCurrentStep(draft.step);
+    } catch { /* Storage can be blocked; the form still works in memory. */ }
+    setDraftReady(true);
+  }, [bookableInitialId]);
+
+  useEffect(() => {
+    if (!draftReady) return;
+    try {
+      window.sessionStorage.setItem(BOOKING_DRAFT_KEY, JSON.stringify({ version: 1, formData, step: currentStep }));
+    } catch { /* Private browsing or a full storage quota must not block booking. */ }
+  }, [formData, currentStep, draftReady]);
+
+  const clearDraft = () => {
+    setFormData(emptyBooking());
+    setCurrentStep(1);
+    setStepErrors({});
+    setDateErrors({});
+    setShowRequest(false);
+    setBookingSummary(null);
+    try { window.sessionStorage.removeItem(BOOKING_DRAFT_KEY); } catch {}
+  };
 
   const [showRequest, setShowRequest] = useState(false);
   const [bookingSummary, setBookingSummary] = useState<{
@@ -63,7 +87,7 @@ export default function BookingView({
     returnDate: string;
     quote: RentalQuote;
   } | null>(null);
-  const [stepErrors, setStepErrors] = useState<{ email?: string; phone?: string }>({});
+  const [stepErrors, setStepErrors] = useState<ReturnType<typeof validateBookingContact>>({});
   const [dateErrors, setDateErrors] = useState<BookingDateErrors>({});
   const pendingDateFocus = useRef<string | null>(null);
   const focusDateError = () => {
@@ -138,13 +162,7 @@ export default function BookingView({
     if (totalSelectionCount === 0) { setCurrentStep(1); return; }
     if (currentStep === 2 && !checkDates()) return;
     if (currentStep === 3) {
-      const errs: typeof stepErrors = {};
-      if (!EMAIL_RE.test(formData.email)) {
-        errs.email = "Please enter a valid email address";
-      }
-      if (!isValidPhone(formData.phone)) {
-        errs.phone = PHONE_ERROR;
-      }
+      const errs = validateBookingContact(formData);
       setStepErrors(errs);
       if (Object.keys(errs).length > 0) return;
     }
@@ -177,9 +195,9 @@ export default function BookingView({
       "",
       `From: ${formData.pickupDate} to ${formData.returnDate} (${days} days)`,
       `Location: ${formData.pickupLocation}`,
-      `Name: ${formData.firstName} ${formData.lastName}`,
+      `Name: ${formData.firstName.trim()} ${formData.lastName.trim()}`,
       `Phone: ${normalizePhone(formData.phone)}`,
-      `Email: ${formData.email}`,
+      `Email: ${formData.email.trim()}`,
     ];
 
     lines.push(quoteMessage(rentalQuote));
@@ -194,6 +212,9 @@ export default function BookingView({
   const handleSubmit = () => {
     if (totalSelectionCount === 0) { setCurrentStep(1); return; }
     if (!checkDates()) return;
+    const errors = validateBookingContact(formData);
+    setStepErrors(errors);
+    if (Object.keys(errors).length > 0) { setCurrentStep(3); return; }
     setBookingSummary({
       carNames: [
         ...selectedCars.map((c) => c.name),
@@ -208,17 +229,21 @@ export default function BookingView({
 
   const datesMissing = !formData.pickupDate || !formData.returnDate;
   const contactMissing =
-    !formData.firstName ||
-    !formData.lastName ||
-    !formData.email ||
-    !formData.phone ||
-    !formData.pickupLocation;
+    !formData.firstName.trim() ||
+    !formData.lastName.trim() ||
+    !formData.email.trim() ||
+    !formData.phone.trim() ||
+    !formData.pickupLocation.trim();
 
   return (
     <div className="min-h-screen" style={{ background: "var(--bg-primary)" }}>
-      <PageHeader title="Book your ride" description="Select one or more vehicles, pick your dates, and we'll confirm your reservation within minutes." />
+      <PageHeader title="Book your ride" breadcrumb="Booking" description="Select one or more vehicles, pick your dates, and we'll confirm your reservation within minutes." />
 
       <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 page-body">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
+          <p className="text-sm text-theme-secondary">Your draft stays in this tab. Send it on WhatsApp to request a booking.</p>
+          <button type="button" onClick={clearDraft} className="min-h-11 text-sm underline underline-offset-4 cursor-pointer">Clear draft</button>
+        </div>
         <BookingSteps current={currentStep} />
 
         {/* Form Content */}
@@ -485,6 +510,8 @@ export default function BookingView({
                       </label>
                       <input
                         id="booking-first-name"
+                        aria-invalid={!!stepErrors.firstName}
+                        aria-describedby={stepErrors.firstName ? "booking-first-name-error" : undefined}
                         type="text"
                         value={formData.firstName}
                         onChange={(e) =>
@@ -493,6 +520,7 @@ export default function BookingView({
                         placeholder="Enter first name"
                         className="field w-full px-4 py-3 rounded-control font-sans text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors"
                       />
+                      {stepErrors.firstName && <FieldError id="booking-first-name-error">{stepErrors.firstName}</FieldError>}
                     </div>
                     <div>
                       <label htmlFor="booking-last-name" className="block font-sans text-sm mb-2" style={{ color: "var(--text-secondary)" }}>
@@ -500,6 +528,8 @@ export default function BookingView({
                       </label>
                       <input
                         id="booking-last-name"
+                        aria-invalid={!!stepErrors.lastName}
+                        aria-describedby={stepErrors.lastName ? "booking-last-name-error" : undefined}
                         type="text"
                         value={formData.lastName}
                         onChange={(e) =>
@@ -508,6 +538,7 @@ export default function BookingView({
                         placeholder="Enter last name"
                         className="field w-full px-4 py-3 rounded-control font-sans text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors"
                       />
+                      {stepErrors.lastName && <FieldError id="booking-last-name-error">{stepErrors.lastName}</FieldError>}
                     </div>
                   </div>
 

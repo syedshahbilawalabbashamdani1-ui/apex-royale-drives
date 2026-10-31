@@ -1,6 +1,13 @@
 import PageHeader from "@/components/layout/PageHeader";
 import Heading from "@/components/ui/Heading";
 import { CONTACT, SITE_URL } from "@/lib/constants";
+import type { Metadata } from "next";
+import { Reveal } from "@/components/motion/Reveal";
+
+export const metadata: Metadata = {
+  title: "Privacy policy",
+  alternates: { canonical: "/privacy" },
+};
 
 export default function PrivacyPage() {
   return (
@@ -31,7 +38,7 @@ export default function PrivacyPage() {
           },
           {
             title: "6. Cookies & tracking",
-            body: `This website does not set advertising or tracking cookies. It stores two preferences in your browser's local storage, which never leaves your device: your light or dark theme choice, and any vehicles you have saved to your wishlist. Clearing your browser data removes both.`,
+            body: `This website does not set advertising or tracking cookies. It stores your theme choice and saved vehicles in local storage. Booking drafts, including the contact details you enter, are saved in this tab's session storage so you can return after navigating away or refreshing. Use Clear draft on the booking page to remove your draft. These browser records are not sent to us automatically; booking details are shared when you send your request through WhatsApp. Clearing your browser data removes these records.`,
           },
           {
             title: "7. Data retention",
@@ -54,14 +61,14 @@ export default function PrivacyPage() {
             body: `If you have any questions about this Privacy Policy or how we handle your data, please contact us at ${CONTACT.phone} or email ${CONTACT.email}. Address: ${CONTACT.address}.`,
           },
         ].map((section) => (
-          <section key={section.title}>
+          <Reveal as="section" key={section.title}>
             <Heading as="h2" size="subsection" className="mb-3">
               {section.title}
             </Heading>
             <p className="font-sans text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
               {section.body}
             </p>
-          </section>
+          </Reveal>
         ))}
       </div>
     </div>

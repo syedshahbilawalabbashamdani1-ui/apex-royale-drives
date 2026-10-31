@@ -407,18 +407,8 @@
 
 /* ALPHA's compact inverse menu; native hidden states preserve keyboard access. */
 @layer components {
-  /* The brand stays light-on-dark while page content follows the chosen theme. */
+  /* Header and footer inherit the active light/dark theme tokens. */
   .brand-shell {
-    --color-background-ref: #000000;
-    --color-surface-ref: #010101;
-    --color-surface-2-ref: #1e1e1e;
-    --color-surface-hover-ref: #2a2a2a;
-    --color-text-ref: #ffffff;
-    --color-muted-ref: #a5a5a5;
-    --color-line-ref: #24232a;
-    --color-accent-ink-ref: var(--color-text-ref);
-    --color-accent-contrast-ref: #000000;
-    color-scheme: dark;
     background: var(--color-background-ref);
     color: var(--color-text-ref);
   }

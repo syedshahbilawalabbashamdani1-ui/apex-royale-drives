@@ -49,7 +49,7 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen" style={{ background: "var(--bg-primary)" }}>
-      <PageHeader title="Contact us" description="Have questions? We're here to help. Reach out to us via any of the following channels." />
+      <PageHeader title="Contact us" breadcrumb="Contact" description="Have questions? We're here to help. Reach out to us via any of the following channels." />
 
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 page-body">
         <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">

@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import RentalRates from "@/components/sections/RentalRates";
+import { Reveal } from "@/components/motion/Reveal";
 
 const SAVED_STORAGE_KEY = "apex-saved-cars";
 const SAVED_CHANGED_EVENT = "apex-saved-changed";
@@ -120,6 +121,8 @@ export default function CarDetailView({ car }: { car: Car }) {
       <div className="py-4" style={{ background: "var(--bg-tertiary)" }}>
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 font-sans text-sm">
+            <Link href="/" className="inline-flex min-h-11 items-center gap-1 text-theme-secondary hover:underline underline-offset-4"><ArrowLeft className="w-4 h-4" aria-hidden="true" />Home</Link>
+            <span aria-hidden="true" className="text-theme-secondary">/</span>
             <Link
               href="/fleet"
               className="text-theme-secondary hover:text-accent-ink transition-colors flex items-center gap-1"
@@ -191,7 +194,7 @@ export default function CarDetailView({ car }: { car: Car }) {
             </div>
 
             {/* Specifications */}
-            <section className="panel p-6">
+            <Reveal as="section" className="panel p-6">
               <h2 className="font-sans text-lg font-bold mb-4" style={{ color: "var(--text-primary)" }}>
                 Specifications
               </h2>
@@ -211,10 +214,10 @@ export default function CarDetailView({ car }: { car: Car }) {
                   </div>
                 ))}
               </dl>
-            </section>
+            </Reveal>
 
             {/* Features */}
-            <section className="panel p-6">
+            <Reveal as="section" className="panel p-6">
               <h2 className="font-sans text-lg font-bold mb-4" style={{ color: "var(--text-primary)" }}>
                 Features &amp; Amenities
               </h2>
@@ -228,7 +231,7 @@ export default function CarDetailView({ car }: { car: Car }) {
                   </li>
                 ))}
               </ul>
-            </section>
+            </Reveal>
           </motion.div>
 
           {/* Right: summary */}

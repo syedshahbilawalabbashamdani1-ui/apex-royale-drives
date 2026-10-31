@@ -15,8 +15,8 @@ Production build attempted: blocked by sandbox EPERM while resolving `C:\Users\s
 
 - [x] Reduce mobile hero spacing and remove the full-screen minimum height.
 - [x] Standardize section whitespace with PageSection and shared responsive tokens.
-- [ ] Add tablet fleet columns.
-- [ ] Expose desktop navigation.
+- [x] Add tablet fleet columns.
+- [x] Preserve compact dropdown navigation at all sizes, per user preference.
 - [x] Shorten the booking introduction through the shared PageHeader spacing.
 
 ## ALPHA palette and compact layout pass
