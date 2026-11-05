@@ -71,6 +71,7 @@ export default function BookingView({
   }, [formData, currentStep, draftReady]);
 
   const clearDraft = () => {
+    setAddedCustomVehicle(null);
     setFormData(emptyBooking());
     setCurrentStep(1);
     setStepErrors({});
@@ -111,12 +112,15 @@ export default function BookingView({
 
   /* ── custom fleet modal ───────────────────────────────── */
   const [customFleetOpen, setCustomFleetOpen] = useState(false);
+  const [addedCustomVehicle, setAddedCustomVehicle] = useState<string | null>(null);
   const handleCustomFleetSubmit = (name: string) => {
     setFormData((prev) => ({ ...prev, customCarNames: [...prev.customCarNames, name] }));
+    setAddedCustomVehicle(name);
     setCustomFleetOpen(false);
   };
 
   const removeCustomCar = (index: number) => {
+    if (formData.customCarNames[index] === addedCustomVehicle) setAddedCustomVehicle(null);
     setFormData((prev) => ({
       ...prev,
       customCarNames: prev.customCarNames.filter((_, i) => i !== index),
@@ -352,7 +356,7 @@ export default function BookingView({
                   {/* Custom Fleet Card */}
                   <button
                     type="button"
-                    onClick={() => setCustomFleetOpen(true)}
+                    onClick={() => { setAddedCustomVehicle(null); setCustomFleetOpen(true); }}
                     className="group panel p-4 text-left transition-all duration-300 hover:border-electric-cyan/40  flex items-center justify-center text-center cursor-pointer"
                     style={{ borderStyle: "dashed", borderColor: "rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.25)" }}
                   >
@@ -370,6 +374,17 @@ export default function BookingView({
                       </div>
                     </div>
                   </button>
+                </div>
+                <div role="status" aria-atomic="true">
+                  {addedCustomVehicle && (
+                    <div className="flex items-start gap-3 rounded-control border border-line bg-surface-2 p-4 text-sm">
+                      <Check className="mt-0.5 h-5 w-5 shrink-0" aria-hidden="true" />
+                      <p className="min-w-0 break-words">
+                        <span className="font-medium">{addedCustomVehicle} added to your booking draft.</span>{" "}
+                        Select Next Step to choose your dates. Send your request on WhatsApp after completing the booking form.
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
@@ -780,6 +795,7 @@ export default function BookingView({
         open={customFleetOpen}
         onClose={() => setCustomFleetOpen(false)}
         onSubmit={handleCustomFleetSubmit}
+        existingNames={formData.customCarNames}
         submitLabel="Add to booking"
         note="Our team will confirm availability and pricing via WhatsApp."
       />
